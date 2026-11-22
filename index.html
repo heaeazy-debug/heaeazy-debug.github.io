@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f6f8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>응모 현황판</title>
+<style>
+  :root{
+    --bg:#f4f5f7;
+    --card:#ffffff;
+    --line:#eceef2;
+    --text:#1c1f26;
+    --sub:#8a909c;
+    --sub2:#5f6570;
+    --green:#12a150;
+    --orange:#c2740b;
+    --blue:#2563eb;
+    --purple:#7c3aed;
+    --red:#d32f2f;
+    --chip-bg:#f2f3f6;
+    --shadow:0 1px 2px rgba(20,24,32,.04), 0 6px 18px rgba(20,24,32,.045);
+    --pill:#1c1f26;
+    --pill-text:#ffffff;
+  }
+  [data-theme="dark"]{
+    --bg:#0f1115;
+    --card:#191c22;
+    --line:#262a33;
+    --text:#ecedf1;
+    --sub:#8b919d;
+    --sub2:#b3b8c2;
+    --green:#3ddc84;
+    --orange:#f0a44a;
+    --blue:#6ea8ff;
+    --purple:#b79cff;
+    --red:#ff6b6b;
+    --chip-bg:#22262e;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 18px rgba(0,0,0,.35);
+    --pill:#ecedf1;
+    --pill-text:#14171c;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;
+    font-size:15px;line-height:1.45;word-break:keep-all;
+    -webkit-font-smoothing:antialiased;
+    transition:background .2s ease,color .2s ease;
+  }
+  .app{max-width:480px;margin:0 auto;padding:18px 16px calc(28px + env(safe-area-inset-bottom))}
+  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:2px 0 16px}
+  h1{font-size:22px;letter-spacing:-.4px;margin:0;font-weight:800}
+  .basis{font-size:11.5px;color:var(--sub);margin-top:4px;letter-spacing:-.1px}
+  .theme-btn{
+    flex:0 0 auto;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);
+    background:var(--card);color:var(--sub2);font-size:16px;display:grid;place-items:center;
+    cursor:pointer;box-shadow:var(--shadow)
+  }
+  .sec-label{font-size:12px;font-weight:700;color:var(--sub);letter-spacing:.2px;margin:20px 2px 8px;display:flex;align-items:center;gap:6px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:14px 14px 13px;box-shadow:var(--shadow)
+  }
+  .k{font-size:12.5px;color:var(--sub2);font-weight:600;letter-spacing:-.2px;display:flex;align-items:center;gap:5px}
+  .v{font-size:25px;font-weight:800;letter-spacing:-.8px;line-height:1.15;margin-top:6px;font-variant-numeric:tabular-nums}
+  .v small{font-size:14px;font-weight:700;letter-spacing:-.3px;margin-left:1px}
+  .s{font-size:11.5px;color:var(--sub);margin-top:5px;letter-spacing:-.15px;line-height:1.4}
+  .s b{color:var(--sub2);font-weight:600}
+  .c-green{color:var(--green)} .c-orange{color:var(--orange)} .c-blue{color:var(--blue)}
+  .c-purple{color:var(--purple)} .c-red{color:var(--red)}
+  .wide{grid-column:1 / -1}
+
+  /* tabs + search */
+  .controls{position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0 8px;margin-top:18px}
+  .tabs{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{
+    flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--sub2);
+    border-radius:999px;padding:8px 14px;font-size:13px;font-weight:700;letter-spacing:-.2px;cursor:pointer;
+    font-family:inherit;white-space:nowrap
+  }
+  .tab[aria-selected="true"]{background:var(--pill);color:var(--pill-text);border-color:var(--pill)}
+  .search{position:relative;margin-top:8px}
+  .search input{
+    width:100%;border:1px solid var(--line);background:var(--card);color:var(--text);
+    border-radius:12px;padding:11px 38px 11px 36px;font-size:16px;font-family:inherit;outline:none
+  }
+  .search input:focus{border-color:var(--blue)}
+  .search .ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--sub);pointer-events:none}
+  .search .clear{
+    position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:transparent;
+    color:var(--sub);font-size:16px;cursor:pointer;padding:4px 6px;display:none
+  }
+
+  /* channel cards */
+  .ch-list{display:flex;flex-direction:column;gap:10px}
+  .ch{padding:14px}
+  .ch-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .ch-name{font-size:15px;font-weight:800;letter-spacing:-.35px;min-width:0;overflow-wrap:anywhere}
+  .badges{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
+  .badge{
+    font-size:10.5px;font-weight:700;border-radius:6px;padding:3px 6px;letter-spacing:-.1px;
+    border:1px solid var(--line);color:var(--sub2);background:var(--chip-bg)
+  }
+  .badge.b-tteok{color:#8a5a00;background:#fff5e0;border-color:#ffe2ad}
+  .badge.b-kong{color:#7a3fb8;background:#f4ecff;border-color:#e4d3ff}
+  .badge.b-jeol{color:#1a6b4f;background:#e8f8f1;border-color:#c6eedd}
+  [data-theme="dark"] .badge.b-tteok{color:#ffd08a;background:#3a2c12;border-color:#5a4419}
+  [data-theme="dark"] .badge.b-kong{color:#d9c2ff;background:#2d2340;border-color:#463563}
+  [data-theme="dark"] .badge.b-jeol{color:#9ff0cd;background:#12302a;border-color:#1e4d41}
+  .ch-stats{display:flex;gap:0;margin-top:11px;border-top:1px solid var(--line);padding-top:9px}
+  .ch-stat{flex:1;min-width:0}
+  .ch-stat + .ch-stat{border-left:1px solid var(--line);padding-left:9px;margin-left:9px}
+  .ch-stat .sk{font-size:10px;color:var(--sub);font-weight:600;line-height:1.3}
+  .ch-stat .sv{font-size:15px;font-weight:800;letter-spacing:-.4px;margin-top:1px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .ch-stat .sv em{font-style:normal;font-size:11px;font-weight:700;color:var(--sub);margin-left:2px}
+  .ch-foot{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;font-size:11.5px;color:var(--sub)}
+  .ch-foot .ann{display:inline-flex;align-items:center;gap:4px}
+  .status{
+    margin-left:auto;font-size:11px;font-weight:800;border-radius:999px;padding:4px 9px;letter-spacing:-.2px;
+    background:var(--chip-bg);color:var(--sub2)
+  }
+  .status.st-now{background:#e7f0ff;color:#1d4ed8}
+  .status.st-soon{background:#fff1e3;color:#b45309}
+  .status.st-always{background:#eef7ee;color:#15803d}
+  .status.st-win{background:#e8f8ef;color:#0f8a45}
+  .status.st-fail{background:#fdecec;color:#b91c1c}
+  [data-theme="dark"] .status.st-now{background:#1b2a4a;color:#9cc2ff}
+  [data-theme="dark"] .status.st-soon{background:#3a2814;color:#f6c48b}
+  [data-theme="dark"] .status.st-always{background:#16301f;color:#9be3b4}
+  [data-theme="dark"] .status.st-win{background:#12301f;color:#7ee2a8}
+  [data-theme="dark"] .status.st-fail{background:#3a1a1a;color:#ffadad}
+  .note{font-size:11px;color:var(--sub);margin-top:8px;letter-spacing:-.15px}
+
+  /* todo + timeline */
+  .todo{display:flex;flex-direction:column;gap:9px}
+  .todo-item{display:flex;gap:10px;padding:12px 13px;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow)}
+  .todo-num{
+    flex:0 0 22px;height:22px;border-radius:7px;background:#f3ecff;color:#6d28d9;
+    font-size:12px;font-weight:800;display:grid;place-items:center;margin-top:1px
+  }
+  [data-theme="dark"] .todo-num{background:#2d2340;color:#c9b2ff}
+  .todo-t{font-size:14px;font-weight:700;letter-spacing:-.25px}
+  .todo-d{font-size:11.5px;color:var(--sub);margin-top:3px;line-height:1.45}
+  .tl{position:relative;padding-left:16px;margin-top:2px}
+  .tl:before{content:"";position:absolute;left:4px;top:6px;bottom:6px;width:2px;background:var(--line);border-radius:2px}
+  .tl-row{position:relative;padding:0 0 14px 0}
+  .tl-row:last-child{padding-bottom:0}
+  .tl-row:before{
+    content:"";position:absolute;left:-15px;top:5px;width:8px;height:8px;border-radius:50%;
+    background:var(--card);border:2px solid var(--sub)
+  }
+  .tl-row.soon:before{border-color:var(--orange);background:var(--orange)}
+  .tl-row.win:before{border-color:var(--green);background:var(--green)}
+  .tl-date{font-size:11.5px;font-weight:800;color:var(--sub2);letter-spacing:-.1px}
+  .tl-row.soon .tl-date{color:var(--orange)}
+  .tl-body{font-size:13px;font-weight:600;letter-spacing:-.2px;margin-top:2px}
+  .tl-sub{font-size:11.5px;color:var(--sub);margin-top:1px}
+
+  .empty{padding:30px 12px;text-align:center;color:var(--sub);font-size:13px}
+  .info{margin-top:22px;padding:13px 14px;border:1px dashed var(--line);border-radius:14px;color:var(--sub);font-size:11px;line-height:1.6}
+  .info b{color:var(--sub2)}
+  .info ul{margin:6px 0 0;padding-left:16px}
+  .info li{margin:3px 0}
+  footer{margin-top:16px;text-align:center;font-size:11px;color:var(--sub);line-height:1.7}
+  .hidden{display:none !important}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div>
+      <h1>응모 현황판</h1>
+      <div class="basis">기준일 2026-11-22 (일) 22:40 KST</div>
+    </div>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="다크 모드 전환">◐</button>
+  </header>
+
+  <!-- 요약 -->
+  <section class="grid" aria-label="요약">
+    <div class="card">
+      <div class="k">총 제출</div>
+      <div class="v c-green" id="vTotal">1,112</div>
+      <div class="s">체험단 <b>1,092</b> · 웹 경품 <b>20</b></div>
+    </div>
+    <div class="card">
+      <div class="k">오늘 제출</div>
+      <div class="v c-green" id="vToday">385</div>
+      <div class="s">체험단 <b>380</b> · 웹 경품 <b>5</b></div>
+    </div>
+    <div class="card">
+      <div class="k">진행 중 <span style="font-weight:500;font-size:11px">(발표 대기)</span></div>
+      <div class="v c-orange" id="vActive">1,033</div>
+      <div class="s">종료·미선정 <b>78</b> 제외</div>
+    </div>
+    <div class="card">
+      <div class="k">발표 임박 <span style="font-weight:500;font-size:11px">(7일 안)</span></div>
+      <div class="v c-blue" id="vSoon">390</div>
+      <div class="s">11/23~11/29 · 6개 채널</div>
+    </div>
+    <div class="card">
+      <div class="k">대표 할 일</div>
+      <div class="v c-purple" id="vTodo">1</div>
+      <div class="s">카카오 5만 원 초과 7건 취소</div>
+    </div>
+    <div class="card">
+      <div class="k">당첨</div>
+      <div class="v c-green" id="vWin">1</div>
+      <div class="s">실패·종료 <b>78</b> · 제외 <b>159+</b></div>
+    </div>
+    <div class="card wide">
+      <div class="k">당첨 가치 <span style="font-weight:500;font-size:11px">(시장가 추정)</span></div>
+      <div class="v c-green" id="vValue">33,900<small>원</small></div>
+      <div class="s">카카오 오르골 무드등 1건 · 오늘의집 판매가 기준</div>
+    </div>
+  </section>
+
+  <!-- 컨트롤 -->
+  <div class="controls">
+    <div class="tabs" role="tablist" aria-label="보기 필터">
+      <button class="tab" role="tab" data-tab="all" aria-selected="true">전체</button>
+      <button class="tab" role="tab" data-tab="contest" aria-selected="false">체험단</button>
+      <button class="tab" role="tab" data-tab="web" aria-selected="false">웹 경품</button>
+      <button class="tab" role="tab" data-tab="todo" aria-selected="false">할 일 / 발표 임박</button>
+    </div>
+    <div class="search">
+      <span class="ico">🔍</span>
+      <input id="q" type="search" placeholder="채널·상태 검색 (예: 지그재그, 발표 임박)" autocomplete="off" aria-label="채널 검색">
+      <button class="clear" id="qClear" type="button" aria-label="검색어 지우기">✕</button>
+    </div>
+  </div>
+
+  <!-- 채널 리스트 -->
+  <div id="channelView">
+    <div class="sec-label"><span id="listTitle">채널별 현황</span><span style="margin-left:auto;font-weight:600;color:var(--sub)" id="listCount"></span></div>
+    <div class="ch-list" id="chList"></div>
+    <div class="empty hidden" id="emptyMsg">조건에 맞는 채널이 없어요.</div>
+  </div>
+
+  <!-- 할 일 / 타임라인 -->
+  <div id="todoView" class="hidden">
+    <div class="sec-label">결정할 일</div>
+    <div class="todo">
+      <div class="todo-item">
+        <div class="todo-num">1</div>
+        <div>
+          <div class="todo-t">카카오 5만 원 초과 7건 폰에서 취소</div>
+          <div class="todo-d">발표 11/27~12/01 · 당첨 시 제세공과금 22% 부담. 취소는 폰 카카오 선물하기 신청내역에서만 가능.</div>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-num">✓</div>
+        <div>
+          <div class="todo-t" style="color:var(--sub2)">클립뷰 잔여 191건 — 33건만 유지 확정</div>
+          <div class="todo-d">21:30 확정. “실속 템 위주” 33건만 유지, 나머지 191건은 중단 — 선정 후 5일 내 리뷰 의무, 미작성 시 제품비 환불 패널티를 피하기로.</div>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-num">✓</div>
+        <div>
+          <div class="todo-t" style="color:var(--sub2)">오르골 무드등 후기 — 등록 완료</div>
+          <div class="todo-d">11/21 등록(사진 5장·255자). 후기 마감 12/8. 다음부터 체험단 리뷰는 초안·첨부 먼저 확인.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-label">발표 일정 (가까운 순)</div>
+    <div class="tl">
+      <div class="tl-row soon">
+        <div class="tl-date">11/23 (월) 13:00</div>
+        <div class="tl-body">지그재그 첫 발표 시작 <span style="color:var(--sub);font-weight:600">· 104건</span></div>
+        <div class="tl-sub">먼데이블루 후드집업 → 11/24~25 순차</div>
+      </div>
+      <div class="tl-row soon">
+        <div class="tl-date">11/24 (화) ~</div>
+        <div class="tl-body">리뷰노트 204건 · 택배의여왕 61건 · 레뷰 17건</div>
+        <div class="tl-sub">택배의여왕 11/24~27 · 리뷰노트 11/24~ · 레뷰 무아스 가습기 8L 11/24</div>
+      </div>
+      <div class="tl-row soon">
+        <div class="tl-date">11/25 (수) ~</div>
+        <div class="tl-body">뷰티의여왕 3 · 네이버+ 8 · 리뷰노트 컴포트미 부츠</div>
+        <div class="tl-sub">네이버+ 뷰티시스 앰플 11/25 10:00 · 레뷰 빌라르 마사지기 V2 11/27 · 컴포트미 양가죽 부츠 11/28</div>
+      </div>
+      <div class="tl-row soon">
+        <div class="tl-date">11/27 (금)</div>
+        <div class="tl-body">웹 경품 1건 (용산구 OX퀴즈)</div>
+        <div class="tl-sub">12/4 국토안전관리원 · 나머지 3건 미정</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">11/30 (월) ~</div>
+        <div class="tl-body">무신사 254 · 티블 15 · 강남맛집 3</div>
+        <div class="tl-sub">무신사는 기존분 상태 미집계</div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-date">12/31 (목)</div>
+        <div class="tl-body">클립뷰 33건 (상시모집)</div>
+        <div class="tl-sub">링블·체험뷰는 사이트 공지</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 집계 기준 -->
+  <div class="info">
+    <b>집계 기준</b>
+    <ul>
+      <li>총 제출은 채널별 누적 합산값(콩떡 13개 채널 747 + 인절미 네이버+ 2 + 카카오 327·포포몬 10·놀러와 6 + 웹 경품 20 = 1,112). 콩떡이 요약의 “전체 약 709건”은 기존 계정 이력 기준 자체 집계로 채널 합산과 차이가 있어 화면은 채널 합산을 따랐다.</li>
+      <li>오늘 제출 385건은 콩떡이 11/22 보고값(체험단 380 + 웹 경품 5). 채널별 오늘 합(388)과는 3건 차이가 있다.</li>
+      <li>채널별 ‘오늘’은 콩떡이 notes.md 기준(재확인·재스캔분 포함)이라, 대화로 보고된 신규 신청 건수 합과는 차이가 있다. 누적값은 양쪽이 일치한다.</li>
+      <li>진행 중 = 총 제출 1,112 − 당첨 1 − 확인된 종료·미선정 78(무신사 종료 65·포포몬 미선정 10·네이버+ 미당첨 3) = 1,033. 카카오 미선정분은 집계가 없어 포함돼 있다.</li>
+      <li>당첨 가치 33,900원은 동일 상품 오늘의집 판매가(50,000원→32%, 11/22 09:25 기준). 실제 지급가는 0원.</li>
+      <li>출처: 콩떡이 11/22 보고·notes.md(22:30 추가 완료 3건 반영: 레뷰 +2·리뷰노트 +1) / 인절미 노션 〈인절미 작업 보고〉(최신 11/21 18:06) / 찰떡 기록.</li>
+    </ul>
+  </div>
+
+  <footer>콩떡 · 인절미 · 찰떡 합산 · 29CM·오늘의집·W컨셉 제외<br>다음 갱신 11/23 08:00 브리핑</footer>
+</div>
+
+<script>
+const CHANNELS = [
+  {name:"리뷰노트", group:"contest", owners:["콩떡"], total:"204", today:199, active:"204", ann:"11/24~11/28", status:"발표 임박", st:"soon", exclude:"9", note:"누적 204건 · 잔여 0건 · 컴포트미 양가죽 부츠 11/28"},
+  {name:"택배의여왕", group:"contest", owners:["콩떡","인절미"], total:"61", today:44, active:"61", ann:"11/24~11/27", status:"발표 임박", st:"soon", exclude:"1+", note:"기신청 11 + 오늘 신규 37"},
+  {name:"지그재그", group:"contest", owners:["콩떡"], total:"104", today:18, active:"104", ann:"11/23~11/25", status:"발표 임박", st:"soon", exclude:"3+", note:"약 104건(기존분 포함) · 첫 발표 11/23 13:00"},
+  {name:"클립뷰", group:"contest", owners:["콩떡"], total:"33", today:33, active:"33", ann:"12/31 (상시)", status:"상시모집", st:"always", exclude:"다수", note:"잔여 191건은 중단 · 결정 대기"},
+  {name:"링블", group:"contest", owners:["콩떡"], total:"29", today:29, active:"29", ann:"사이트 공지", status:"대기", st:"", exclude:"5+", note:""},
+  {name:"레뷰 (HENO)", group:"contest", owners:["콩떡"], total:"17", today:17, active:"17", ann:"11/24~11/27", status:"발표 임박", st:"soon", exclude:"20+", note:"무아스 가습기 8L 11/24 · 빌라르 마사지기 V2 11/27"},
+  {name:"티블", group:"contest", owners:["콩떡"], total:"15", today:15, active:"15", ann:"11/30~", status:"대기", st:"", exclude:"다수", note:""},
+  {name:"체험뷰", group:"contest", owners:["콩떡"], total:"14", today:13, active:"14", ann:"사이트 공지", status:"대기", st:"", exclude:"11+", note:""},
+  {name:"네이버+ 무료체험", group:"contest", owners:["콩떡","인절미"], total:"8", today:4, active:"5", ann:"11/25~", status:"발표 임박", st:"soon", exclude:"다수", note:"콩떡 6 + 인절미 2 · 미당첨 3 별도"},
+  {name:"무신사", group:"contest", owners:["콩떡"], total:"254", today:1, active:"189", ann:"11/30", status:"대기", st:"", exclude:"다수", note:"기존 253 + 오늘 1 · 종료 65 제외"},
+  {name:"서울오빠", group:"contest", owners:["콩떡"], total:"4", today:4, active:"4", ann:"캠페인별", status:"대기", st:"", exclude:"—", note:"블로그 주소 중복은 그대로 두기로"},
+  {name:"강남맛집", group:"contest", owners:["콩떡"], total:"3", today:3, active:"3", ann:"11/30~", status:"대기", st:"", exclude:"—", note:""},
+  {name:"뷰티의여왕", group:"contest", owners:["콩떡"], total:"3", today:3, active:"3", ann:"11/25~", status:"발표 임박", st:"soon", exclude:"—", note:"블레쥬 크림 4차"},
+  {name:"카카오 선물하기", group:"contest", owners:["인절미"], total:"327", today:0, active:"326", ann:"11/27~12/01", status:"당첨 1", st:"win", exclude:"93", note:"오르골 무드등 당첨 · 후기 완료"},
+  {name:"포포몬", group:"contest", owners:["인절미"], total:"10", today:0, active:"0", ann:"—", status:"미선정 10", st:"fail", exclude:"—", note:"선정 0 · 미선정 10"},
+  {name:"놀러와체험단", group:"contest", owners:["인절미"], total:"6", today:0, active:"6", ann:"—", status:"대기", st:"", exclude:"—", note:""},
+  {name:"웹 경품 (설문·퀴즈)", group:"web", owners:["찰떡","인절미"], total:"15", today:0, active:"15", ann:"—", status:"대기", st:"", exclude:"—", note:"11/17 6 · 11/19 4 · 11/20 5"},
+  {name:"웹 경품 (공공기관·설문)", group:"web", owners:["콩떡"], total:"5", today:5, active:"5", ann:"11/27·12/4·미정", status:"발표 임박", st:"soon", exclude:"14", note:"11/22 첫 실행 · 보류 14건"}
+];
+
+const BADGE = {"찰떡":"b-tteok","콩떡":"b-kong","인절미":"b-jeol"};
+
+const chList = document.getElementById("chList");
+const emptyMsg = document.getElementById("emptyMsg");
+const listCount = document.getElementById("listCount");
+const listTitle = document.getElementById("listTitle");
+const q = document.getElementById("q");
+const qClear = document.getElementById("qClear");
+const channelView = document.getElementById("channelView");
+const todoView = document.getElementById("todoView");
+let tab = "all";
+
+function fmt(n){ return typeof n === "number" ? n.toLocaleString("ko-KR") : n; }
+
+function cardHTML(c){
+  const badges = c.owners.map(o => `<span class="badge ${BADGE[o]||""}">${o}</span>`).join("");
+  const todayTxt = c.today > 0 ? `<span style="color:var(--green);font-weight:800">+${c.today}</span>` : `<span style="color:var(--sub)">0</span>`;
+  return `
+  <article class="card ch" data-name="${c.name}" data-group="${c.group}" data-status="${c.status}">
+    <div class="ch-head">
+      <div class="ch-name">${c.name}</div>
+      <div class="badges">${badges}</div>
+    </div>
+    <div class="ch-stats">
+      <div class="ch-stat"><div class="sk">누적 신청</div><div class="sv">${c.total}<em>건</em></div></div>
+      <div class="ch-stat"><div class="sk">오늘</div><div class="sv">${todayTxt}<em>건</em></div></div>
+      <div class="ch-stat"><div class="sk">진행 중</div><div class="sv">${c.active}<em>건</em></div></div>
+    </div>
+    <div class="ch-foot">
+      <span class="ann">발표 ${c.ann}</span>
+      ${c.exclude !== "—" ? `<span>· 제외 ${c.exclude}</span>` : ""}
+      <span class="status ${c.st ? "st-" + c.st : ""}">${c.status}</span>
+    </div>
+    ${c.note ? `<div class="note">${c.note}</div>` : ""}
+  </article>`;
+}
+
+function render(){
+  const term = q.value.trim().toLowerCase();
+  qClear.style.display = term ? "block" : "none";
+
+  if(tab === "todo"){
+    channelView.classList.add("hidden");
+    todoView.classList.remove("hidden");
+    return;
+  }
+  channelView.classList.remove("hidden");
+  todoView.classList.add("hidden");
+
+  let rows = CHANNELS.filter(c => tab === "all" ? true : c.group === tab);
+  if(term){
+    rows = rows.filter(c =>
+      (c.name + " " + c.status + " " + c.ann + " " + c.owners.join(" ") + " " + (c.note||"")).toLowerCase().includes(term)
+    );
+  }
+  chList.innerHTML = rows.map(cardHTML).join("");
+  emptyMsg.classList.toggle("hidden", rows.length > 0);
+  listCount.textContent = rows.length + "개 채널";
+  listTitle.textContent = tab === "contest" ? "체험단 채널" : tab === "web" ? "웹 경품" : "채널별 현황";
+}
+
+document.querySelectorAll(".tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    tab = btn.dataset.tab;
+    document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected", String(b === btn)));
+    render();
+    window.scrollTo({top: 0, behavior: "smooth"});
+  });
+});
+
+q.addEventListener("input", render);
+q.addEventListener("search", render);
+qClear.addEventListener("click", () => { q.value = ""; q.focus(); render(); });
+
+// 테마
+const root = document.documentElement;
+const themeBtn = document.getElementById("themeBtn");
+function setTheme(t){
+  root.setAttribute("data-theme", t);
+  themeBtn.textContent = t === "dark" ? "☀" : "◐";
+  themeBtn.setAttribute("aria-label", t === "dark" ? "라이트 모드 전환" : "다크 모드 전환");
+  try{ localStorage.setItem("apply-board-theme", t); }catch(e){}
+}
+let saved = "light";
+try{ saved = localStorage.getItem("apply-board-theme") || "light"; }catch(e){}
+setTheme(saved);
+themeBtn.addEventListener("click", () => {
+  setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+});
+
+render();
+</script>
+</body>
+</html>
