@@ -139,6 +139,8 @@
   [data-theme="dark"] .status.st-win{background:#12301f;color:#7ee2a8}
   [data-theme="dark"] .status.st-fail{background:#3a1a1a;color:#ffadad}
   .note{font-size:11px;color:var(--sub);margin-top:8px;letter-spacing:-.15px}
+  .sum-note{font-size:11px;color:var(--sub);margin:10px 2px 0;line-height:1.55;letter-spacing:-.15px}
+  .sum-note b{color:var(--sub2);font-weight:600}
 
   /* todo + timeline */
   .todo{display:flex;flex-direction:column;gap:9px}
@@ -180,65 +182,46 @@
   <header class="top">
     <div>
       <h1>응모 현황판</h1>
-      <div class="basis">기준일 2026-11-22 (일) 22:54 KST · 콩떡 13개 채널 마이페이지 실측</div>
+      <div class="basis">기준일 2026-11-22 (일) 23:13 KST · 전체 합산 (콩떡·인절미·찰떡)</div>
     </div>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="다크 모드 전환">◐</button>
   </header>
 
-  <!-- 발표 결과 -->
-  <div class="sec-label">발표 결과 <span class="sub">· 콩떡 13개 채널 실측</span></div>
-  <section class="grid" aria-label="발표 결과">
+  <!-- 상단 전체 합산 (한 세트) -->
+  <div class="sec-label">전체 합산 <span class="sub">· 콩떡 · 인절미 · 찰떡</span></div>
+  <section class="grid" aria-label="전체 합산 요약">
     <div class="card result">
-      <div class="k">확인 응모</div>
-      <div class="v" id="vConf">727</div>
-      <div class="s">13개 채널 마이페이지 전수 확인</div>
+      <div class="k">총 제출</div>
+      <div class="v c-green" id="vTotal">1,092</div>
+      <div class="s">오늘 <b id="sToday">+385</b> · 체험단 <b id="sContest">1,072</b> · 웹 경품 <b id="sWeb">20</b></div>
     </div>
     <div class="card result">
       <div class="k">발표 완료</div>
-      <div class="v c-blue" id="vDone">69</div>
-      <div class="s">리뷰노트 <b>3</b> · 체험뷰 <b>1</b> · 무신사 <b>65</b></div>
+      <div class="v c-blue" id="vDone">80</div>
+      <div class="s">무신사 <b>65</b> · 포포몬 <b>10</b> · 리뷰노트 <b>3</b> · 체험뷰 <b>1</b> · 카카오 확인 <b>1</b></div>
     </div>
     <div class="card result">
       <div class="k">당첨</div>
-      <div class="v c-orange" id="vWin13">0</div>
-      <div class="s">발표 69건 중 0건 · <b>전부 미선정</b></div>
-    </div>
-    <div class="card result">
-      <div class="k">당첨률</div>
-      <div class="v c-orange" id="vRate">0.0<small>%</small></div>
-      <div class="s">당첨 0 ÷ 발표 완료 69</div>
-    </div>
-    <div class="card wide">
-      <div class="k">발표 대기</div>
-      <div class="v" id="vWait">658</div>
-      <div class="s">리뷰노트 <b>201</b> · 무신사 <b>188</b> · 지그재그 <b>106</b> · 택배·뷰티의여왕 <b>65</b> · 링블 29 · 레뷰 17 · 티블 15 · 체험뷰 13 · 클립뷰 10 · 네이버+ 6 · 서울오빠 5 · 강남맛집 3</div>
-    </div>
-  </section>
-
-  <!-- 전체 보드 -->
-  <div class="sec-label">전체 보드 누적 <span class="sub">· 콩떡·인절미·찰떡</span></div>
-  <section class="grid" aria-label="전체 보드">
-    <div class="card">
-      <div class="k">총 제출</div>
-      <div class="v c-green" id="vTotal">1,092</div>
-      <div class="s">오늘 <b>+385</b> · 체험단 <b>1,072</b> · 웹 경품 <b>20</b></div>
-    </div>
-    <div class="card">
-      <div class="k">발표 임박 <span style="font-weight:500;font-size:11px">(7일 안)</span></div>
-      <div class="v c-orange" id="vSoon">400</div>
-      <div class="s">11/23~11/29 · <b>6개 채널</b> 발표 대기분</div>
-    </div>
-    <div class="card">
-      <div class="k">대표 할 일</div>
-      <div class="v c-purple" id="vTodo">1</div>
-      <div class="s">카카오 5만 원 초과 7건 취소</div>
-    </div>
-    <div class="card">
-      <div class="k">당첨 <span style="font-weight:500;font-size:11px">(13채널 밖)</span></div>
       <div class="v c-green" id="vWin">1</div>
       <div class="s">카카오 오르골 무드등 · 시장가 <b>33,900원</b></div>
     </div>
+    <div class="card result">
+      <div class="k">당첨률</div>
+      <div class="v c-green" id="vRate">1.3<small>%</small></div>
+      <div class="s">당첨 1 ÷ 발표 확인 80</div>
+    </div>
+    <div class="card wide">
+      <div class="k">발표 대기</div>
+      <div class="v" id="vWait">658<small>+</small></div>
+      <div class="s">콩떡 13개 채널 <b id="sWait13">658</b> · 발표 임박 7일 내 <b id="sSoon">400</b> · 미집계 채널 제외</div>
+    </div>
+    <div class="card wide">
+      <div class="k">대표 할 일</div>
+      <div class="v c-purple" id="vTodo">1</div>
+      <div class="s">카카오 5만 원 초과 건 재확인 — <b>22% 본인 부담 명시 건만 취소</b></div>
+    </div>
   </section>
+  <div class="sum-note">※ 카카오 나머지 <b>326건</b>(발표 11/27~12/01)과 웹 경품 <b>20건</b>은 발표 결과가 집계 중이라 발표 완료·당첨률 계산에서 빠졌어요.</div>
 
   <!-- 컨트롤 -->
   <div class="controls">
@@ -269,8 +252,8 @@
       <div class="todo-item">
         <div class="todo-num">1</div>
         <div>
-          <div class="todo-t">카카오 5만 원 초과 7건 폰에서 취소</div>
-          <div class="todo-d">발표 11/27~12/01 · 당첨 시 제세공과금 22% 부담. 취소는 폰 카카오 선물하기 신청내역에서만 가능.</div>
+          <div class="todo-t">카카오 5만 원 초과 건 재확인</div>
+          <div class="todo-d">발표 11/27~12/01. 5만 원 초과 7건 후보 중 공고에 제세공과금 22% 본인 부담이 명시된 건만 취소 — 명시가 없는 건은 당첨 시 실수령액을 보고 결정. 취소는 폰 카카오 선물하기 신청내역에서만 가능.</div>
         </div>
       </div>
       <div class="todo-item">
@@ -328,14 +311,16 @@
   <div class="info">
     <b>집계 기준</b>
     <ul>
-      <li><b>발표 완료 69건 · 당첨 0건 · 당첨률 0.0%</b>는 콩떡이가 11/22 22:54에 13개 채널 마이페이지를 전수 확인한 실측값. 확인 응모 727건 = 리뷰노트 204 + 택배의여왕·뷰티의여왕 65 + 클립뷰 10 + 링블 29 + 지그재그 106 + 레뷰 17 + 티블 15 + 체험뷰 14 + 네이버+ 6 + 서울오빠 5 + 강남맛집 3 + 무신사 253. 택배의여왕·뷰티의여왕은 마이페이지 합산 65건으로 한 카드에 묶었다(13개 채널 = 카드 12장).</li>
-      <li>당첨률 = 당첨 건수 ÷ 발표 완료 건수. 발표 완료가 0건인 채널은 <b>–대기</b>로 표기(0.0%와 구분). 발표 완료 69건 = 리뷰노트 3 + 체험뷰 1 + 무신사 65, 전부 미선정.</li>
-      <li>13개 채널 밖의 <b>카카오 오르골 무드등 1건 당첨</b>(11/21 후기 등록 완료)은 별도 계상 — 카카오는 발표 건수 미집계라 당첨률 계산에서 뺐다.</li>
-      <li>총 제출 1,092건 = 콩떡 13채널 727 + 카카오 327 + 포포몬 10 + 놀러와 6 + 인절미 네이버+ 2 + 웹 경품 20. 이전 표기 1,112건보다 22건 적은 것은 콩떡 기록(749)을 마이페이지 실측(727)으로 바꾼 차이 — 클립뷰 33→10(−23) · 지그재그 104→106(+2) · 택배·뷰티의여왕 64→65(+1) · 서울오빠 4→5(+1) · 무신사 254→253(−1) · 네이버+ 8→6(−2).</li>
-      <li>네이버+는 콩떡 계정 실측 6건(대기 6)만 카드에 넣었다. 기존 보드의 8건(인절미 2 포함)과 미당첨 3건이 이 6건과 겹치는지는 확인 전이라 임의로 합산하지 않았다 — 인절미 2건이 중복이면 총계는 1,090건.</li>
+      <li>상단 요약은 <b>콩떡·인절미·찰떡 전체 합산 한 세트</b>다. 콩떡 13개 채널과 전체 보드를 따로 세던 두 줄을 합쳤고, 채널별 세부는 아래 카드에서 본다.</li>
+      <li><b>총 제출 1,092건</b> = 콩떡 13개 채널 727 + 카카오 327 + 포포몬 10 + 놀러와 6 + 인절미 네이버+ 2 + 웹 경품 20. 이 중 체험단 1,072건 · 웹 경품 20건.</li>
+      <li>확인 응모 727건 = 리뷰노트 204 + 택배의여왕·뷰티의여왕 65 + 클립뷰 10 + 링블 29 + 지그재그 106 + 레뷰 17 + 티블 15 + 체험뷰 14 + 네이버+ 6 + 서울오빠 5 + 강남맛집 3 + 무신사 253. 택배의여왕·뷰티의여왕은 마이페이지 합산 65건으로 한 카드에 묶었다(13개 채널 = 카드 12장).</li>
+      <li><b>발표 완료 80건</b> = 무신사 65 + 포포몬 10 + 리뷰노트 3 + 체험뷰 1 + 카카오 확인 1(오르골 무드등 당첨). 카카오 나머지 326건과 웹 경품 20건은 발표 결과가 집계 중이라 여기서 빠졌다.</li>
+      <li><b>당첨률 = 당첨 1 ÷ 발표 확인 80 = 1.3%</b>. 카드에서는 발표 완료가 0건인 채널을 <b>–대기</b>, 발표 결과가 집계되지 않은 채널(카카오)을 <b>미집계</b>로 표기해 0.0%와 구분한다.</li>
+      <li><b>발표 대기 658건+</b> = 콩떡 13개 채널 발표 대기 합(리뷰노트 201 · 무신사 188 · 지그재그 106 · 택배·뷰티의여왕 65 · 링블 29 · 레뷰 17 · 티블 15 · 체험뷰 13 · 클립뷰 10 · 네이버+ 6 · 서울오빠 5 · 강남맛집 3). 카카오 326 · 놀러와 6 · 웹 경품 20은 미집계라 빠져 있어 실제 대기는 658건보다 많다.</li>
+      <li><b>발표 임박 400건</b> = 발표일이 11/23~11/29인 6개 채널의 발표 대기 합(리뷰노트 201 · 지그재그 106 · 택배·뷰티의여왕 65 · 레뷰 17 · 네이버+ 6 · 웹 경품 공공기관 5). 카카오(11/27~12/01)는 발표 건수 미집계라 뺐다.</li>
+      <li>오늘 제출 385건은 콩떡이 11/22 보고값(체험단 380 + 웹 경품 5). 채널 카드의 ‘오늘’은 notes.md 기준(재확인·재스캔분 포함)이라 합계가 조금 다르다.</li>
       <li>클립뷰는 22:54 마이페이지 실측 10건을 누적값으로 쓰고, 내부 기록 33건은 괄호로 병기했다(잔여 191건은 중단 확정).</li>
-      <li>오늘 제출 385건은 콩떡이 11/22 보고값(체험단 380 + 웹 경품 5). 채널별 오늘 합(388)과는 3건 차이가 있고, 채널별 ‘오늘’은 콩떡이 notes.md 기준(재확인·재스캔분 포함)이라 대화로 보고된 신규 신청 건수와는 다르다.</li>
-      <li>발표 임박 400건 = 발표일이 11/23~11/29인 6개 채널의 발표 대기 합(리뷰노트 201 · 지그재그 106 · 택배·뷰티의여왕 65 · 레뷰 17 · 네이버+ 6 · 웹 경품 공공기관 5). 카카오(11/27~12/01)는 발표 건수 미집계라 뺐다.</li>
+      <li>네이버+는 콩떡 계정 실측 6건만 카드에 넣었다. 기존 보드의 8건(인절미 2 포함)과 겹치는지는 확인 전이라 임의로 합산하지 않았다 — 인절미 2건이 중복이면 총계는 1,090건.</li>
       <li>당첨 가치 33,900원은 동일 상품 오늘의집 판매가(50,000원→32%, 11/22 09:25 기준). 실제 지급가는 0원.</li>
       <li>개인정보 마스킹: 이름·핸들·이메일·전화번호·신체 치수 표기 0건(공개 페이지).</li>
       <li>출처: 콩떡이 11/22 22:54 13개 채널 마이페이지 실측 · notes.md / 인절미 노션 〈인절미 작업 보고〉(최신 11/21 18:06) / 찰떡 기록.</li>
@@ -380,24 +365,32 @@ let tab = "all";
 
 function fmt(n){ return typeof n === "number" ? n.toLocaleString("ko-KR") : n; }
 
-/* 요약 수치 — 카드 데이터에서 계산해 화면과 표가 어긋나지 않게 */
+/* 상단 전체 합산 — 카드 데이터에서 계산해 화면·카드·설명이 어긋나지 않게 */
 const c13 = CHANNELS.filter(c => c.c13);
 const sum = (arr, key) => arr.reduce((a, c) => a + (typeof c[key] === "number" ? c[key] : 0), 0);
-const conf13 = sum(c13, "total");
-const done13 = sum(c13, "done");
-const wait13 = sum(c13, "wait");
-const win13  = sum(c13, "win");
-const soonSum = sum(CHANNELS.filter(c => c.st === "soon"), "wait");
-const boardTotal = sum(CHANNELS, "total") + 2; // 인절미 네이버+ 2건(카드 미표기)
+const TODAY_SUBMITTED = 385;   // 콩떡이 11/22 보고값(체험단 380 + 웹 경품 5)
+const KAKAO_CONFIRMED = 1;     // 카카오는 오르골 당첨 1건만 발표 확인, 나머지 미집계
 
-document.getElementById("vConf").textContent  = fmt(conf13);
-document.getElementById("vDone").textContent  = fmt(done13);
-document.getElementById("vWin13").textContent = fmt(win13);
-document.getElementById("vRate").innerHTML    = (done13 ? (win13 / done13 * 100).toFixed(1) : "–") + "<small>%</small>";
-document.getElementById("vRate").className    = "v " + (win13 > 0 ? "c-green" : "c-orange");
-document.getElementById("vWait").textContent  = fmt(wait13);
-document.getElementById("vSoon").textContent  = fmt(soonSum);
-document.getElementById("vTotal").textContent = fmt(boardTotal);
+const c13Total = sum(c13, "total");
+const c13Done  = sum(c13, "done");
+const c13Wait  = sum(c13, "wait");
+const total    = sum(CHANNELS, "total") + 2;   // + 인절미 네이버+ 2건(카드 미표기)
+const webTotal = sum(CHANNELS.filter(c => c.group === "web"), "total");
+const doneAll  = c13Done + sum(CHANNELS.filter(c => !c.c13), "done") + KAKAO_CONFIRMED;
+const winAll   = sum(CHANNELS, "win");
+const soonSum  = sum(CHANNELS.filter(c => c.st === "soon"), "wait");
+
+document.getElementById("vTotal").textContent = fmt(total);
+document.getElementById("vDone").textContent  = fmt(doneAll);
+document.getElementById("vWin").textContent   = fmt(winAll);
+document.getElementById("vRate").innerHTML    = (doneAll ? (Math.round(winAll / doneAll * 1000) / 10).toFixed(1) : "–") + "<small>%</small>";
+document.getElementById("vRate").className    = "v " + (winAll > 0 ? "c-green" : "c-orange");
+document.getElementById("vWait").innerHTML    = fmt(c13Wait) + "<small>+</small>";
+document.getElementById("sWait13").textContent = fmt(c13Wait);
+document.getElementById("sSoon").textContent   = fmt(soonSum);
+document.getElementById("sToday").textContent  = "+" + fmt(TODAY_SUBMITTED);
+document.getElementById("sContest").textContent = fmt(total - webTotal);
+document.getElementById("sWeb").textContent     = fmt(webTotal);
 
 function rateCell(c){
   if(c.done === null) return `<div class="sv small" style="color:var(--sub)">미집계</div>`;
