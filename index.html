@@ -205,7 +205,7 @@
     </div>
     <div class="card result">
       <div class="k">당첨률</div>
-      <div class="v c-red" id="vRate">0.0<small>%</small></div>
+      <div class="v c-orange" id="vRate">0.0<small>%</small></div>
       <div class="s">당첨 0 ÷ 발표 완료 69</div>
     </div>
     <div class="card wide">
@@ -394,6 +394,7 @@ document.getElementById("vConf").textContent  = fmt(conf13);
 document.getElementById("vDone").textContent  = fmt(done13);
 document.getElementById("vWin13").textContent = fmt(win13);
 document.getElementById("vRate").innerHTML    = (done13 ? (win13 / done13 * 100).toFixed(1) : "–") + "<small>%</small>";
+document.getElementById("vRate").className    = "v " + (win13 > 0 ? "c-green" : "c-orange");
 document.getElementById("vWait").textContent  = fmt(wait13);
 document.getElementById("vSoon").textContent  = fmt(soonSum);
 document.getElementById("vTotal").textContent = fmt(boardTotal);
@@ -402,7 +403,7 @@ function rateCell(c){
   if(c.done === null) return `<div class="sv small" style="color:var(--sub)">미집계</div>`;
   if(c.done === 0) return `<div class="sv" style="color:var(--sub)">–<em>대기</em></div>`;
   const r = (c.win / c.done * 100).toFixed(1);
-  return `<div class="sv ${c.win > 0 ? "c-green" : "c-red"}">${r}<small style="font-size:10px;font-weight:700">%</small></div>`;
+  return `<div class="sv" style="color:${c.win > 0 ? "var(--green)" : "var(--sub2)"}">${r}<small style="font-size:10px;font-weight:700">%</small></div>`;
 }
 
 function statCell(label, val){
