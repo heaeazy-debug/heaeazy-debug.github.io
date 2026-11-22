@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f6f8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>이직 공고 비교판</title>
+<style>
+  :root{
+    --bg:#f4f5f7;--card:#ffffff;--line:#eceef2;--text:#1c1f26;--sub:#8a909c;--sub2:#5f6570;
+    --green:#12a150;--orange:#c2740b;--blue:#2563eb;--purple:#7c3aed;--red:#d32f2f;
+    --chip-bg:#f2f3f6;--shadow:0 1px 2px rgba(20,24,32,.04),0 6px 18px rgba(20,24,32,.045);
+    --pill:#1c1f26;--pill-text:#fff;
+  }
+  [data-theme="dark"]{
+    --bg:#0f1115;--card:#191c22;--line:#262a33;--text:#ecedf1;--sub:#8b919d;--sub2:#b3b8c2;
+    --green:#3ddc84;--orange:#f0a44a;--blue:#6ea8ff;--purple:#b79cff;--red:#ff6b6b;
+    --chip-bg:#22262e;--shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+    --pill:#ecedf1;--pill-text:#14171c;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;
+    font-size:15px;line-height:1.45;word-break:keep-all;-webkit-font-smoothing:antialiased;
+    transition:background .2s ease,color .2s ease;
+  }
+  .app{max-width:480px;margin:0 auto;padding:18px 16px calc(28px + env(safe-area-inset-bottom))}
+  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:2px 0 12px}
+  h1{font-size:22px;letter-spacing:-.5px;margin:0;font-weight:800}
+  .basis{font-size:11.5px;color:var(--sub);margin-top:4px;letter-spacing:-.1px}
+  .theme-btn{flex:0 0 auto;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);
+    color:var(--sub2);font-size:16px;display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow)}
+  nav.boards{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 0 12px;padding-bottom:2px}
+  nav.boards::-webkit-scrollbar{display:none}
+  nav.boards a{flex:0 0 auto;font-size:11.5px;font-weight:700;text-decoration:none;color:var(--sub2);
+    background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 11px;letter-spacing:-.2px}
+  nav.boards a.here{background:var(--pill);color:var(--pill-text);border-color:var(--pill)}
+  .cond{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+  .chip{font-size:11.5px;font-weight:700;letter-spacing:-.2px;border-radius:8px;padding:5px 8px;
+    background:var(--chip-bg);border:1px solid var(--line);color:var(--sub2)}
+  .chip.no{color:var(--red);background:transparent;border-style:dashed}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+  .k{font-size:12.5px;color:var(--sub2);font-weight:600;letter-spacing:-.2px}
+  .v{font-size:25px;font-weight:800;letter-spacing:-.8px;line-height:1.15;margin-top:6px;font-variant-numeric:tabular-nums}
+  .v small{font-size:13px;font-weight:700;margin-left:1px}
+  .s{font-size:11.5px;color:var(--sub);margin-top:5px;letter-spacing:-.15px;line-height:1.4}
+  .c-green{color:var(--green)}.c-orange{color:var(--orange)}.c-blue{color:var(--blue)}.c-red{color:var(--red)}
+  .sec-label{font-size:12px;font-weight:700;color:var(--sub);letter-spacing:.2px;margin:20px 2px 8px;display:flex;align-items:center;gap:6px}
+  .sec-label span{font-weight:500}
+  .controls{position:sticky;top:0;z-index:20;background:var(--bg);padding:10px 0 8px;margin-top:18px}
+  .tabs{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--sub2);border-radius:999px;
+    padding:8px 13px;font-size:13px;font-weight:700;letter-spacing:-.2px;cursor:pointer;font-family:inherit;white-space:nowrap}
+  .tab[aria-selected="true"]{background:var(--pill);color:var(--pill-text);border-color:var(--pill)}
+  .search{position:relative;margin-top:8px}
+  .search input{width:100%;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:12px;
+    padding:11px 38px 11px 36px;font-size:16px;font-family:inherit;outline:none}
+  .search input:focus{border-color:var(--blue)}
+  .search .ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--sub);pointer-events:none}
+  .search .clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:transparent;
+    color:var(--sub);font-size:16px;cursor:pointer;padding:4px 8px;display:none}
+  .list{display:flex;flex-direction:column;gap:10px}
+  .job{padding:15px 14px 13px}
+  .job-head{display:flex;align-items:flex-start;gap:8px}
+  .job-name{font-size:16px;font-weight:800;letter-spacing:-.4px;line-height:1.3;min-width:0;overflow-wrap:anywhere}
+  .job-kind{font-size:11px;color:var(--sub);margin-top:3px;letter-spacing:-.15px}
+  .dd{flex:0 0 auto;text-align:center;border-radius:10px;padding:5px 8px;font-size:12px;font-weight:800;letter-spacing:-.3px;
+    background:var(--chip-bg);color:var(--sub2);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+  .dd.urgent{color:#fff;background:var(--red);border-color:var(--red)}
+  .dd.soon{color:#8a5a00;background:#fff5e0;border-color:#ffe2ad}
+  [data-theme="dark"] .dd.soon{color:#ffd08a;background:#3a2c12;border-color:#5a4419}
+  .dd.over{color:var(--sub);background:transparent;border-style:dashed}
+  .dd small{display:block;font-size:9.5px;font-weight:700;opacity:.85;letter-spacing:0}
+  .job-title{font-size:13px;color:var(--sub2);margin-top:7px;letter-spacing:-.2px;font-weight:600}
+  .rows{margin-top:11px;border-top:1px solid var(--line);padding-top:9px;display:flex;flex-direction:column;gap:6px}
+  .row{display:grid;grid-template-columns:64px 1fr;gap:8px;font-size:12.5px;letter-spacing:-.2px}
+  .row .rk{color:var(--sub);font-weight:600}
+  .row .rv{color:var(--text);min-width:0}
+  .row .rv b{font-weight:700}
+  .row .rv .muted{color:var(--sub)}
+  .meter{display:flex;gap:10px;margin-top:10px;padding-top:9px;border-top:1px dashed var(--line)}
+  .meter div{flex:1;min-width:0}
+  .meter .mk{font-size:10.5px;color:var(--sub);font-weight:600}
+  .meter .mv{font-size:13px;font-weight:800;letter-spacing:-.3px;font-variant-numeric:tabular-nums}
+  .meter .mv em{font-size:10px;font-weight:700;font-style:normal;color:var(--sub)}
+  .note{font-size:12px;color:var(--sub2);background:var(--chip-bg);border-radius:10px;padding:9px 10px;margin-top:10px;
+    letter-spacing:-.2px;line-height:1.45}
+  .note b{color:var(--text)}
+  .note .warn{color:var(--red);font-weight:700}
+  .job-foot{display:flex;gap:8px;margin-top:11px;align-items:center}
+  .go{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;background:var(--blue);
+    color:#fff;border-radius:11px;padding:11px 12px;font-size:13.5px;font-weight:800;letter-spacing:-.3px}
+  [data-theme="dark"] .go{color:#0b1220}
+  .go:active{opacity:.85}
+  .stat-set{display:flex;gap:5px;flex:0 0 auto}
+  .st{border:1px solid var(--line);background:var(--card);color:var(--sub2);border-radius:9px;padding:10px 9px;
+    font-size:11.5px;font-weight:800;letter-spacing:-.3px;cursor:pointer;font-family:inherit;line-height:1}
+  .st[data-on="1"][data-v="관심"]{background:#eef4ff;border-color:#c9dcff;color:#2554b8}
+  .st[data-on="1"][data-v="지원완료"]{background:#e8f8f1;border-color:#c6eedd;color:#12805a}
+  .st[data-on="1"][data-v="패스"]{background:var(--chip-bg);border-color:var(--sub);color:var(--sub)}
+  [data-theme="dark"] .st[data-on="1"][data-v="관심"]{background:#1b2a45;border-color:#2b4470;color:#a8c6ff}
+  [data-theme="dark"] .st[data-on="1"][data-v="지원완료"]{background:#12302a;border-color:#1e4d41;color:#9ff0cd}
+  .mine{font-size:11px;font-weight:800;letter-spacing:-.2px;border-radius:6px;padding:3px 6px;border:1px solid var(--line);
+    background:var(--chip-bg);color:var(--sub2)}
+  .mine.s-관심{color:#2554b8;background:#eef4ff;border-color:#c9dcff}
+  .mine.s-지원완료{color:#12805a;background:#e8f8f1;border-color:#c6eedd}
+  [data-theme="dark"] .mine.s-관심{color:#a8c6ff;background:#1b2a45;border-color:#2b4470}
+  [data-theme="dark"] .mine.s-지원완료{color:#9ff0cd;background:#12302a;border-color:#1e4d41}
+  details.etc{margin-top:10px;background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);overflow:hidden}
+  details.etc > summary{list-style:none;cursor:pointer;padding:15px 14px;font-size:14px;font-weight:800;letter-spacing:-.3px;
+    display:flex;align-items:center;justify-content:space-between;gap:8px}
+  details.etc > summary::-webkit-details-marker{display:none}
+  details.etc > summary .cnt{font-size:11.5px;font-weight:700;color:var(--sub);letter-spacing:-.2px}
+  .etc-body{padding:0 14px 14px;display:flex;flex-direction:column;gap:9px}
+  .etc-item{border-top:1px solid var(--line);padding-top:9px}
+  .etc-item:first-child{border-top:0;padding-top:0}
+  .etc-top{display:flex;gap:8px;align-items:baseline;justify-content:space-between}
+  .etc-name{font-size:13.5px;font-weight:800;letter-spacing:-.3px}
+  .etc-dl{font-size:11px;color:var(--sub);font-weight:700;white-space:nowrap;letter-spacing:-.2px}
+  .etc-sub{font-size:12px;color:var(--sub2);margin-top:3px;letter-spacing:-.2px}
+  .etc-why{font-size:12px;color:var(--red);margin-top:3px;letter-spacing:-.2px}
+  .etc-why.ok{color:var(--sub2)}
+  .etc-item a{font-size:11.5px;font-weight:700;color:var(--blue);text-decoration:none;display:inline-block;margin-top:4px}
+  .info{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;
+    font-size:11.5px;color:var(--sub);letter-spacing:-.15px;line-height:1.55}
+  .info b{color:var(--sub2);display:block;margin-bottom:4px;font-size:12px}
+  .info ul{margin:0;padding-left:15px}
+  .info li{margin:2px 0}
+  footer{text-align:center;font-size:11px;color:var(--sub);margin-top:20px;line-height:1.6;letter-spacing:-.1px}
+  .hidden{display:none!important}
+  .empty{text-align:center;color:var(--sub);font-size:13px;padding:26px 10px}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div>
+      <h1>이직 공고 비교판</h1>
+      <div class="basis">2026-11-22 기준 · 추적 7건 · 마감 D-Day 자동 계산</div>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="다크 모드 전환">◐</button>
+  </header>
+
+  <nav class="boards" aria-label="다른 보드">
+    <a href="jobs.html" class="here">이직</a>
+    <a href="meals.html">식단·장보기</a>
+    <a href="money.html">짠테크·공모주</a>
+    <a href="index.html">응모 현황판</a>
+  </nav>
+
+  <div class="cond">
+    <span class="chip">연봉 4,200만 ↑</span>
+    <span class="chip">대기업 전국</span>
+    <span class="chip">중견 이하 구미·대구</span>
+    <span class="chip">직무 생산관리·SCM·구매·자재·운영기획</span>
+    <span class="chip no">교대 제외</span>
+    <span class="chip no">주말·특근 제외</span>
+  </div>
+
+  <div class="grid">
+    <div class="card"><div class="k">추적 공고</div><div class="v c-blue">7<small>건</small></div><div class="s">마감 지난 1건 · 상시 1건</div></div>
+    <div class="card"><div class="k">마감 임박</div><div class="v c-red" id="vSoon">–</div><div class="s">D-7 이내 · 내일까지 우선</div></div>
+    <div class="card"><div class="k">내 표시</div><div class="v" id="vMine">0<small>/7</small></div><div class="s">관심·지원완료·패스 저장</div></div>
+    <div class="card"><div class="k">요건 리스크</div><div class="v c-orange">2<small>건</small></div><div class="s">어학 요건 · 4,200만 경계</div></div>
+  </div>
+
+  <div class="controls">
+    <div class="tabs" role="tablist">
+      <button class="tab" data-tab="all" aria-selected="true">전체 <span id="tAll"></span></button>
+      <button class="tab" data-tab="soon" aria-selected="false">마감 임박</button>
+      <button class="tab" data-tab="long" aria-selected="false">장기·상시</button>
+      <button class="tab" data-tab="mine" aria-selected="false">내 표시</button>
+    </div>
+    <div class="search">
+      <span class="ico">⌕</span>
+      <input id="q" type="search" inputmode="search" placeholder="회사·직무·근무지 검색" aria-label="공고 검색">
+      <button class="clear" id="qClear" aria-label="검색어 지우기">✕</button>
+    </div>
+  </div>
+
+  <div class="list" id="list"></div>
+  <div class="empty hidden" id="empty">조건에 맞는 공고가 없어요.</div>
+
+  <div class="sec-label">보류·제외 참고 <span>· 왜 뺐는지</span></div>
+  <details class="etc">
+    <summary><span>검토 후 제외·보류 15건</span><span class="cnt">펼치기 ▾</span></summary>
+    <div class="etc-body" id="etcList"></div>
+  </details>
+
+  <div class="info">
+    <b>기준과 출처</b>
+    <ul>
+      <li>D-Day는 기기 시각 기준 자동 계산이라, 날짜가 지나면 화면에서 바로 <b>마감 경과</b>로 바뀐다.</li>
+      <li>연봉·평점·매출은 11/18~11/20 직접 조회값(잡플래닛·블라인드·잡코리아·DART·인크루트). 공고에 급여가 없으면 <b>공시·추정</b>으로 따로 적었다.</li>
+      <li>근무형태가 공고에 없으면 카드에 <b>확인 필요</b>로 표시했다 — 교대·주말 여부는 면접 전 사전 전화로 확인할 항목.</li>
+      <li>내 표시(관심·지원완료·패스)는 이 브라우저에만 저장되고 서버로 전송되지 않는다.</li>
+    </ul>
+  </div>
+
+  <footer>2026-11-22 18:00 브리핑 기준 · 7건 전부 유효 재확인<br>개인정보 표기 0건 · 검색 비공개 페이지</footer>
+</div>
+
+<script>
+/* ── 공고 데이터 (11/20 비교표 + 11/22 재확인) ───────────────── */
+const JOBS = [
+  {
+    id:"awh", name:"(주)아워홈", kind:"대기업(한화 계열) · 9,880명",
+    title:"안산공장 생산관리파트 생산기획 담당자 (신입)",
+    place:"경기 안산시 단원구 원시동",
+    end:"2026-11-22T12:00:00+09:00",
+    salary:"공고 미기재(면접 후 결정) · 수습 2개월 급여 80%",
+    salary2:"평균 5,072만 · 신입 평균 4,801만 · 포지션 추정 4,611만",
+    shape:"주간 사무직(공장 생산기획) · 근무시간·교대 여부 <b>공고 미기재 → 확인 필요</b>",
+    jp:"2.7", jpn:"1,943", bl:"집계상 '낮은 편'",
+    rev:"2조 2,071억(별도 2025) / 연결 2조 4,497억",
+    op:"699억(별도) / 804억(연결)",
+    note:'<span class="warn">11/22 12:00 마감 — 지금 시각 기준 접수 종료</span> · 캐치 메타상 접수 종료가 11/22 12:00으로 표기돼 주말 오전 마감이었다. 리스크: 자격요건 <b>‘상경계열 전공’</b>이라 전공 요건 미충족 소지, 급여 미기재, 퇴사율 약 39%.',
+    url:"https://m.catch.co.kr/NCS/RecruitInfoDetails/579982"
+  },
+  {
+    id:"sold", name:"(주)솔디펜스", kind:"코스닥 215090 · 중소기업(방산협력) · 106명",
+    title:"구미사업장 생산지원팀 — 생산계획·납기·ERP 생산실적·공정/외주 관리",
+    place:"경북 구미시 산호대로",
+    end:"2026-11-27T23:59:00+09:00",
+    salary:"공고 미기재(면접 후 결정) · 정규직 수습 2~3개월",
+    salary2:"평균 5,969만(2025 공시) · 신입 초봉 3,811만 · 평균근속 6.8년",
+    shape:"정규직 · 주간 사무 추정 · 공고에 근무시간 미기재 → 확인 필요(교대·주말 언급 없음)",
+    jp:"2.5", jpn:"27", bl:"리뷰 없음",
+    rev:"258.2억(별도 2025) / 268억(연결)",
+    op:"17.7억(별도) · 2026 상반기 영업손실 −12억",
+    note:'핏 최상 — 생산관리 2년차 실무와 직결(생산계획·납기·ERP). 리스크: 신입 초봉 3,811만이라 <b>4,200만 미달 소지 → 처우 협상 필수</b>, 입사 시 신원조회.',
+    url:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55128252"
+  },
+  {
+    id:"coors", name:"쿠어스텍코리아(유)", kind:"외국계(CoorsTek) 중소 · 240~325명 · 구미 4공단",
+    title:"생산관리팀 Production Plan Specialist — 외주 발주·납기, ERP, MRP/MSW 스케줄링, 수불·재고, KPI",
+    place:"경북 구미시 4공단로7길",
+    end:"2026-12-11T23:59:00+09:00",
+    salary:"공고 미기재(면접 후 결정) · 정규직 수습 3개월",
+    salary2:"평균 5,251만(잡코리아) / 5,522만(잡플래닛 국민연금) / 5,118만(추정)",
+    shape:"사무 Specialist · 근무일시 <b>공고 미기재 → 확인 필요</b>(면접 후기에 교대·특근 질문 사례, 생산직 응시 기준)",
+    jp:"3.3", jpn:"95", bl:"3.2 (9건)",
+    rev:"1,123억(2025)",
+    op:"152.8억(2025)",
+    note:'핏 우수 — APICS/CPIM·ERP/MES·Excel 우대, 신입·경력 무관. 리스크: <b>교대 여부 공고 미기재</b> → 주간 상주 사전 전화 확인이 남은 항목(승인 대기).',
+    url:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55301150"
+  },
+  {
+    id:"micon", name:"(주)마이크로인피니티", kind:"중소기업(방산) · 232~245명 · 수원 본사/대전/구미 인접",
+    title:"생산관리(사원~관리자) — 생산계획, BOM 자재소요, 자재수급·외주가공, 군 납기, 실적분석 (구매 동시 모집)",
+    place:"경기 수원 · 대전 · 경북 칠곡 석적(구미 인접)",
+    end:"2026-12-31T23:59:00+09:00",
+    salary:"회사 내규(면접 후 결정) · 잡코리아 대졸초임 4,200만",
+    salary2:"대졸초임 4,200만 · 평균연봉은 자료 상충으로 미확인",
+    shape:"주 5일(월~금) 09:00~18:00 — <b>공고 명시 ✓</b> (주간 상주 요건 충족)",
+    jp:"3.1", jpn:"59", bl:"미확인 (대전 1.8)",
+    rev:"579.9억(2025, +148.8%)",
+    op:"22.5억(2025, 흑자전환) · 2024년 −48.9억",
+    note:'핏 최상 — 방산 물자 수급·ERP/PLM 우대. 리스크: 초임 4,200만으로 <b>기준 경계선</b>, 부채비율 185%, 신원조사 필요.',
+    url:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55459022"
+  },
+  {
+    id:"isup", name:"(주)이수페타시스", kind:"코스피 007660 · 중견/대기업 · 1,445명",
+    title:"구매팀 — 원부자재 조달·설비/공사 구매·구매전략 (NPI 제품관리 등 팀별 병행)",
+    place:"대구 달성군 논공읍",
+    end:"2026-11-26T23:59:00+09:00",
+    salary:"회사 내규(잡코리아 5,000만 집계)",
+    salary2:"공시 평균급여 9,849만(2025 사업보고서) · 블라인드 6,200만 · 잡플래닛 5,170만",
+    shape:"정규직 · 대졸 4년↑ · 경력 3~4년(팀별 상이) · 주간 사무 추정, 근무시간 미기재",
+    jp:"3.1", jpn:"224", bl:"3.1 (198건, 추천 71%)",
+    rev:"1조 880억(연결 2025) / 캐치 9,297억",
+    op:"2,047억(2025, +101%)",
+    note:'<span class="warn">★자격요건 ‘영어 OPIc IH 이상 또는 중국어 HSK 5급 이상’ 필수 → 현재 성적 미보유로 서류 단계 리스크 큼.</span> 같은 팀 11/21 마감분은 종료 표시.',
+    url:"https://www.jobkorea.co.kr/Recruit/GI_Read/50250414"
+  },
+  {
+    id:"asm", name:"에이에스엠케이(ASM 코리아)", kind:"외국계/중견기업 · 541명 · 화성 동탄",
+    title:"Specialist I, Production Planning — 주·월 생산계획, CTB 자재가용성, SAP, OTIF KPI 리포트",
+    place:"경기 화성시 동탄첨단산업1로",
+    end:null,
+    salary:"공고 미기재",
+    salary2:"졸업초임 6,950만(잡코리아) · 블라인드 6,400만 · 잡플래닛 7,797만(국민연금)",
+    shape:"Full-time 주간 사무(주5일) — 교대·주말 없음",
+    jp:"3.7", jpn:"162", bl:"3.6 (295건, 추천 76%)",
+    rev:"4,724억(2025)",
+    op:"591억(2025)",
+    note:'핏 최상 — 경력 1~4년, <b>Excel Power Query/Power BI 우대</b>, 연봉 여유 최대. 리스크: 경영진 평점 2.6, 상시채용 경쟁률.',
+    url:"https://www.asm.com/open-vacancies/specialist-i-production-planning-5015543101?gh_jid=5015543101"
+  },
+  {
+    id:"toray", name:"도레이첨단소재(주)", kind:"도레이그룹 계열 · 2,216명 · 본사 구미",
+    title:"2026년 하반기 관리사무직 공채 — 생산관리·공정관리(생산간접/생산직접)",
+    place:"경북 구미시 3공단2로(임수동) / 서울 / 전북 군산",
+    end:"2026-11-29T23:59:00+09:00",
+    salary:"회사 내규(면접 후 결정) · 잡코리아 신입 초봉 4,000만",
+    salary2:"평균연봉 7,010만(2026.11, 동종업계 +31%)",
+    shape:"정규직 · 대졸 4년↑ · 신입/경력(3년↑) · 공장 관리사무직(주간), 교대·주말 언급 없음 → 면접 시 확인",
+    jp:"3.1", jpn:"432", bl:"미확인",
+    rev:"2조 5,254억(연결 FY2025.4~2026.3, −7.7%) / 캐치 1조 9,554억",
+    op:"1,256억(−3.4%) · 순손실 1,131억(분리막 손상차손)",
+    note:'핏 좋음 — 구미 3공단 근무지·사무직·대기업급 처우. 리스크: 신입 초봉 4,000만이라 <b>경력 트랙(3년↑) 협상 필요</b>, 2년차라 요건 경계. 분리막 적자.',
+    url:"https://m.catch.co.kr/NCS/RecruitInfoDetails/581429"
+  }
+];
+
+/* ── 보류·제외 ────────────────────────────────────────────── */
+const ETC = [
+  {n:"(주)아바텍", s:"MLCC사업부 생산관리팀 신입/경력 · 구미 산동", d:"~12/18", w:"보류 — 평균연봉 3,988만으로 4,200만 미달 소지 · 잡플래닛 2.4(33건, 추천 21%)", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55606795"},
+  {n:"한화에어로스페이스(주)", s:"항공사업부 하반기 경력 — 생산관리·구매·사업기획 · 창원·아산·서울·분당", d:"~11/29 24:00", w:"경력 5년↑ 요건 → 2년차 미달 소지(참고)", u:"https://m.catch.co.kr/NCS/RecruitInfoDetails/581312"},
+  {n:"한화시스템 (구미)", s:"협력사 구매 관리 담당(글로벌 SCM) · 구미", d:"~11/22", w:"경력 5년↑ 요건 → 미달", u:"https://m.catch.co.kr/NCS/RecruitInfoDetails/581312"},
+  {n:"비케이알(BKR·버거킹)", s:"SCM본부 Global Sourcing 정규직 · 서울 종로", d:"~11/22 24:00", w:"중견인데 근무지 서울 → ‘중견 이하는 구미·대구’ 조건 밖", u:"https://m.catch.co.kr/NCS/RecruitInfoDetails/581215"},
+  {n:"아주산업", s:"2026 모듈러사업팀 생산관리 매니저 · 서울 서초", d:"~12/31", w:"중견인데 근무지 서울 → 조건 밖", u:"https://m.catch.co.kr/NCS/RecruitInfoDetails/580383"},
+  {n:"동종업계1위 대기업 사무직(서치펌)", s:"SCM·구매관리·SAP 사무직 · 경북 김천", d:"~12/10", w:"계약직 + 근무지 김천(생활권 밖) · 연봉협의", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55533550"},
+  {n:"유티아이(주)", s:"생산부문(생산관리팀·생산기술팀) · 성남·구미", d:"~11/30", w:"생산관리팀이 현장 관리 성격·급여 미기재로 조건 검증 불가", u:"https://www.saramin.co.kr/zf_user/search/recruit?searchType=search&searchword=구미%20생산관리"},
+  {n:"(주)성우", s:"생산관리/구매 경력직(사원~대리) · 구미", d:"~12/11", w:"급여·근무형태 미기재로 조건 검증 불가", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55540851"},
+  {n:"인탑스(주)", s:"납품 및 생산관리 팀원 · 구미", d:"~11/26", w:"직무에 ‘납품운전원’ 성격 포함 → 사무직 요건 불일치 소지", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55586907"},
+  {n:"아데코코리아", s:"생산관리 지원 담당자 · 대구 달성 논공", d:"진행 중", w:"파견직 12개월 + 연봉 4,080만으로 기준 미달(주5일 08:30~17:30)", u:"https://www.jobkorea.co.kr/Recruit/GI_Read/50353499"},
+  {n:"코닝정밀소재", s:"Project Leader, Glass Core Development · 구미", d:"~2027-02-28", w:"경력 10년↑ · 직무가 개발(엔지니어링)로 사무 유관직 아님", u:"https://m.catch.co.kr/NCS/RecruitInfoDetails/583144"},
+  {n:"(주)월덱스", s:"각 부문 신입/경력 공개채용 · 구미", d:"~12/20", w:"모집 직무가 어셈블리·기술영업·영업관리 중심 → 생산관리/SCM 아님", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55586907"},
+  {n:"제트에프렘페더샤시(주)", s:"Material Planner(자재관리) · 구미 4공단", d:"채용 시 마감", w:"공고에 ‘휴일근무 가능’ 명시 → 주말 출근 배제 조건 저촉", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55267745"},
+  {n:"(주)텍슨", s:"반도체사업부 구미 신입·경력(통관·품질) · 구미", d:"~12/19", w:"11/18 사용자 지시로 패스", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55620491"},
+  {n:"LS전선 · 삼원강재", s:"—", d:"—", w:"11/18 사용자 지시로 추적 종료", u:""}
+];
+
+/* ── 유틸 ─────────────────────────────────────────────────── */
+const KST_MS = 9 * 3600 * 1000;
+const dayNum = d => Math.floor((d.getTime() + KST_MS) / 86400000);
+function dday(end){
+  if(!end) return {text:"상시", cls:""};
+  const e = new Date(end);
+  const now = new Date();
+  if(e.getTime() < now.getTime()) return {text:"마감", cls:"over"};
+  const diff = dayNum(e) - dayNum(now);
+  if(diff <= 0) return {text:"D-DAY", cls:"urgent"};
+  if(diff <= 3) return {text:"D-"+diff, cls:"urgent"};
+  if(diff <= 7) return {text:"D-"+diff, cls:"soon"};
+  return {text:"D-"+diff, cls:""};
+}
+const monthDay = end => {
+  if(!end) return "상시 채용";
+  const d = new Date(new Date(end).getTime() + KST_MS);
+  const w = ["일","월","화","수","목","금","토"][d.getUTCDay()];
+  const t = d.getUTCHours() === 23 ? "" : " " + String(d.getUTCHours()).padStart(2,"0") + ":" + String(d.getUTCMinutes()).padStart(2,"0");
+  return (d.getUTCMonth()+1) + "/" + d.getUTCDate() + "(" + w + ")" + t;
+};
+const isSoon = j => { const d = dday(j.end); return d.cls === "soon" || d.cls === "urgent"; };
+const isLong = j => { const d = dday(j.end); return !j.end || (d.cls === "" && parseInt(d.text.replace("D-",""),10) > 7); };
+
+/* ── 상태 저장 ────────────────────────────────────────────── */
+const KEY = "job-board-status-v1";
+let store = {};
+try{ store = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; }catch(e){ store = {}; }
+function saveStatus(){ try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){} }
+function mineBadge(id){
+  const v = store[id];
+  return v ? `<span class="mine s-${v}">${v}</span>` : "";
+}
+function updateMine(){
+  const n = JOBS.filter(j => store[j.id]).length;
+  document.getElementById("vMine").innerHTML = n + "<small>/7</small>";
+  const soon = JOBS.filter(isSoon).length;
+  document.getElementById("vSoon").innerHTML = soon + "<small>건</small>";
+  document.getElementById("tAll").textContent = "";
+}
+
+/* ── 카드 ─────────────────────────────────────────────────── */
+function cardHTML(j){
+  const dd = dday(j.end);
+  const st = store[j.id] || "";
+  const btn = v => `<button class="st" data-id="${j.id}" data-v="${v}" data-on="${st === v ? 1 : 0}" aria-pressed="${st === v}">${v}</button>`;
+  return `
+  <article class="card job" data-id="${j.id}">
+    <div class="job-head">
+      <div style="min-width:0">
+        <div class="job-name">${j.name} ${mineBadge(j.id)}</div>
+        <div class="job-kind">${j.kind}</div>
+      </div>
+      <div class="dd ${dd.cls}">${dd.text}<small>${monthDay(j.end)}</small></div>
+    </div>
+    <div class="job-title">${j.title}</div>
+    <div class="rows">
+      <div class="row"><div class="rk">근무지</div><div class="rv">${j.place}</div></div>
+      <div class="row"><div class="rk">연봉</div><div class="rv"><b>${j.salary}</b><br><span class="muted">${j.salary2}</span></div></div>
+      <div class="row"><div class="rk">근무형태</div><div class="rv">${j.shape}</div></div>
+    </div>
+    <div class="meter">
+      <div><div class="mk">잡플래닛</div><div class="mv">${j.jp}<em>/5 · ${j.jpn}건</em></div></div>
+      <div><div class="mk">블라인드</div><div class="mv" style="font-size:12px">${j.bl}</div></div>
+      <div><div class="mk">최근 매출</div><div class="mv" style="font-size:11.5px;letter-spacing:-.4px">${j.rev}</div></div>
+    </div>
+    <div class="rows" style="border-top:0;padding-top:0">
+      <div class="row"><div class="rk">영업이익</div><div class="rv">${j.op}</div></div>
+    </div>
+    <div class="note">${j.note}</div>
+    <div class="job-foot">
+      <a class="go" href="${j.url}" target="_blank" rel="noopener">공고 열기 ↗</a>
+      <div class="stat-set">${btn("관심")}${btn("지원완료")}${btn("패스")}</div>
+    </div>
+  </article>`;
+}
+
+/* ── 렌더 ─────────────────────────────────────────────────── */
+const list = document.getElementById("list");
+const empty = document.getElementById("empty");
+const q = document.getElementById("q");
+const qClear = document.getElementById("qClear");
+let tab = "all";
+
+function render(){
+  const term = q.value.trim().toLowerCase();
+  qClear.style.display = term ? "block" : "none";
+  let rows = JOBS.slice();
+  if(tab === "soon") rows = rows.filter(isSoon);
+  if(tab === "long") rows = rows.filter(isLong);
+  if(tab === "mine") rows = rows.filter(j => store[j.id]);
+  if(term){
+    rows = rows.filter(j => (j.name + " " + j.kind + " " + j.title + " " + j.place + " " + j.note).toLowerCase().includes(term));
+  }
+  /* 마감 임박 → 마감 지남 → 나머지 순, 같은 그룹은 D-Day 오름차순 */
+  const rank = j => { const c = dday(j.end).cls; return c === "urgent" ? 0 : c === "soon" ? 1 : c === "over" ? 3 : 2; };
+  rows.sort((a,b) => rank(a) - rank(b) || (a.end || "9999") .localeCompare(b.end || "9999"));
+  list.innerHTML = rows.map(cardHTML).join("");
+  empty.classList.toggle("hidden", rows.length > 0);
+  updateMine();
+}
+
+document.getElementById("etcList").innerHTML = ETC.map(e => `
+  <div class="etc-item">
+    <div class="etc-top"><div class="etc-name">${e.n}</div><div class="etc-dl">${e.d}</div></div>
+    <div class="etc-sub">${e.s}</div>
+    <div class="etc-why">${e.w}</div>
+    ${e.u ? `<a href="${e.u}" target="_blank" rel="noopener">공고 보기 ↗</a>` : ""}
+  </div>`).join("");
+
+document.querySelectorAll(".tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    tab = btn.dataset.tab;
+    document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected", String(b === btn)));
+    render();
+    window.scrollTo({top: document.querySelector(".controls").offsetTop - 4, behavior:"smooth"});
+  });
+});
+
+list.addEventListener("click", e => {
+  const b = e.target.closest(".st");
+  if(!b) return;
+  const id = b.dataset.id, v = b.dataset.v;
+  store[id] = (store[id] === v) ? "" : v;
+  if(!store[id]) delete store[id];
+  saveStatus();
+  render();
+});
+
+q.addEventListener("input", render);
+q.addEventListener("search", render);
+qClear.addEventListener("click", () => { q.value = ""; q.focus(); render(); });
+
+/* 테마 */
+const root = document.documentElement;
+const themeBtn = document.getElementById("themeBtn");
+function setTheme(t){
+  root.setAttribute("data-theme", t);
+  themeBtn.textContent = t === "dark" ? "☀" : "◐";
+  themeBtn.setAttribute("aria-label", t === "dark" ? "라이트 모드 전환" : "다크 모드 전환");
+  document.querySelector('meta[name="theme-color"]').setAttribute("content", t === "dark" ? "#0f1115" : "#f5f6f8");
+  try{ localStorage.setItem("job-board-theme", t); }catch(e){}
+}
+let savedTheme = "light";
+try{ savedTheme = localStorage.getItem("job-board-theme") || "light"; }catch(e){}
+setTheme(savedTheme);
+themeBtn.addEventListener("click", () => setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark"));
+
+render();
+</script>
+</body>
+</html>

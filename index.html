@@ -174,6 +174,65 @@
   .info li{margin:3px 0}
   footer{margin-top:16px;text-align:center;font-size:11px;color:var(--sub);line-height:1.7}
   .hidden{display:none !important}
+
+  /* ── 상위 탭 (부수익 현황) ── */
+  nav.boards{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 0 12px;padding-bottom:2px}
+  nav.boards::-webkit-scrollbar{display:none}
+  nav.boards a{flex:0 0 auto;font-size:11.5px;font-weight:700;text-decoration:none;color:var(--sub2);
+    background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 11px;letter-spacing:-.2px}
+  nav.boards a.here{background:var(--pill);color:var(--pill-text);border-color:var(--pill)}
+  .mtabs{display:flex;gap:4px;background:var(--chip-bg);border:1px solid var(--line);border-radius:13px;padding:4px;margin:0 0 6px}
+  .mtabs button{flex:1;border:0;background:transparent;color:var(--sub2);font-size:12px;font-weight:800;letter-spacing:-.3px;
+    padding:9px 2px;border-radius:10px;font-family:inherit;cursor:pointer;white-space:nowrap}
+  .mtabs button[aria-selected="true"]{background:var(--card);color:var(--text);box-shadow:var(--shadow)}
+
+  /* ── 짠테크·리뷰 ── */
+  .mcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;box-shadow:var(--shadow)}
+  .mcard + .mcard{margin-top:9px}
+  .mc-h{display:flex;align-items:baseline;gap:8px}
+  .mc-name{font-size:13.5px;font-weight:800;letter-spacing:-.3px}
+  .mc-val{margin-left:auto;font-size:15px;font-weight:800;letter-spacing:-.4px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .mc-val small{font-size:11px;font-weight:700;margin-left:1px;color:var(--sub)}
+  .mc-b{font-size:11.5px;color:var(--sub2);margin-top:5px;letter-spacing:-.15px;line-height:1.5}
+  .mc-b b{color:var(--text)}
+  .mc-b .g{color:var(--green);font-weight:700}
+  .mc-b .o{color:var(--orange);font-weight:700}
+  .mc-b .r{color:var(--red);font-weight:700}
+
+  /* ── 공모주 ── */
+  .stock{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;box-shadow:var(--shadow)}
+  .stock + .stock{margin-top:9px}
+  .st-h{display:flex;align-items:baseline;gap:8px}
+  .st-name{font-size:14.5px;font-weight:800;letter-spacing:-.35px}
+  .st-when{margin-left:auto;font-size:11.5px;font-weight:800;color:var(--sub2);white-space:nowrap;letter-spacing:-.2px}
+  .st-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px 10px;margin-top:9px;padding-top:9px;border-top:1px solid var(--line)}
+  .st-k{font-size:10px;color:var(--sub);font-weight:700;letter-spacing:-.1px}
+  .st-v2{font-size:12.5px;font-weight:700;letter-spacing:-.2px;margin-top:1px}
+  .st-judge{font-size:11.5px;color:var(--sub2);margin-top:9px;letter-spacing:-.15px;line-height:1.45}
+  .st-judge b{color:var(--text)}
+  .req{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;font-weight:800;border-radius:6px;padding:3px 6px;
+    background:#fff5e0;border:1px solid #ffe2ad;color:#8a5a00;margin-top:9px;letter-spacing:-.1px}
+  [data-theme="dark"] .req{background:#3a2c12;border-color:#5a4419;color:#ffd08a}
+  .chk{display:flex;align-items:center;gap:9px;margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);
+    cursor:pointer;font-size:11.5px;font-weight:700;color:var(--sub2);letter-spacing:-.2px}
+  .chk input{position:absolute;opacity:0;width:0;height:0}
+  .chk .box{flex:0 0 20px;width:20px;height:20px;border-radius:7px;border:1.5px solid var(--line);background:var(--bg);
+    display:grid;place-items:center;font-size:11.5px;color:transparent;font-weight:900;transition:.15s}
+  .chk[data-on="1"] .box{background:var(--green);border-color:var(--green);color:#fff}
+  .chk[data-on="1"] .chk-t{color:var(--sub);text-decoration:line-through}
+  .chk + .chk{border-top:0;padding-top:0;margin-top:8px}
+
+  /* ── 부업 파이프라인 ── */
+  .pipe{display:flex;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 13px;box-shadow:var(--shadow)}
+  .pipe + .pipe{margin-top:9px}
+  .pn{flex:0 0 22px;height:22px;border-radius:7px;background:var(--chip-bg);color:var(--sub2);font-size:11.5px;
+    font-weight:800;display:grid;place-items:center;margin-top:1px}
+  .pt{font-size:13.5px;font-weight:800;letter-spacing:-.3px}
+  .pd{font-size:11.5px;color:var(--sub);margin-top:3px;line-height:1.45;letter-spacing:-.15px}
+  .pill{display:inline-block;font-size:10px;font-weight:800;border-radius:5px;padding:2px 5px;margin-left:5px;
+    vertical-align:middle;background:var(--chip-bg);border:1px solid var(--line);color:var(--sub2);letter-spacing:-.1px}
+  .pill.wait{background:#eef4ff;border-color:#c9dcff;color:#2554b8}
+  [data-theme="dark"] .pill.wait{background:#1b2a45;border-color:#2b4470;color:#a8c6ff}
 </style>
 </head>
 <body>
@@ -181,11 +240,25 @@
 
   <header class="top">
     <div>
-      <h1>응모 현황판</h1>
-      <div class="basis">기준일 2026-11-22 (일) 23:13 KST · 전체 합산 (콩떡·인절미·찰떡)</div>
+      <h1>부수익 현황</h1>
+      <div class="basis">기준일 2026-11-22 (일) 23:13 KST · 응모·리뷰·공모주 합산</div>
     </div>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="다크 모드 전환">◐</button>
   </header>
+
+  <nav class="boards" aria-label="다른 보드">
+    <a href="index.html" class="here">부수익 현황</a>
+    <a href="jobs.html">이직</a>
+    <a href="meals.html">식단·장보기</a>
+  </nav>
+
+  <div class="mtabs" role="tablist" aria-label="부수익 보기">
+    <button type="button" data-v="contest" aria-selected="true">체험단 응모</button>
+    <button type="button" data-v="money" aria-selected="false">짠테크·리뷰</button>
+    <button type="button" data-v="stock" aria-selected="false">공모주·부업</button>
+  </div>
+
+  <div id="viewContest">
 
   <!-- 상단 전체 합산 (한 세트) -->
   <div class="sec-label">전체 합산 <span class="sub">· 콩떡 · 인절미 · 찰떡</span></div>
@@ -326,6 +399,176 @@
       <li>출처: 콩떡이 11/22 22:54 13개 채널 마이페이지 실측 · notes.md / 인절미 노션 〈인절미 작업 보고〉(최신 11/21 18:06) / 찰떡 기록.</li>
     </ul>
   </div>
+
+  </div><!-- /viewContest -->
+
+  <!-- ══ 짠테크·리뷰 ══ -->
+  <div id="viewMoney" class="hidden">
+
+    <div class="sec-label">누적 혜택·수익 <span class="sub">· 2026-11-22 기준</span></div>
+    <section class="grid">
+      <div class="card result">
+        <div class="k">체험단 당첨 가치</div>
+        <div class="v c-green">33,900<small>원</small></div>
+        <div class="s">오르골 무드등 <b>1건</b> · 정가 50,000원 대비 32%</div>
+      </div>
+      <div class="card result">
+        <div class="k">쿠팡 리뷰</div>
+        <div class="v c-blue">11,630<small>점</small></div>
+        <div class="s">오늘 <b>+452</b> · 미작성 <b>0건</b></div>
+      </div>
+      <div class="card result">
+        <div class="k">올리브영 CJ ONE</div>
+        <div class="v c-orange">1,331<small>P</small></div>
+        <div class="s">최근 <b>+900P</b> · 일리윤 100P 11/23경</div>
+      </div>
+      <div class="card result">
+        <div class="k">네이버페이 (11월)</div>
+        <div class="v c-purple">30,260<small>원</small></div>
+        <div class="s">매일 출석 + 소액 클릭 누적</div>
+      </div>
+    </section>
+    <div class="sum-note">※ 당첨 가치는 같은 상품의 현재 판매가 기준이라 <b>현금 수익이 아니라 절약액</b>이다. 리뷰 포인트는 적립처별로 따로 쌓인다(쿠팡 점수·올리브영 CJ ONE·네이버페이).</div>
+
+    <div class="sec-label">리뷰 포인트 현황</div>
+    <div class="mcard">
+      <div class="mc-h"><div class="mc-name">쿠팡</div><div class="mc-val">11,630<small>점</small></div></div>
+      <div class="mc-b">11/22 온포 탄산입욕제 1건 등록으로 <span class="g">+452점</span> · <b>미작성 0건</b>. 토요일 일괄 작성 루틴 유지 중이고, 앞으로도 포토는 품목당 1장·과한 정성 리뷰는 생필품에 쓰지 않는다.</div>
+    </div>
+    <div class="mcard">
+      <div class="mc-h"><div class="mc-name">올리브영 (CJ ONE)</div><div class="mc-val">1,331<small>P</small></div></div>
+      <div class="mc-b">최근 <span class="g">+900P</span> 적립 반영. 11/19 작성한 일리윤 일반리뷰 100P는 <b>11/23(월)경 추가 적립 예정</b>. 일반리뷰는 텍스트만으로 100P이고, 올리브 포인트는 0P다(리뷰 리워드는 CJ ONE로 들어옴).</div>
+    </div>
+    <div class="mcard">
+      <div class="mc-h"><div class="mc-name">네이버페이</div><div class="mc-val">30,260<small>원</small></div></div>
+      <div class="mc-b">매일 <b>08:35 출석체크</b> + 승인된 소액 클릭형 적립(생일 배너 포함)으로 11월 누적 30,260원. 럭키볼은 앱 전용이라 웹 대행에서 빼고 직접 응모.</div>
+    </div>
+    <div class="mcard">
+      <div class="mc-h"><div class="mc-name">다이소몰</div><div class="mc-val">606<small>P</small></div></div>
+      <div class="mc-b">누적 <b>59건</b> 작성분(마지막 11/17 14건). 상시 출석 이벤트가 없어 포인트는 리뷰로만 쌓인다.</div>
+    </div>
+    <div class="mcard">
+      <div class="mc-h"><div class="mc-name">체험단 후기</div><div class="mc-val">1<small>건</small></div></div>
+      <div class="mc-b">오르골 무드등 체험단 후기 등록 완료(사진 5장·255자·후기 마감 12/8). <span class="o">체험단 리뷰는 초안·첨부(영상 포함)를 먼저 확인받고 올리는 규칙</span> — 일반 구매 리뷰와 다르다.</div>
+    </div>
+
+    <div class="info">
+      <b>기준</b>
+      <ul>
+        <li>쿠팡 점수·미작성 건수는 11/22 리뷰 탭 실측, 올리브영 CJ ONE은 11/22 적립 내역 화면 기준.</li>
+        <li>체험단 당첨 가치 33,900원은 동일 상품 판매가(50,000원 → 32%) 11/22 09:25 기준이고 실제 지급가는 0원이다.</li>
+        <li>포인트는 앱·계정별로 따로 쌓여서 한 숫자로 합치지 않았다.</li>
+      </ul>
+    </div>
+  </div><!-- /viewMoney -->
+
+  <!-- ══ 공모주·부업 ══ -->
+  <div id="viewStock" class="hidden">
+
+    <div class="sec-label">공모주 청약 트래커 <span class="sub">· 11월 말~12월 초</span></div>
+    <section class="grid">
+      <div class="card">
+        <div class="k">철회·취소</div>
+        <div class="v c-red">2<small>건</small></div>
+        <div class="s">에스에프씨 · 아델 — 수요예측 부진</div>
+      </div>
+      <div class="card">
+        <div class="k">다음 주 후보</div>
+        <div class="v c-blue">3<small>건</small></div>
+        <div class="s">11/24~25 · 11/27~30</div>
+      </div>
+      <div class="card wide">
+        <div class="k">계좌 개설 선행</div>
+        <div class="v c-orange">3<small>곳</small></div>
+        <div class="s">주관사 IBK·신영·NH 모두 <b>보유 증권사 7곳(삼성·KB·미래에셋·신한·키움·토스·하나)에 없음</b> → 비대면 계좌 개설이 먼저</div>
+      </div>
+    </section>
+
+    <div class="mcard" style="margin-top:10px">
+      <div class="mc-h"><div class="mc-name" style="color:var(--red)">철회·취소 2건</div><div class="mc-val" style="color:var(--red)">청약 불가</div></div>
+      <div class="mc-b">
+        <b>에스에프씨</b> — 11/17 수요예측 부진으로 <b>공모 철회신고서</b> 제출 → 11/18~19 청약 취소. 확정 공모가·증거금은 산출 전 철회라 <span class="r">집계 사이트의 ‘확정가’는 쓰면 안 되는 값</span>.<br>
+        <b>아델</b> — 11/20 수요예측 부진으로 철회 → 11/23~24 청약 취소(삼성·미래에셋 주관 예정이었음).
+      </div>
+    </div>
+
+    <div class="sec-label">다음 주 후보 3건 <span class="sub">· 메리트 판단 포함</span></div>
+
+    <div class="stock">
+      <div class="st-h"><div class="st-name">케이엠에프</div><div class="st-when">11/24(화)~25(수)</div></div>
+      <div class="st-grid">
+        <div><div class="st-k">주관사</div><div class="st-v2">IBK 단독</div></div>
+        <div><div class="st-k">최소 증거금</div><div class="st-v2">75,000~89,000원</div></div>
+        <div><div class="st-k">확인 시점</div><div class="st-v2">11/23 공고</div></div>
+        <div><div class="st-k">판단</div><div class="st-v2">조건부</div></div>
+      </div>
+      <div class="st-judge"><b>조건부</b> — 11/23 공고에서 경쟁률 1.5만:1 이상·300:1 이상, 확약 3% 이상일 때만 검토.</div>
+      <div class="req">⚠ IBK 계좌 개설 선행</div>
+      <label class="chk" data-id="acct-ibk" data-on="0"><input type="checkbox" data-id="acct-ibk"><span class="box">✓</span><span class="chk-t">IBK 비대면 계좌 개설 완료</span></label>
+      <label class="chk" data-id="sub-kmf" data-on="0"><input type="checkbox" data-id="sub-kmf"><span class="box">✓</span><span class="chk-t">케이엠에프 청약 완료</span></label>
+    </div>
+
+    <div class="stock">
+      <div class="st-h"><div class="st-name">신영스팩12호</div><div class="st-when">11/24(화)~25(수)</div></div>
+      <div class="st-grid">
+        <div><div class="st-k">주관사</div><div class="st-v2">신영 단독</div></div>
+        <div><div class="st-k">최소 증거금</div><div class="st-v2">20,000원</div></div>
+        <div><div class="st-k">공모가</div><div class="st-v2">2,000원 예정</div></div>
+        <div><div class="st-k">판단</div><div class="st-v2">메리트 낮음</div></div>
+      </div>
+      <div class="st-judge"><b>메리트 없음에 가깝다</b> — 스팩 상장은 첫날 상승 폭이 제한적이고 공모가 2,000원대라 최소 청약으로도 수익이 작다. 11/23 확정 공모가 공고만 확인.</div>
+      <div class="req">⚠ 신영 계좌 개설 선행</div>
+      <label class="chk" data-id="acct-shinyoung" data-on="0"><input type="checkbox" data-id="acct-shinyoung"><span class="box">✓</span><span class="chk-t">신영 비대면 계좌 개설 완료</span></label>
+    </div>
+
+    <div class="stock">
+      <div class="st-h"><div class="st-name">에이엔에이치스트럭쳐</div><div class="st-when">11/27(금)~30(월)</div></div>
+      <div class="st-grid">
+        <div><div class="st-k">주관사</div><div class="st-v2">NH 단독</div></div>
+        <div><div class="st-k">최소 증거금</div><div class="st-v2">56,000~68,000원</div></div>
+        <div><div class="st-k">확인 시점</div><div class="st-v2">11/26 공고</div></div>
+        <div><div class="st-k">판단</div><div class="st-v2">후보 중 최상위</div></div>
+      </div>
+      <div class="st-judge"><b>후보 중 가장 낫다</b> — 방산 테마에 유통물량 29.49%로 구조가 좋은 편. 11/26 공고에서 12,500원 이상·500:1 이상이면 추천.</div>
+      <div class="req">⚠ NH 계좌 개설 선행</div>
+      <label class="chk" data-id="acct-nh" data-on="0"><input type="checkbox" data-id="acct-nh"><span class="box">✓</span><span class="chk-t">NH 비대면 계좌 개설 완료</span></label>
+      <label class="chk" data-id="sub-anh" data-on="0"><input type="checkbox" data-id="sub-anh"><span class="box">✓</span><span class="chk-t">에이엔에이치스트럭쳐 청약 완료</span></label>
+    </div>
+
+    <div class="info">
+      <b>공모주 원칙</b>
+      <ul>
+        <li>증권사 무관 전 종목을 빠짐없이 보고, <b>메리트가 없으면 없다고 명시</b>한다.</li>
+        <li>10~11월은 수요예측 부진으로 철회가 잇따라 시장이 보수적이다 — 알짜만 최소 증거금으로.</li>
+        <li>후보 일정·주관사·최소 증거금은 11/21 스캔 기준이고, 확정 공모가는 공고 당일 다시 확인한다.</li>
+      </ul>
+    </div>
+
+    <div class="sec-label">부업 파이프라인 <span class="sub">· 2건</span></div>
+    <div class="pipe">
+      <div class="pn">1</div>
+      <div>
+        <div class="pt">체험단 리뷰 블로그<span class="pill wait">12월 말 착수</span></div>
+        <div class="pd">키워드에 맞춘 <b>임시저장 초안</b>까지 자동으로 만들고 <b>발행은 직접</b> 누른다(AI가 발행까지 누르면 저품질·계정 위험). 사진은 직접 얹는 구조. 지금은 체험단 응모·후기 등록이 우선.</div>
+      </div>
+    </div>
+    <div class="pipe">
+      <div class="pn">2</div>
+      <div>
+        <div class="pt">생산관리 엑셀 템플릿 (크몽)<span class="pill wait">주제 선택 대기</span></div>
+        <div class="pd">시장조사 완료 — 크몽 22건 전수 확인 결과 수주생산·방산 특화와 Power Query 생산 템플릿은 <b>공급 0건</b>. 매크로 없이 Power Query·Excel 365 수식으로 만드는 게 요즘 사내 보안 추세에 맞다. 추천 3종: ① 수주생산 납기·진척 추적 ② Power Query 자재수불·BOM 자동 집계 ③ 생산 KPI 대시보드. 판매가대 <b>49,000~99,000원</b>(2~3만 원대보다 실무형+가이드가 잘 팔림).</div>
+      </div>
+    </div>
+
+    <div class="info">
+      <b>기준</b>
+      <ul>
+        <li>공모주 후보는 11/21 아침 스캔값이고, 철회 2건은 각 공시일 기준이다.</li>
+        <li>계좌 개설·청약 체크는 이 브라우저에만 저장된다(계좌번호·인증정보 없음).</li>
+        <li>부업 2건의 착수 시점은 공부 일정이 끝나는 12월 말이다.</li>
+      </ul>
+    </div>
+  </div><!-- /viewStock -->
 
   <footer>콩떡 · 인절미 · 찰떡 합산 · 29CM·오늘의집·W컨셉 제외<br>다음 갱신 11/23 08:00 브리핑</footer>
 </div>
@@ -481,6 +724,45 @@ setTheme(saved);
 themeBtn.addEventListener("click", () => {
   setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
 });
+
+/* ── 상위 탭: 체험단 / 짠테크·리뷰 / 공모주·부업 ───────────── */
+const MTAB_VIEWS = {contest:"viewContest", money:"viewMoney", stock:"viewStock"};
+const mtabBtns = document.querySelectorAll(".mtabs button");
+function showView(v){
+  mtabBtns.forEach(b => b.setAttribute("aria-selected", String(b.dataset.v === v)));
+  Object.keys(MTAB_VIEWS).forEach(k => {
+    const el = document.getElementById(MTAB_VIEWS[k]);
+    if(el) el.classList.toggle("hidden", k !== v);
+  });
+  try{ localStorage.setItem("bonus-board-view", v); }catch(e){}
+}
+mtabBtns.forEach(b => b.addEventListener("click", () => {
+  showView(b.dataset.v);
+  window.scrollTo({top:0, behavior:"smooth"});
+}));
+
+/* ── 공모주 계좌개설·청약 체크 저장 ──────────────────────── */
+const CHK_KEY = "bonus-board-stock-v1";
+let chkState = {};
+try{ chkState = JSON.parse(localStorage.getItem(CHK_KEY) || "{}") || {}; }catch(e){ chkState = {}; }
+function paintChk(){
+  document.querySelectorAll(".chk").forEach(el => {
+    const on = !!chkState[el.dataset.id];
+    el.dataset.on = on ? "1" : "0";
+    el.querySelector("input").checked = on;
+  });
+}
+document.addEventListener("change", e => {
+  const t = e.target;
+  if(!t.dataset || !t.dataset.id || !t.closest(".chk")) return;
+  if(t.checked) chkState[t.dataset.id] = 1; else delete chkState[t.dataset.id];
+  try{ localStorage.setItem(CHK_KEY, JSON.stringify(chkState)); }catch(err){}
+  paintChk();
+});
+paintChk();
+let savedView = "contest";
+try{ savedView = localStorage.getItem("bonus-board-view") || "contest"; }catch(e){}
+if(MTAB_VIEWS[savedView]) showView(savedView);
 
 render();
 </script>

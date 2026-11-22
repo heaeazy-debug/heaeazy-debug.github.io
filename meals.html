@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f6f8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>주간 식단·장보기 보드</title>
+<style>
+  :root{
+    --bg:#f4f5f7;--card:#ffffff;--line:#eceef2;--text:#1c1f26;--sub:#8a909c;--sub2:#5f6570;
+    --green:#12a150;--orange:#c2740b;--blue:#2563eb;--purple:#7c3aed;--red:#d32f2f;
+    --chip-bg:#f2f3f6;--shadow:0 1px 2px rgba(20,24,32,.04),0 6px 18px rgba(20,24,32,.045);
+    --pill:#1c1f26;--pill-text:#fff;
+  }
+  [data-theme="dark"]{
+    --bg:#0f1115;--card:#191c22;--line:#262a33;--text:#ecedf1;--sub:#8b919d;--sub2:#b3b8c2;
+    --green:#3ddc84;--orange:#f0a44a;--blue:#6ea8ff;--purple:#b79cff;--red:#ff6b6b;
+    --chip-bg:#22262e;--shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+    --pill:#ecedf1;--pill-text:#14171c;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;
+    font-size:15px;line-height:1.45;word-break:keep-all;-webkit-font-smoothing:antialiased;
+    transition:background .2s ease,color .2s ease;
+  }
+  .app{max-width:480px;margin:0 auto;padding:18px 16px calc(28px + env(safe-area-inset-bottom))}
+  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:2px 0 12px}
+  h1{font-size:22px;letter-spacing:-.5px;margin:0;font-weight:800}
+  .basis{font-size:11.5px;color:var(--sub);margin-top:4px;letter-spacing:-.1px}
+  .theme-btn{flex:0 0 auto;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);
+    color:var(--sub2);font-size:16px;display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow)}
+  nav.boards{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 0 14px;padding-bottom:2px}
+  nav.boards::-webkit-scrollbar{display:none}
+  nav.boards a{flex:0 0 auto;font-size:11.5px;font-weight:700;text-decoration:none;color:var(--sub2);
+    background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 11px;letter-spacing:-.2px}
+  nav.boards a.here{background:var(--pill);color:var(--pill-text);border-color:var(--pill)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+  .k{font-size:12.5px;color:var(--sub2);font-weight:600;letter-spacing:-.2px}
+  .v{font-size:25px;font-weight:800;letter-spacing:-.8px;line-height:1.15;margin-top:6px;font-variant-numeric:tabular-nums}
+  .v small{font-size:13px;font-weight:700;margin-left:1px}
+  .s{font-size:11.5px;color:var(--sub);margin-top:5px;letter-spacing:-.15px;line-height:1.4}
+  .wide{grid-column:1 / -1}
+  .c-green{color:var(--green)}.c-orange{color:var(--orange)}.c-blue{color:var(--blue)}.c-purple{color:var(--purple)}.c-red{color:var(--red)}
+  .sec-label{font-size:12px;font-weight:700;color:var(--sub);letter-spacing:.2px;margin:20px 2px 8px;display:flex;align-items:center;gap:6px}
+  .sec-label .sub{font-weight:500;color:var(--sub)}
+  .sec-label .cnt{margin-left:auto;font-weight:600;color:var(--sub)}
+
+  /* 주간 전환 */
+  .wk-tabs{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin:2px 0 10px;padding-bottom:2px}
+  .wk-tabs::-webkit-scrollbar{display:none}
+  .wk{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--sub2);border-radius:999px;
+    padding:8px 13px;font-size:12.5px;font-weight:700;letter-spacing:-.25px;cursor:pointer;font-family:inherit;white-space:nowrap}
+  .wk[aria-selected="true"]{background:var(--pill);color:var(--pill-text);border-color:var(--pill)}
+
+  /* 식단 카드 */
+  .week{display:flex;flex-direction:column;gap:8px}
+  .day{display:flex;gap:11px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 13px;box-shadow:var(--shadow)}
+  .day.next{border-color:#dbe7ff}
+  [data-theme="dark"] .day.next{border-color:#26385c}
+  .day-off{opacity:.62}
+  .day.eaten{border-color:#c6eedd}
+  [data-theme="dark"] .day.eaten{border-color:#1e4d41}
+  .dd{flex:0 0 46px;text-align:center}
+  .dd .dw{font-size:12px;font-weight:800;letter-spacing:-.3px;color:var(--sub2)}
+  .dd .dn{font-size:16px;font-weight:800;letter-spacing:-.5px;font-variant-numeric:tabular-nums;margin-top:1px}
+  .dd .dt{font-size:10px;font-weight:700;color:var(--sub);margin-top:1px;letter-spacing:-.2px}
+  .dc{min-width:0;flex:1}
+  .menu{font-size:14px;font-weight:800;letter-spacing:-.35px;line-height:1.35;padding-right:2px}
+  .menu-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+  .t{font-size:10.5px;font-weight:700;letter-spacing:-.15px;border-radius:6px;padding:2.5px 6px;background:var(--chip-bg);
+    border:1px solid var(--line);color:var(--sub2)}
+  .t.warn{color:#8a5a00;background:#fff5e0;border-color:#ffe2ad}
+  [data-theme="dark"] .t.warn{color:#ffd08a;background:#3a2c12;border-color:#5a4419}
+  .t.wait{color:#2554b8;background:#eef4ff;border-color:#c9dcff}
+  [data-theme="dark"] .t.wait{color:#a8c6ff;background:#1b2a45;border-color:#2b4470}
+  .t.ok{color:#12805a;background:#e8f8f1;border-color:#c6eedd}
+  [data-theme="dark"] .t.ok{color:#9ff0cd;background:#12302a;border-color:#1e4d41}
+  .dnote{font-size:11.5px;color:var(--sub);margin-top:5px;letter-spacing:-.15px;line-height:1.4}
+  .dnote b{color:var(--sub2)}
+  .eat{display:flex;align-items:center;gap:8px;margin-top:9px;padding-top:8px;border-top:1px dashed var(--line);flex-wrap:wrap}
+  .eat-btn{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--bg);color:var(--sub2);
+    border-radius:8px;padding:6px 9px;font-size:11.5px;font-weight:800;letter-spacing:-.2px;cursor:pointer;font-family:inherit}
+  .eat-btn[data-on="1"]{background:var(--green);border-color:var(--green);color:#fff}
+  .memo{flex:1;min-width:120px;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:8px;
+    padding:6px 9px;font-size:12px;font-family:inherit;outline:none;letter-spacing:-.2px}
+  .memo:focus{border-color:var(--blue)}
+  .memo::placeholder{color:var(--sub)}
+
+  /* 분석 */
+  .an{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;box-shadow:var(--shadow)}
+  .an + .an{margin-top:9px}
+  .an h3{font-size:13.5px;margin:0 0 7px;letter-spacing:-.35px;display:flex;align-items:center;gap:6px}
+  .an h3 .lb{font-size:10.5px;font-weight:800;border-radius:6px;padding:2px 6px;background:var(--chip-bg);color:var(--sub2);border:1px solid var(--line)}
+  .an ul{margin:0;padding-left:16px;font-size:12.5px;color:var(--sub2);letter-spacing:-.2px;line-height:1.55}
+  .an li{margin:3px 0}
+  .an li b{color:var(--text)}
+  .an .good{color:var(--green);font-weight:700}
+  .an .care{color:var(--red);font-weight:700}
+  .an-foot{font-size:11px;color:var(--sub);margin-top:8px;padding-top:7px;border-top:1px dashed var(--line);letter-spacing:-.15px;line-height:1.45}
+
+  /* 건강 팁 */
+  .tip{padding:13px 14px}
+  .tip b{font-size:13.5px;letter-spacing:-.3px;display:block;margin-bottom:5px}
+  .tip ul{margin:0;padding-left:16px;font-size:12.5px;color:var(--sub2);letter-spacing:-.2px;line-height:1.55}
+  .tip li{margin:2px 0}
+  .tip li b{display:inline;font-size:12.5px;color:var(--text);margin:0}
+
+  /* 장보기 */
+  .bar{height:7px;border-radius:999px;background:var(--chip-bg);overflow:hidden;margin-top:9px}
+  .bar > i{display:block;height:100%;width:0;background:var(--green);border-radius:999px;transition:width .25s ease}
+  .shop-group{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+  .shop-group + .shop-group{margin-top:9px}
+  .sg-head{display:flex;align-items:baseline;gap:8px;padding:12px 13px 9px}
+  .sg-meal{font-size:12.5px;font-weight:800;letter-spacing:-.25px}
+  .sg-sum{margin-left:auto;font-size:11.5px;font-weight:700;color:var(--sub);font-variant-numeric:tabular-nums}
+  .item{display:flex;align-items:center;gap:10px;padding:10px 13px;border-top:1px solid var(--line);cursor:pointer}
+  .item input{position:absolute;opacity:0;width:0;height:0}
+  .box{flex:0 0 21px;width:21px;height:21px;border-radius:7px;border:1.5px solid var(--line);background:var(--bg);
+    display:grid;place-items:center;font-size:12px;color:transparent;font-weight:900;transition:.15s}
+  .item[data-on="1"] .box, .adj[data-on="1"] .box{background:var(--green);border-color:var(--green);color:#fff}
+  .item[data-on="1"] .iname{color:var(--sub);text-decoration:line-through}
+  .iname{font-size:13.5px;letter-spacing:-.25px;font-weight:600}
+  .iqty{font-size:11px;color:var(--sub);margin-left:auto;font-weight:600;white-space:nowrap}
+  .item.extra{border-top:1px dashed var(--line)}
+  .shop-total{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:13px 14px;margin-top:9px;box-shadow:var(--shadow)}
+  .shop-total .st-l{font-size:12px;color:var(--sub2);font-weight:700;letter-spacing:-.2px}
+  .shop-total .st-v{margin-left:auto;font-size:19px;font-weight:800;letter-spacing:-.6px;font-variant-numeric:tabular-nums}
+  .shop-total small{display:block;font-size:10.5px;color:var(--sub);font-weight:600;letter-spacing:-.1px}
+
+  /* 조정 필요 */
+  .adjust{display:flex;flex-direction:column;gap:8px}
+  .adj{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:12px 13px;box-shadow:var(--shadow);cursor:pointer}
+  .adj input{position:absolute;opacity:0;width:0;height:0}
+  .adj[data-on="1"]{opacity:.6}
+  .adj[data-on="1"] .adj-t{text-decoration:line-through}
+  .adj-t{font-size:13.5px;font-weight:800;letter-spacing:-.3px}
+  .adj-d{font-size:11.5px;color:var(--sub);margin-top:3px;letter-spacing:-.15px;line-height:1.45}
+
+  .info{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;
+    font-size:11.5px;color:var(--sub);letter-spacing:-.15px;line-height:1.55}
+  .info b{color:var(--sub2);display:block;margin-bottom:4px;font-size:12px}
+  .info ul{margin:0;padding-left:15px}
+  .info li{margin:2px 0}
+  footer{text-align:center;font-size:11px;color:var(--sub);margin-top:20px;line-height:1.6;letter-spacing:-.1px}
+  .reset{border:1px solid var(--line);background:var(--card);color:var(--sub2);border-radius:9px;padding:7px 10px;
+    font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;letter-spacing:-.2px}
+  .hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div>
+      <h1>주간 식단·장보기</h1>
+      <div class="basis">이번 주 11/23(월)~29(일) · 지난주 11/16~22 기록 · 캘린더 최종본 기준</div>
+    </div>
+    <button class="theme-btn" id="themeBtn" aria-label="다크 모드 전환">◐</button>
+  </header>
+
+  <nav class="boards" aria-label="다른 보드">
+    <a href="jobs.html">이직</a>
+    <a href="meals.html" class="here">식단·장보기</a>
+    <a href="index.html">부수익 현황</a>
+  </nav>
+
+  <section class="grid" aria-label="이번 주 요약">
+    <div class="card">
+      <div class="k">확정 식단</div>
+      <div class="v c-green">6<small>끼</small></div>
+      <div class="s">토요일은 비움(주말 일정)</div>
+    </div>
+    <div class="card">
+      <div class="k">장바구니</div>
+      <div class="v c-blue">87,650<small>원</small></div>
+      <div class="s">15종 · 무료배송 · 할인 −2,950</div>
+    </div>
+    <div class="card">
+      <div class="k">이번 주 먹은 끼</div>
+      <div class="v c-purple" id="vEatCur">0<small>/6</small></div>
+      <div class="s">체크하면 자동 저장</div>
+    </div>
+    <div class="card">
+      <div class="k">장보기 체크</div>
+      <div class="v" id="vShop">0<small>/15</small></div>
+      <div class="s">담은 품목 눌러 체크</div>
+    </div>
+    <div class="card wide">
+      <div class="k">진행률</div>
+      <div class="bar"><i id="progBar"></i></div>
+      <div class="s">장보기 <b id="progTxt">0/15</b> · 이번 주 식사 기록 <b id="eatTxt">0/6</b></div>
+    </div>
+  </section>
+
+  <div class="sec-label">식단표 <span class="sub">· 이번 주 / 지난주 기록</span></div>
+  <div class="wk-tabs" role="tablist">
+    <button class="wk" data-w="cur" aria-selected="true">이번 주 11/23~29</button>
+    <button class="wk" data-w="prev" aria-selected="false">지난주 11/16~22</button>
+  </div>
+  <div class="week" id="week"></div>
+  <div class="s" style="margin:8px 4px 0">각 끼니의 <b>먹음</b> 버튼과 <b>한 줄 메모</b>는 이 브라우저에만 저장돼요(서버 전송 없음).</div>
+
+  <div class="sec-label">식단 분석 <span class="sub">· 회사·집 통합</span></div>
+  <div class="an">
+    <h3>지난주(11/16~22) <span class="lb">통합 분석</span></h3>
+    <ul>
+      <li>수·금 저녁은 <span class="good">균형 양호</span> — 단백질 + 채소 구성이 안정적.</li>
+      <li>화·목 <span class="care">점심 주의</span> — 정제탄수·당류·나트륨이 한 끼에 몰림(밥·면·튀김 중심).</li>
+      <li>주말은 대게·가리비·해장국으로 <b>단백질은 충분</b>, 대신 국물·양념 나트륨이 높은 편.</li>
+      <li>기념일 저녁(파스타·스테이크)은 <b>탄수+지방이 겹친 날</b> — 다음 날은 채소·단백질로 상쇄.</li>
+    </ul>
+    <div class="an-foot">기준: 11/16 회사 주간 식단표 캡처 + 집 식단(기기 캘린더) 통합 판독.</div>
+  </div>
+  <div class="an">
+    <h3>이번 주(11/23~29) <span class="lb">건강 우선 재편</span></h3>
+    <ul>
+      <li><b>저지방 고단백 + 채소</b> 중심으로 다시 짬 — 훈제오리·양념육은 이번 주에서 제외.</li>
+      <li>점심 일반식 먹는 날은 <b>샐러드·채소 선섭취</b>, 저녁은 <b>탄수 최소화</b>로 하루 총량을 맞춤.</li>
+      <li>조리법은 굽기·찜·샤브 위주, <span class="care">양념·소스는 최소</span>로.</li>
+      <li>음주하는 날은 <b>물 한 잔씩 병행</b> — 다음 날 붓기·야식 방지.</li>
+      <li>주말(토)은 일정 때문에 비우고, 일요일은 치킨으로 간단히 마무리.</li>
+    </ul>
+    <div class="an-foot">매주 월요일 11:20 회사 주간 식단표를 캡처해 이 분석이 자동 갱신된다(첫 회차 11/23).</div>
+  </div>
+
+  <div class="sec-label">건강 팁 <span class="sub">· 이번 주 한 줄</span></div>
+  <div class="card tip">
+    <b>점심은 채소 먼저, 저녁은 탄수 줄이기</b>
+    <ul>
+      <li>일반식 점심을 먹는 날은 <b>샐러드·나물을 먼저</b> 먹고 밥은 반 공기로.</li>
+      <li>저녁은 고기·생선 + 채소 중심, 밥·면은 <b>반찬처럼 소량</b>만.</li>
+      <li>양념육·튀김은 주 1회 이내, 손으로 찢는 채소를 곁들이면 포만감이 오래간다.</li>
+      <li>술 마시는 날은 <b>물 한 잔씩 병행</b> — 다음 날 붓기·폭식 방지.</li>
+    </ul>
+  </div>
+
+  <div class="sec-label">
+    이번 주 장보기 체크리스트
+    <button class="reset" id="resetBtn" type="button" style="margin-left:auto">전체 해제</button>
+  </div>
+  <div id="shop"></div>
+  <div class="shop-total">
+    <div>
+      <div class="st-l">결제 예정 (15종)</div>
+      <small>총 상품가 90,600원 · 즉시할인 −1,310 · 쿠폰 −1,640</small>
+    </div>
+    <div class="st-v c-blue">87,650<small style="display:inline;font-size:12px;font-weight:700">원</small></div>
+  </div>
+
+  <div class="sec-label">식단 변경으로 조정할 것 <span class="sub">· 3건</span></div>
+  <div class="adjust" id="adjust"></div>
+
+  <div class="info">
+    <b>메모</b>
+    <ul>
+      <li>월요일이 <b>소고기 미역국 + 수육 + 쌈채소</b>로 바뀌어 미역국 재료(미역·국거리 소고기)가 새로 필요하고, 금요일은 닭안심 대신 <b>원팬 에그인헬</b>이라 닭안심·구운 채소 재료가 빠진다.</li>
+      <li>바지락은 냉장 2~3일이 한계라 <b>11/25(수) 별도 주문</b>이 안전하다(목요일 저녁 사용).</li>
+      <li>로켓프레시 생물은 <b>15:00 결제 마감</b>을 넘기면 다음 날 새벽 도착으로 밀린다.</li>
+      <li>금요일 원팬 에그인헬 <b>12:00 → 18:00 이동 여부</b>는 아직 확인 전이다.</li>
+      <li>지난주 기록은 11/17부터다(11/16은 기록 없음). 결제는 직접 하는 원칙이라 이 보드는 체크·메모만 기억한다(카드·계정 정보 없음).</li>
+    </ul>
+  </div>
+
+  <footer>기기 캘린더 11/22 17:10 조회 + 쿠팡 장바구니 11/21 담기 기준<br>개인정보 표기 0건 · 검색 비공개 페이지</footer>
+</div>
+
+<script>
+/* ── 이번 주 식단 (기기 캘린더 최종본) ─────────────────────── */
+const WEEK_CUR = [
+  {key:"2026-11-23", dw:"월", dn:"11/23", time:"18:00", menu:"소고기 미역국 + 수육 + 쌈채소", tags:["한식","단백질"], warn:["미역국 재료 추가 필요"], next:true,
+   note:"수육용 <b>한돈 목심·모둠쌈</b>은 장바구니에 있고, 미역국 재료는 새로 담아야 해요."},
+  {key:"2026-11-24", dw:"화", dn:"11/24", time:"18:00", menu:"연어구이 + 샐러드", tags:["생선","저탄수"], warn:[],
+   note:"<b>노르웨이 생연어 200g · 유러피안 샐러드</b> — 생연어는 재고가 적어 빨리 결제하는 편이 안전."},
+  {key:"2026-11-25", dw:"수", dn:"11/25", time:"18:00", menu:"소고기 샤브샤브", tags:["한식","국물"], warn:["바지락 오늘 주문"],
+   note:"<b>한우 1+ 300g · 모둠채소 · 버섯 · 육수</b> 준비 완료. 목요일용 바지락을 이날 주문."},
+  {key:"2026-11-26", dw:"목", dn:"11/26", time:"18:00", menu:"바지락술찜", tags:["해물"], warn:["11/25 주문"],
+   note:"바지락 냉장 2~3일 한계라 <b>수요일 주문 → 목요일 사용</b>이 원칙."},
+  {key:"2026-11-27", dw:"금", dn:"11/27", time:"12:00", menu:"원팬 에그인헬", tags:["양식","브런치"], wait:["점심/저녁 이동 확인 대기"],
+   note:"<b>디벨라 홀토마토 · 유정란 15구 · 모짜렐라</b>. 12:00으로 잡혀 있어 18:00 이동 여부 확인 필요."},
+  {key:"2026-11-28", dw:"토", dn:"11/28", time:"—", menu:"비움 (주말 일정)", off:true, tags:["식단 없음"], warn:[],
+   note:"이번 주말은 외출이라 토요일 식단을 비웠어요."},
+  {key:"2026-11-29", dw:"일", dn:"11/29", time:"18:00", menu:"치킨", tags:["주말","간단"], warn:[],
+   note:"주말 마무리는 간단하게 — 양념보다 후라이드·오븐구이 쪽."}
+];
+
+/* ── 지난주 기록 (11/16~22) ───────────────────────────────── */
+const WEEK_PREV = [
+  {key:"2026-11-16", dw:"월", dn:"11/16", time:"—", menu:"기록 없음", off:true, tags:["기록 없음"], warn:[],
+   note:"이번 기록은 11/17부터 남아 있어요."},
+  {key:"2026-11-17", dw:"화", dn:"11/17", time:"18:00", menu:"간장계란밥 + 회식", tags:["간단식","외식"], warn:[],
+   note:"집밥은 간단히, 저녁은 회식으로 대체. 다음 날 나트륨·음주 부담이 남는 구성."},
+  {key:"2026-11-18", dw:"수", dn:"11/18", time:"18:00", menu:"라구파스타 + 스테이크 (기념일)", tags:["양식","기념일"], warn:[],
+   note:"파스타(탄수) + 스테이크(지방) 겹침 — 다음 날 채소·단백질로 상쇄."},
+  {key:"2026-11-19", dw:"목", dn:"11/19", time:"18:00", menu:"냉털 에그인헬", tags:["양식","냉털"], warn:[],
+   note:"남은 재료 정리용. 토마토·달걀·치즈 조합으로 단백질은 충분."},
+  {key:"2026-11-20", dw:"금", dn:"11/20", time:"18:00", menu:"방어회", tags:["생선","저탄수"], warn:[],
+   note:"제철 생선으로 저녁 균형 양호 — 탄수 적고 단백질 위주."},
+  {key:"2026-11-21", dw:"토", dn:"11/21", time:"점심·저녁", menu:"해장국(감자탕) · 대게 + 가리비구이", tags:["외식","해산물"], warn:[],
+   note:"주말 단백질 충분, 국물·양념 나트륨은 높은 편."},
+  {key:"2026-11-22", dw:"일", dn:"11/22", time:"18:00", menu:"순두부찌개", tags:["한식","국물"], warn:[],
+   note:"주말 마무리 국물 요리 — 다음 주는 저지방 고단백으로 재편."}
+];
+
+/* ── 장보기 15종 ─────────────────────────────────────────── */
+const SHOP = [
+  {meal:"월 · 수 수육·샤브", sum:"25,170원", items:[
+    {id:"beef", n:"한우 1+ 등심/목심 300g", q:"1팩"},
+    {id:"veg",  n:"모둠채소 550g", q:"1팩"},
+    {id:"mush", n:"버섯 200g", q:"1팩"},
+    {id:"soup", n:"샘표 육수", q:"1개"}
+  ]},
+  {meal:"화 · 연어구이", sum:"16,380원", items:[
+    {id:"salmon", n:"노르웨이 생연어 200g", q:"1팩"},
+    {id:"salad",  n:"유러피안 샐러드 300g", q:"1팩"}
+  ]},
+  {meal:"월 · 수육", sum:"17,270원", items:[
+    {id:"pork",  n:"한돈 목심 500g", q:"1팩"},
+    {id:"ssam",  n:"모둠쌈 450g", q:"1팩"}
+  ]},
+  {meal:"금 · 원팬 에그인헬", sum:"15,540원", items:[
+    {id:"tomato", n:"디벨라 홀토마토", q:"1개"},
+    {id:"egg",    n:"동물복지 유정란 15구", q:"1판"},
+    {id:"cheese", n:"상하 모짜렐라", q:"1개"}
+  ]},
+  {meal:"제외 후보 · 금 닭안심", sum:"9,620원", extra:true, items:[
+    {id:"chicken", n:"무항생제 닭안심 350g", q:"1팩"},
+    {id:"mush2",   n:"새송이버섯 400g", q:"1팩"},
+    {id:"zuc",     n:"애호박", q:"1개"}
+  ]},
+  {meal:"양념 · 와사비", sum:"3,980원", items:[
+    {id:"wasabi", n:"타마루야 시즈오카 본와사비 42g", q:"1개"}
+  ]}
+];
+
+const ADJUST = [
+  {id:"a1", t:"닭안심·구운 채소 재료 빼기", d:"금요일이 원팬 에그인헬로 바뀌어 무항생제 닭안심 350g·새송이 400g·애호박은 이번 주 식단에 안 쓰여요. (새송이·애호박은 샤브샤브·수육에 돌려 쓸 수 있음)"},
+  {id:"a2", t:"소고기 미역국 재료 담기", d:"미역·국거리 소고기(또는 사태) — 월요일 메뉴가 미역국으로 바뀌어 추가 필요."},
+  {id:"a3", t:"바지락 11/25(수) 별도 주문", d:"냉장 2~3일 한계라 목요일 저녁에 맞춰 수요일 주문. 로켓프레시 15:00 마감 주의."}
+];
+
+/* ── 저장소 ───────────────────────────────────────────────── */
+const LOG_KEY = "meal-board-log-v2";     // { date: {eaten:1, memo:"..."} }
+const SHOP_KEY = "meal-board-check-v2";  // { itemId: 1 }
+let log = {}, shopState = {};
+try{ log = JSON.parse(localStorage.getItem(LOG_KEY) || "{}") || {}; }catch(e){ log = {}; }
+try{ shopState = JSON.parse(localStorage.getItem(SHOP_KEY) || "{}") || {}; }catch(e){ shopState = {}; }
+const saveLog = () => { try{ localStorage.setItem(LOG_KEY, JSON.stringify(log)); }catch(e){} };
+const saveShop = () => { try{ localStorage.setItem(SHOP_KEY, JSON.stringify(shopState)); }catch(e){} };
+
+/* ── 식단 렌더 ────────────────────────────────────────────── */
+let view = "cur";
+const weekEl = document.getElementById("week");
+
+function dayHTML(d){
+  const rec = log[d.key] || {};
+  const eaten = !!rec.eaten;
+  const memo = (rec.memo || "").replace(/"/g, "&quot;");
+  return `
+  <div class="day ${d.off ? "day-off" : ""} ${d.next ? "next" : ""} ${eaten ? "eaten" : ""}" data-key="${d.key}">
+    <div class="dd"><div class="dw">${d.dw}</div><div class="dn">${d.dn}</div><div class="dt">${d.time}</div></div>
+    <div class="dc">
+      <div class="menu">${d.menu}</div>
+      <div class="menu-tags">
+        ${d.tags.map(t => `<span class="t">${t}</span>`).join("")}
+        ${(d.warn||[]).map(t => `<span class="t warn">${t}</span>`).join("")}
+        ${(d.wait||[]).map(t => `<span class="t wait">${t}</span>`).join("")}
+        ${eaten ? `<span class="t ok">먹음</span>` : ""}
+      </div>
+      <div class="dnote">${d.note}</div>
+      ${d.off && !memo && !eaten ? "" : `
+      <div class="eat">
+        <button class="eat-btn" type="button" data-eat="${d.key}" data-on="${eaten ? 1 : 0}" aria-pressed="${eaten}">${eaten ? "✓ 먹음" : "먹음 체크"}</button>
+        <input class="memo" type="text" data-memo="${d.key}" value="${memo}" maxlength="80" placeholder="한 줄 메모 (양·느낌·다음에)" aria-label="${d.dn} 메모">
+      </div>`}
+    </div>
+  </div>`;
+}
+
+function renderWeek(){
+  const rows = view === "cur" ? WEEK_CUR : WEEK_PREV;
+  weekEl.innerHTML = rows.map(dayHTML).join("");
+  paintStats();
+}
+
+/* ── 통계·진행률 ──────────────────────────────────────────── */
+function paintStats(){
+  const total = WEEK_CUR.filter(d => !d.off).length;
+  const eaten = WEEK_CUR.filter(d => !d.off && log[d.key] && log[d.key].eaten).length;
+  document.getElementById("vEatCur").innerHTML = eaten + "<small>/" + total + "</small>";
+  document.getElementById("eatTxt").textContent = eaten + "/" + total;
+
+  let done = 0, tot = 0;
+  document.querySelectorAll(".item").forEach(el => {
+    const on = !!shopState[el.dataset.id];
+    el.dataset.on = on ? "1" : "0";
+    el.querySelector("input").checked = on;
+    tot++; if(on) done++;
+  });
+  document.querySelectorAll(".adj").forEach(el => {
+    const on = !!shopState[el.dataset.id];
+    el.dataset.on = on ? "1" : "0";
+    el.querySelector("input").checked = on;
+  });
+  document.getElementById("vShop").innerHTML = done + "<small>/" + tot + "</small>";
+  document.getElementById("progTxt").textContent = done + "/" + tot;
+  document.getElementById("progBar").style.width = (tot ? done / tot * 100 : 0) + "%";
+}
+
+/* ── 마크업 생성 ──────────────────────────────────────────── */
+document.getElementById("shop").innerHTML = SHOP.map(g => `
+  <div class="shop-group">
+    <div class="sg-head"><div class="sg-meal">${g.meal}</div><div class="sg-sum">${g.sum}</div></div>
+    ${g.items.map(i => `
+      <label class="item ${g.extra ? "extra" : ""}" data-id="${i.id}" data-on="0">
+        <input type="checkbox" data-id="${i.id}">
+        <span class="box">✓</span>
+        <span class="iname">${i.n}</span>
+        <span class="iqty">${i.q}</span>
+      </label>`).join("")}
+  </div>`).join("");
+
+document.getElementById("adjust").innerHTML = ADJUST.map(a => `
+  <label class="adj" data-id="${a.id}" data-on="0">
+    <input type="checkbox" data-id="${a.id}">
+    <span class="box">✓</span>
+    <span><span class="adj-t" style="display:block">${a.t}</span><span class="adj-d" style="display:block">${a.d}</span></span>
+  </label>`).join("");
+
+/* ── 이벤트 ───────────────────────────────────────────────── */
+document.querySelectorAll(".wk").forEach(btn => {
+  btn.addEventListener("click", () => {
+    view = btn.dataset.w;
+    document.querySelectorAll(".wk").forEach(b => b.setAttribute("aria-selected", String(b === btn)));
+    renderWeek();
+  });
+});
+
+weekEl.addEventListener("click", e => {
+  const b = e.target.closest(".eat-btn");
+  if(!b) return;
+  const k = b.dataset.eat;
+  log[k] = log[k] || {};
+  if(log[k].eaten) delete log[k].eaten; else log[k].eaten = 1;
+  if(!log[k].eaten && !log[k].memo) delete log[k];
+  saveLog();
+  renderWeek();
+});
+
+weekEl.addEventListener("input", e => {
+  const m = e.target.closest("[data-memo]");
+  if(!m) return;
+  const k = m.dataset.memo;
+  log[k] = log[k] || {};
+  if(m.value.trim()) log[k].memo = m.value.slice(0, 80); else delete log[k].memo;
+  if(!log[k].memo && !log[k].eaten) delete log[k];
+  saveLog();
+}, {passive:true});
+
+document.addEventListener("change", e => {
+  const id = e.target.dataset && e.target.dataset.id;
+  if(!id || e.target.type !== "checkbox") return;
+  if(e.target.checked) shopState[id] = 1; else delete shopState[id];
+  saveShop();
+  paintStats();
+});
+
+document.getElementById("resetBtn").addEventListener("click", () => {
+  shopState = {};
+  saveShop();
+  paintStats();
+});
+
+/* 테마 */
+const root = document.documentElement;
+const themeBtn = document.getElementById("themeBtn");
+function setTheme(t){
+  root.setAttribute("data-theme", t);
+  themeBtn.textContent = t === "dark" ? "☀" : "◐";
+  themeBtn.setAttribute("aria-label", t === "dark" ? "라이트 모드 전환" : "다크 모드 전환");
+  document.querySelector('meta[name="theme-color"]').setAttribute("content", t === "dark" ? "#0f1115" : "#f5f6f8");
+  try{ localStorage.setItem("meal-board-theme", t); }catch(e){}
+}
+let savedTheme = "light";
+try{ savedTheme = localStorage.getItem("meal-board-theme") || "light"; }catch(e){}
+setTheme(savedTheme);
+themeBtn.addEventListener("click", () => setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark"));
+
+renderWeek();
+</script>
+</body>
+</html>
