@@ -51,7 +51,7 @@
     transition:background .2s ease,color .2s ease;
   }
   .app{max-width:480px;margin:0 auto;padding:18px 16px calc(28px + env(safe-area-inset-bottom))}
-  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:2px 0 16px}
+  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:2px 0 14px}
   h1{font-size:22px;letter-spacing:-.4px;margin:0;font-weight:800}
   .basis{font-size:11.5px;color:var(--sub);margin-top:4px;letter-spacing:-.1px}
   .theme-btn{
@@ -60,11 +60,14 @@
     cursor:pointer;box-shadow:var(--shadow)
   }
   .sec-label{font-size:12px;font-weight:700;color:var(--sub);letter-spacing:.2px;margin:20px 2px 8px;display:flex;align-items:center;gap:6px}
+  .sec-label .sub{font-weight:500;color:var(--sub)}
   .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .card{
     background:var(--card);border:1px solid var(--line);border-radius:16px;
     padding:14px 14px 13px;box-shadow:var(--shadow)
   }
+  .card.result{border-color:#dbe7ff}
+  [data-theme="dark"] .card.result{border-color:#26385c}
   .k{font-size:12.5px;color:var(--sub2);font-weight:600;letter-spacing:-.2px;display:flex;align-items:center;gap:5px}
   .v{font-size:25px;font-weight:800;letter-spacing:-.8px;line-height:1.15;margin-top:6px;font-variant-numeric:tabular-nums}
   .v small{font-size:14px;font-weight:700;letter-spacing:-.3px;margin-left:1px}
@@ -114,11 +117,12 @@
   [data-theme="dark"] .badge.b-jeol{color:#9ff0cd;background:#12302a;border-color:#1e4d41}
   .ch-stats{display:flex;gap:0;margin-top:11px;border-top:1px solid var(--line);padding-top:9px}
   .ch-stat{flex:1;min-width:0}
-  .ch-stat + .ch-stat{border-left:1px solid var(--line);padding-left:9px;margin-left:9px}
-  .ch-stat .sk{font-size:10px;color:var(--sub);font-weight:600;line-height:1.3}
-  .ch-stat .sv{font-size:15px;font-weight:800;letter-spacing:-.4px;margin-top:1px;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .ch-stat .sv em{font-style:normal;font-size:11px;font-weight:700;color:var(--sub);margin-left:2px}
-  .ch-foot{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;font-size:11.5px;color:var(--sub)}
+  .ch-stat + .ch-stat{border-left:1px solid var(--line);padding-left:7px;margin-left:7px}
+  .ch-stat .sk{font-size:9.5px;color:var(--sub);font-weight:600;line-height:1.3;letter-spacing:-.2px;white-space:nowrap}
+  .ch-stat .sv{font-size:14.5px;font-weight:800;letter-spacing:-.4px;margin-top:1px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .ch-stat .sv em{font-style:normal;font-size:10.5px;font-weight:700;color:var(--sub);margin-left:2px}
+  .ch-stat .sv.small{font-size:11.5px;letter-spacing:-.3px}
+  .ch-foot{display:flex;align-items:center;gap:7px;margin-top:10px;flex-wrap:wrap;font-size:11.5px;color:var(--sub)}
   .ch-foot .ann{display:inline-flex;align-items:center;gap:4px}
   .status{
     margin-left:auto;font-size:11px;font-weight:800;border-radius:999px;padding:4px 9px;letter-spacing:-.2px;
@@ -176,32 +180,53 @@
   <header class="top">
     <div>
       <h1>응모 현황판</h1>
-      <div class="basis">기준일 2026-11-22 (일) 22:40 KST</div>
+      <div class="basis">기준일 2026-11-22 (일) 22:54 KST · 콩떡 13개 채널 마이페이지 실측</div>
     </div>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="다크 모드 전환">◐</button>
   </header>
 
-  <!-- 요약 -->
-  <section class="grid" aria-label="요약">
+  <!-- 발표 결과 -->
+  <div class="sec-label">발표 결과 <span class="sub">· 콩떡 13개 채널 실측</span></div>
+  <section class="grid" aria-label="발표 결과">
+    <div class="card result">
+      <div class="k">확인 응모</div>
+      <div class="v" id="vConf">727</div>
+      <div class="s">13개 채널 마이페이지 전수 확인</div>
+    </div>
+    <div class="card result">
+      <div class="k">발표 완료</div>
+      <div class="v c-blue" id="vDone">69</div>
+      <div class="s">리뷰노트 <b>3</b> · 체험뷰 <b>1</b> · 무신사 <b>65</b></div>
+    </div>
+    <div class="card result">
+      <div class="k">당첨</div>
+      <div class="v c-orange" id="vWin13">0</div>
+      <div class="s">발표 69건 중 0건 · <b>전부 미선정</b></div>
+    </div>
+    <div class="card result">
+      <div class="k">당첨률</div>
+      <div class="v c-red" id="vRate">0.0<small>%</small></div>
+      <div class="s">당첨 0 ÷ 발표 완료 69</div>
+    </div>
+    <div class="card wide">
+      <div class="k">발표 대기</div>
+      <div class="v" id="vWait">658</div>
+      <div class="s">리뷰노트 <b>201</b> · 무신사 <b>188</b> · 지그재그 <b>106</b> · 택배·뷰티의여왕 <b>65</b> · 링블 29 · 레뷰 17 · 티블 15 · 체험뷰 13 · 클립뷰 10 · 네이버+ 6 · 서울오빠 5 · 강남맛집 3</div>
+    </div>
+  </section>
+
+  <!-- 전체 보드 -->
+  <div class="sec-label">전체 보드 누적 <span class="sub">· 콩떡·인절미·찰떡</span></div>
+  <section class="grid" aria-label="전체 보드">
     <div class="card">
       <div class="k">총 제출</div>
-      <div class="v c-green" id="vTotal">1,112</div>
-      <div class="s">체험단 <b>1,092</b> · 웹 경품 <b>20</b></div>
-    </div>
-    <div class="card">
-      <div class="k">오늘 제출</div>
-      <div class="v c-green" id="vToday">385</div>
-      <div class="s">체험단 <b>380</b> · 웹 경품 <b>5</b></div>
-    </div>
-    <div class="card">
-      <div class="k">진행 중 <span style="font-weight:500;font-size:11px">(발표 대기)</span></div>
-      <div class="v c-orange" id="vActive">1,033</div>
-      <div class="s">종료·미선정 <b>78</b> 제외</div>
+      <div class="v c-green" id="vTotal">1,092</div>
+      <div class="s">오늘 <b>+385</b> · 체험단 <b>1,072</b> · 웹 경품 <b>20</b></div>
     </div>
     <div class="card">
       <div class="k">발표 임박 <span style="font-weight:500;font-size:11px">(7일 안)</span></div>
-      <div class="v c-blue" id="vSoon">390</div>
-      <div class="s">11/23~11/29 · 6개 채널</div>
+      <div class="v c-orange" id="vSoon">400</div>
+      <div class="s">11/23~11/29 · <b>6개 채널</b> 발표 대기분</div>
     </div>
     <div class="card">
       <div class="k">대표 할 일</div>
@@ -209,14 +234,9 @@
       <div class="s">카카오 5만 원 초과 7건 취소</div>
     </div>
     <div class="card">
-      <div class="k">당첨</div>
+      <div class="k">당첨 <span style="font-weight:500;font-size:11px">(13채널 밖)</span></div>
       <div class="v c-green" id="vWin">1</div>
-      <div class="s">실패·종료 <b>78</b> · 제외 <b>159+</b></div>
-    </div>
-    <div class="card wide">
-      <div class="k">당첨 가치 <span style="font-weight:500;font-size:11px">(시장가 추정)</span></div>
-      <div class="v c-green" id="vValue">33,900<small>원</small></div>
-      <div class="s">카카오 오르골 무드등 1건 · 오늘의집 판매가 기준</div>
+      <div class="s">카카오 오르골 무드등 · 시장가 <b>33,900원</b></div>
     </div>
   </section>
 
@@ -230,7 +250,7 @@
     </div>
     <div class="search">
       <span class="ico">🔍</span>
-      <input id="q" type="search" placeholder="채널·상태 검색 (예: 지그재그, 발표 임박)" autocomplete="off" aria-label="채널 검색">
+      <input id="q" type="search" placeholder="채널·상태 검색 (예: 지그재그, 미선정)" autocomplete="off" aria-label="채널 검색">
       <button class="clear" id="qClear" type="button" aria-label="검색어 지우기">✕</button>
     </div>
   </div>
@@ -257,7 +277,7 @@
         <div class="todo-num">✓</div>
         <div>
           <div class="todo-t" style="color:var(--sub2)">클립뷰 잔여 191건 — 33건만 유지 확정</div>
-          <div class="todo-d">21:30 확정. “실속 템 위주” 33건만 유지, 나머지 191건은 중단 — 선정 후 5일 내 리뷰 의무, 미작성 시 제품비 환불 패널티를 피하기로.</div>
+          <div class="todo-d">21:30 확정. “실속 템 위주” 33건만 유지, 나머지 191건은 중단. 22:54 마이페이지 실측은 10건(기록 33건) — 선정 후 5일 내 리뷰 의무, 미작성 시 제품비 환불 패널티를 피하기로.</div>
         </div>
       </div>
       <div class="todo-item">
@@ -273,18 +293,18 @@
     <div class="tl">
       <div class="tl-row soon">
         <div class="tl-date">11/23 (월) 13:00</div>
-        <div class="tl-body">지그재그 첫 발표 시작 <span style="color:var(--sub);font-weight:600">· 104건</span></div>
+        <div class="tl-body">지그재그 첫 발표 시작 <span style="color:var(--sub);font-weight:600">· 대기 106건</span></div>
         <div class="tl-sub">먼데이블루 후드집업 → 11/24~25 순차</div>
       </div>
       <div class="tl-row soon">
         <div class="tl-date">11/24 (화) ~</div>
-        <div class="tl-body">리뷰노트 204건 · 택배의여왕 61건 · 레뷰 17건</div>
+        <div class="tl-body">리뷰노트 201건 · 택배·뷰티의여왕 65건 · 레뷰 17건</div>
         <div class="tl-sub">택배의여왕 11/24~27 · 리뷰노트 11/24~ · 레뷰 무아스 가습기 8L 11/24</div>
       </div>
       <div class="tl-row soon">
         <div class="tl-date">11/25 (수) ~</div>
-        <div class="tl-body">뷰티의여왕 3 · 네이버+ 8 · 리뷰노트 컴포트미 부츠</div>
-        <div class="tl-sub">네이버+ 뷰티시스 앰플 11/25 10:00 · 레뷰 빌라르 마사지기 V2 11/27 · 컴포트미 양가죽 부츠 11/28</div>
+        <div class="tl-body">네이버+ 6건 · 뷰티의여왕 블레쥬 크림 4차</div>
+        <div class="tl-sub">네이버+ 뷰티시스 앰플 11/25 10:00 · 레뷰 빌라르 마사지기 V2 11/27 · 리뷰노트 컴포트미 부츠 11/28</div>
       </div>
       <div class="tl-row soon">
         <div class="tl-date">11/27 (금)</div>
@@ -293,12 +313,12 @@
       </div>
       <div class="tl-row">
         <div class="tl-date">11/30 (월) ~</div>
-        <div class="tl-body">무신사 254 · 티블 15 · 강남맛집 3</div>
-        <div class="tl-sub">무신사는 기존분 상태 미집계</div>
+        <div class="tl-body">무신사 188건 · 티블 15건 · 강남맛집 3건</div>
+        <div class="tl-sub">무신사 발표 65건은 11/22 전부 미선정 확인</div>
       </div>
       <div class="tl-row">
         <div class="tl-date">12/31 (목)</div>
-        <div class="tl-body">클립뷰 33건 (상시모집)</div>
+        <div class="tl-body">클립뷰 10건 (상시모집)</div>
         <div class="tl-sub">링블·체험뷰는 사이트 공지</div>
       </div>
     </div>
@@ -308,12 +328,17 @@
   <div class="info">
     <b>집계 기준</b>
     <ul>
-      <li>총 제출은 채널별 누적 합산값(콩떡 13개 채널 747 + 인절미 네이버+ 2 + 카카오 327·포포몬 10·놀러와 6 + 웹 경품 20 = 1,112). 콩떡이 요약의 “전체 약 709건”은 기존 계정 이력 기준 자체 집계로 채널 합산과 차이가 있어 화면은 채널 합산을 따랐다.</li>
-      <li>오늘 제출 385건은 콩떡이 11/22 보고값(체험단 380 + 웹 경품 5). 채널별 오늘 합(388)과는 3건 차이가 있다.</li>
-      <li>채널별 ‘오늘’은 콩떡이 notes.md 기준(재확인·재스캔분 포함)이라, 대화로 보고된 신규 신청 건수 합과는 차이가 있다. 누적값은 양쪽이 일치한다.</li>
-      <li>진행 중 = 총 제출 1,112 − 당첨 1 − 확인된 종료·미선정 78(무신사 종료 65·포포몬 미선정 10·네이버+ 미당첨 3) = 1,033. 카카오 미선정분은 집계가 없어 포함돼 있다.</li>
+      <li><b>발표 완료 69건 · 당첨 0건 · 당첨률 0.0%</b>는 콩떡이가 11/22 22:54에 13개 채널 마이페이지를 전수 확인한 실측값. 확인 응모 727건 = 리뷰노트 204 + 택배의여왕·뷰티의여왕 65 + 클립뷰 10 + 링블 29 + 지그재그 106 + 레뷰 17 + 티블 15 + 체험뷰 14 + 네이버+ 6 + 서울오빠 5 + 강남맛집 3 + 무신사 253. 택배의여왕·뷰티의여왕은 마이페이지 합산 65건으로 한 카드에 묶었다(13개 채널 = 카드 12장).</li>
+      <li>당첨률 = 당첨 건수 ÷ 발표 완료 건수. 발표 완료가 0건인 채널은 <b>–대기</b>로 표기(0.0%와 구분). 발표 완료 69건 = 리뷰노트 3 + 체험뷰 1 + 무신사 65, 전부 미선정.</li>
+      <li>13개 채널 밖의 <b>카카오 오르골 무드등 1건 당첨</b>(11/21 후기 등록 완료)은 별도 계상 — 카카오는 발표 건수 미집계라 당첨률 계산에서 뺐다.</li>
+      <li>총 제출 1,092건 = 콩떡 13채널 727 + 카카오 327 + 포포몬 10 + 놀러와 6 + 인절미 네이버+ 2 + 웹 경품 20. 이전 표기 1,112건보다 22건 적은 것은 콩떡 기록(749)을 마이페이지 실측(727)으로 바꾼 차이 — 클립뷰 33→10(−23) · 지그재그 104→106(+2) · 택배·뷰티의여왕 64→65(+1) · 서울오빠 4→5(+1) · 무신사 254→253(−1) · 네이버+ 8→6(−2).</li>
+      <li>네이버+는 콩떡 계정 실측 6건(대기 6)만 카드에 넣었다. 기존 보드의 8건(인절미 2 포함)과 미당첨 3건이 이 6건과 겹치는지는 확인 전이라 임의로 합산하지 않았다 — 인절미 2건이 중복이면 총계는 1,090건.</li>
+      <li>클립뷰는 22:54 마이페이지 실측 10건을 누적값으로 쓰고, 내부 기록 33건은 괄호로 병기했다(잔여 191건은 중단 확정).</li>
+      <li>오늘 제출 385건은 콩떡이 11/22 보고값(체험단 380 + 웹 경품 5). 채널별 오늘 합(388)과는 3건 차이가 있고, 채널별 ‘오늘’은 콩떡이 notes.md 기준(재확인·재스캔분 포함)이라 대화로 보고된 신규 신청 건수와는 다르다.</li>
+      <li>발표 임박 400건 = 발표일이 11/23~11/29인 6개 채널의 발표 대기 합(리뷰노트 201 · 지그재그 106 · 택배·뷰티의여왕 65 · 레뷰 17 · 네이버+ 6 · 웹 경품 공공기관 5). 카카오(11/27~12/01)는 발표 건수 미집계라 뺐다.</li>
       <li>당첨 가치 33,900원은 동일 상품 오늘의집 판매가(50,000원→32%, 11/22 09:25 기준). 실제 지급가는 0원.</li>
-      <li>출처: 콩떡이 11/22 보고·notes.md(22:30 추가 완료 3건 반영: 레뷰 +2·리뷰노트 +1) / 인절미 노션 〈인절미 작업 보고〉(최신 11/21 18:06) / 찰떡 기록.</li>
+      <li>개인정보 마스킹: 이름·핸들·이메일·전화번호·신체 치수 표기 0건(공개 페이지).</li>
+      <li>출처: 콩떡이 11/22 22:54 13개 채널 마이페이지 실측 · notes.md / 인절미 노션 〈인절미 작업 보고〉(최신 11/21 18:06) / 찰떡 기록.</li>
     </ul>
   </div>
 
@@ -322,24 +347,23 @@
 
 <script>
 const CHANNELS = [
-  {name:"리뷰노트", group:"contest", owners:["콩떡"], total:"204", today:199, active:"204", ann:"11/24~11/28", status:"발표 임박", st:"soon", exclude:"9", note:"누적 204건 · 잔여 0건 · 컴포트미 양가죽 부츠 11/28"},
-  {name:"택배의여왕", group:"contest", owners:["콩떡","인절미"], total:"61", today:44, active:"61", ann:"11/24~11/27", status:"발표 임박", st:"soon", exclude:"1+", note:"기신청 11 + 오늘 신규 37"},
-  {name:"지그재그", group:"contest", owners:["콩떡"], total:"104", today:18, active:"104", ann:"11/23~11/25", status:"발표 임박", st:"soon", exclude:"3+", note:"약 104건(기존분 포함) · 첫 발표 11/23 13:00"},
-  {name:"클립뷰", group:"contest", owners:["콩떡"], total:"33", today:33, active:"33", ann:"12/31 (상시)", status:"상시모집", st:"always", exclude:"다수", note:"잔여 191건은 중단 · 결정 대기"},
-  {name:"링블", group:"contest", owners:["콩떡"], total:"29", today:29, active:"29", ann:"사이트 공지", status:"대기", st:"", exclude:"5+", note:""},
-  {name:"레뷰 (HENO)", group:"contest", owners:["콩떡"], total:"17", today:17, active:"17", ann:"11/24~11/27", status:"발표 임박", st:"soon", exclude:"20+", note:"무아스 가습기 8L 11/24 · 빌라르 마사지기 V2 11/27"},
-  {name:"티블", group:"contest", owners:["콩떡"], total:"15", today:15, active:"15", ann:"11/30~", status:"대기", st:"", exclude:"다수", note:""},
-  {name:"체험뷰", group:"contest", owners:["콩떡"], total:"14", today:13, active:"14", ann:"사이트 공지", status:"대기", st:"", exclude:"11+", note:""},
-  {name:"네이버+ 무료체험", group:"contest", owners:["콩떡","인절미"], total:"8", today:4, active:"5", ann:"11/25~", status:"발표 임박", st:"soon", exclude:"다수", note:"콩떡 6 + 인절미 2 · 미당첨 3 별도"},
-  {name:"무신사", group:"contest", owners:["콩떡"], total:"254", today:1, active:"189", ann:"11/30", status:"대기", st:"", exclude:"다수", note:"기존 253 + 오늘 1 · 종료 65 제외"},
-  {name:"서울오빠", group:"contest", owners:["콩떡"], total:"4", today:4, active:"4", ann:"캠페인별", status:"대기", st:"", exclude:"—", note:"블로그 주소 중복은 그대로 두기로"},
-  {name:"강남맛집", group:"contest", owners:["콩떡"], total:"3", today:3, active:"3", ann:"11/30~", status:"대기", st:"", exclude:"—", note:""},
-  {name:"뷰티의여왕", group:"contest", owners:["콩떡"], total:"3", today:3, active:"3", ann:"11/25~", status:"발표 임박", st:"soon", exclude:"—", note:"블레쥬 크림 4차"},
-  {name:"카카오 선물하기", group:"contest", owners:["인절미"], total:"327", today:0, active:"326", ann:"11/27~12/01", status:"당첨 1", st:"win", exclude:"93", note:"오르골 무드등 당첨 · 후기 완료"},
-  {name:"포포몬", group:"contest", owners:["인절미"], total:"10", today:0, active:"0", ann:"—", status:"미선정 10", st:"fail", exclude:"—", note:"선정 0 · 미선정 10"},
-  {name:"놀러와체험단", group:"contest", owners:["인절미"], total:"6", today:0, active:"6", ann:"—", status:"대기", st:"", exclude:"—", note:""},
-  {name:"웹 경품 (설문·퀴즈)", group:"web", owners:["찰떡","인절미"], total:"15", today:0, active:"15", ann:"—", status:"대기", st:"", exclude:"—", note:"11/17 6 · 11/19 4 · 11/20 5"},
-  {name:"웹 경품 (공공기관·설문)", group:"web", owners:["콩떡"], total:"5", today:5, active:"5", ann:"11/27·12/4·미정", status:"발표 임박", st:"soon", exclude:"14", note:"11/22 첫 실행 · 보류 14건"}
+  {name:"리뷰노트", group:"contest", owners:["콩떡"], c13:true, total:204, done:3, wait:201, win:0, today:199, ann:"11/24~11/28", status:"발표 임박", st:"soon", exclude:"9", note:"잔여 0건 · 컴포트미 양가죽 부츠 11/28 · 발표 3건은 미선정"},
+  {name:"택배의여왕 · 뷰티의여왕", group:"contest", owners:["콩떡","인절미"], c13:true, total:65, done:0, wait:65, win:0, today:47, ann:"11/24~11/27", status:"발표 임박", st:"soon", exclude:"1+", note:"기존 분리 표기 61+3 → 실측 합산 65 · 블레쥬 크림 4차 11/25~"},
+  {name:"지그재그", group:"contest", owners:["콩떡"], c13:true, total:106, done:0, wait:106, win:0, today:18, ann:"11/23~11/25", status:"발표 임박", st:"soon", exclude:"3+", note:"첫 발표 11/23 13:00 · 먼데이블루 후드집업"},
+  {name:"무신사", group:"contest", owners:["콩떡"], c13:true, total:253, done:65, wait:188, win:0, today:1, ann:"11/30", status:"미선정 65", st:"fail", exclude:"다수", note:"오늘 +1 포함 253 · 발표 65건 전부 미선정"},
+  {name:"링블", group:"contest", owners:["콩떡"], c13:true, total:29, done:0, wait:29, win:0, today:29, ann:"사이트 공지", status:"대기", st:"", exclude:"5+", note:""},
+  {name:"레뷰 (HENO)", group:"contest", owners:["콩떡"], c13:true, total:17, done:0, wait:17, win:0, today:17, ann:"11/24~11/27", status:"발표 임박", st:"soon", exclude:"20+", note:"무아스 가습기 8L 11/24 · 빌라르 마사지기 V2 11/27"},
+  {name:"티블", group:"contest", owners:["콩떡"], c13:true, total:15, done:0, wait:15, win:0, today:15, ann:"11/30~", status:"대기", st:"", exclude:"다수", note:""},
+  {name:"체험뷰", group:"contest", owners:["콩떡"], c13:true, total:14, done:1, wait:13, win:0, today:13, ann:"사이트 공지", status:"미선정 1", st:"fail", exclude:"11+", note:"발표 1건 미선정 · 나머지 13건 대기"},
+  {name:"클립뷰", group:"contest", owners:["콩떡"], c13:true, total:10, done:0, wait:10, win:0, today:10, ann:"12/31 (상시)", status:"상시모집", st:"always", exclude:"다수", note:"마이페이지 실측 10건 · 내부 기록 33건(유지 확정) · 잔여 191건 중단"},
+  {name:"네이버+ 무료체험", group:"contest", owners:["콩떡","인절미"], c13:true, total:6, done:0, wait:6, win:0, today:4, ann:"11/25~", status:"발표 임박", st:"soon", exclude:"다수", note:"콩떡 계정 6건 · 기존 8건(인절미 2)·미당첨 3건과 중복 여부 확인 중"},
+  {name:"서울오빠", group:"contest", owners:["콩떡"], c13:true, total:5, done:0, wait:5, win:0, today:5, ann:"캠페인별", status:"대기", st:"", exclude:"—", note:"블로그 주소 중복은 그대로 두기로"},
+  {name:"강남맛집", group:"contest", owners:["콩떡"], c13:true, total:3, done:0, wait:3, win:0, today:3, ann:"11/30~", status:"대기", st:"", exclude:"—", note:""},
+  {name:"카카오 선물하기", group:"contest", owners:["인절미"], c13:false, total:327, done:null, wait:null, win:1, today:0, ann:"11/27~12/01", status:"당첨 1", st:"win", exclude:"93", note:"13채널 실측 밖 · 오르골 무드등 당첨·후기 완료 · 5만 원 초과 7건 취소 필요"},
+  {name:"포포몬", group:"contest", owners:["인절미"], c13:false, total:10, done:10, wait:0, win:0, today:0, ann:"—", status:"미선정 10", st:"fail", exclude:"—", note:"선정 0 · 미선정 10"},
+  {name:"놀러와체험단", group:"contest", owners:["인절미"], c13:false, total:6, done:0, wait:6, win:0, today:0, ann:"—", status:"대기", st:"", exclude:"—", note:""},
+  {name:"웹 경품 (설문·퀴즈)", group:"web", owners:["찰떡","인절미"], c13:false, total:15, done:0, wait:15, win:0, today:0, ann:"—", status:"대기", st:"", exclude:"—", note:"11/17 6 · 11/19 4 · 11/20 5"},
+  {name:"웹 경품 (공공기관·설문)", group:"web", owners:["콩떡"], c13:false, total:5, done:0, wait:5, win:0, today:5, ann:"11/27·12/4·미정", status:"발표 임박", st:"soon", exclude:"14", note:"11/22 첫 실행 · 보류 14건"}
 ];
 
 const BADGE = {"찰떡":"b-tteok","콩떡":"b-kong","인절미":"b-jeol"};
@@ -356,9 +380,39 @@ let tab = "all";
 
 function fmt(n){ return typeof n === "number" ? n.toLocaleString("ko-KR") : n; }
 
+/* 요약 수치 — 카드 데이터에서 계산해 화면과 표가 어긋나지 않게 */
+const c13 = CHANNELS.filter(c => c.c13);
+const sum = (arr, key) => arr.reduce((a, c) => a + (typeof c[key] === "number" ? c[key] : 0), 0);
+const conf13 = sum(c13, "total");
+const done13 = sum(c13, "done");
+const wait13 = sum(c13, "wait");
+const win13  = sum(c13, "win");
+const soonSum = sum(CHANNELS.filter(c => c.st === "soon"), "wait");
+const boardTotal = sum(CHANNELS, "total") + 2; // 인절미 네이버+ 2건(카드 미표기)
+
+document.getElementById("vConf").textContent  = fmt(conf13);
+document.getElementById("vDone").textContent  = fmt(done13);
+document.getElementById("vWin13").textContent = fmt(win13);
+document.getElementById("vRate").innerHTML    = (done13 ? (win13 / done13 * 100).toFixed(1) : "–") + "<small>%</small>";
+document.getElementById("vWait").textContent  = fmt(wait13);
+document.getElementById("vSoon").textContent  = fmt(soonSum);
+document.getElementById("vTotal").textContent = fmt(boardTotal);
+
+function rateCell(c){
+  if(c.done === null) return `<div class="sv small" style="color:var(--sub)">미집계</div>`;
+  if(c.done === 0) return `<div class="sv" style="color:var(--sub)">–<em>대기</em></div>`;
+  const r = (c.win / c.done * 100).toFixed(1);
+  return `<div class="sv ${c.win > 0 ? "c-green" : "c-red"}">${r}<small style="font-size:10px;font-weight:700">%</small></div>`;
+}
+
+function statCell(label, val){
+  if(val === null) return `<div class="ch-stat"><div class="sk">${label}</div><div class="sv small" style="color:var(--sub)">미집계</div></div>`;
+  return `<div class="ch-stat"><div class="sk">${label}</div><div class="sv">${val}</div></div>`;
+}
+
 function cardHTML(c){
   const badges = c.owners.map(o => `<span class="badge ${BADGE[o]||""}">${o}</span>`).join("");
-  const todayTxt = c.today > 0 ? `<span style="color:var(--green);font-weight:800">+${c.today}</span>` : `<span style="color:var(--sub)">0</span>`;
+  const todayTxt = c.today > 0 ? `<span style="color:var(--green);font-weight:800">오늘 +${c.today}</span>` : `<span>오늘 0</span>`;
   return `
   <article class="card ch" data-name="${c.name}" data-group="${c.group}" data-status="${c.status}">
     <div class="ch-head">
@@ -367,11 +421,13 @@ function cardHTML(c){
     </div>
     <div class="ch-stats">
       <div class="ch-stat"><div class="sk">누적 신청</div><div class="sv">${c.total}<em>건</em></div></div>
-      <div class="ch-stat"><div class="sk">오늘</div><div class="sv">${todayTxt}<em>건</em></div></div>
-      <div class="ch-stat"><div class="sk">진행 중</div><div class="sv">${c.active}<em>건</em></div></div>
+      ${statCell("발표 완료", c.done === null ? null : c.done + "<em>건</em>")}
+      ${statCell("발표 대기", c.wait === null ? null : c.wait + "<em>건</em>")}
+      <div class="ch-stat"><div class="sk">당첨률</div>${rateCell(c)}</div>
     </div>
     <div class="ch-foot">
       <span class="ann">발표 ${c.ann}</span>
+      ${todayTxt}
       ${c.exclude !== "—" ? `<span>· 제외 ${c.exclude}</span>` : ""}
       <span class="status ${c.st ? "st-" + c.st : ""}">${c.status}</span>
     </div>
