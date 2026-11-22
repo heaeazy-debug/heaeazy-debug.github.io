@@ -64,13 +64,14 @@
     margin:4px 1px 0;display:flex;align-items:center;gap:5px}
   .wlab::after{content:"";flex:1;height:1px;background:var(--line)}
   .wlab.cur{color:var(--green)}
-  .cell{position:relative;appearance:none;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:3px 1px;
+  .cell{appearance:none;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:3px 1px;
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:0;font-family:inherit;
     color:var(--text);cursor:pointer;line-height:1.15;transition:background .15s ease}
-  .cell .cd{font-size:9px;font-weight:800;color:var(--sub);font-variant-numeric:tabular-nums;letter-spacing:-.3px;line-height:1.25}
+  .cell .crow{display:flex;align-items:center;justify-content:center;gap:1px;line-height:1.25}
+  .cell .cd{font-size:9px;font-weight:800;color:var(--sub);font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+  .cell .cs{font-size:8.5px;font-weight:900;color:var(--green)}
   .cell .cm{font-size:9.5px;font-weight:800;letter-spacing:-.35px;text-align:center;word-break:break-all;
     line-height:1.18;height:23px;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:0 1px}
-  .cell .cs{position:absolute;top:1px;right:2px;font-size:8.5px;font-weight:900;color:var(--green);line-height:1}
   .cell.off{opacity:.55}
   .cell.off .cm{font-weight:700;color:var(--sub)}
   .cell.today{box-shadow:inset 0 0 0 1.5px var(--blue)}
@@ -277,7 +278,8 @@
     <div class="sec-label">
       받은 품목 체크
       <span class="sub">· 결제 완료 15종</span>
-      <button class="reset" id="resetBtn" type="button" style="margin-left:auto">전체 해제</button>
+      <span class="cnt" id="recvCnt">0/15</span>
+      <button class="reset" id="resetBtn" type="button" style="margin-left:8px">전체 해제</button>
     </div>
     <div class="bar"><i id="recvBar"></i></div>
     <div id="shop"></div>
@@ -460,9 +462,8 @@ function cellHTML(d){
   if(eaten) cls.push("eaten");
   return `<button type="button" class="${cls.join(" ")}" data-key="${d.key}" role="gridcell"
       aria-selected="${d.key === selKey}" aria-label="${d.dn} ${d.dw} ${d.menu}${eaten ? " 먹음" : ""}">
-    <span class="cd">${d.dn}</span>
+    <span class="crow"><span class="cd">${d.dn}</span>${eaten ? `<span class="cs">✓</span>` : ""}</span>
     <span class="cm">${d.kw}</span>
-    ${eaten ? `<span class="cs">✓</span>` : ""}
   </button>`;
 }
 
@@ -532,6 +533,8 @@ function paintStats(){
   });
   const bar = document.getElementById("recvBar");
   if(bar) bar.style.width = (tot ? done / tot * 100 : 0) + "%";
+  const cnt = document.getElementById("recvCnt");
+  if(cnt) cnt.textContent = done + "/" + tot;
 }
 
 /* ── 장보기·조정 마크업 ──────────────────────────────────── */
