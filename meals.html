@@ -27,20 +27,20 @@
     font-size:15px;line-height:1.45;word-break:keep-all;-webkit-font-smoothing:antialiased;
     transition:background .2s ease,color .2s ease;overflow-x:hidden;
   }
-  .app{max-width:480px;margin:0 auto;padding:14px 14px calc(24px + env(safe-area-inset-bottom))}
-  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:0 0 9px}
-  h1{font-size:19px;letter-spacing:-.5px;margin:0;font-weight:800}
-  .basis{font-size:11px;color:var(--sub);margin-top:3px;letter-spacing:-.1px;line-height:1.35}
+  .app{max-width:480px;margin:0 auto;padding:10px 14px calc(22px + env(safe-area-inset-bottom))}
+  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:0 0 7px}
+  h1{font-size:18px;letter-spacing:-.5px;margin:0;font-weight:800}
+  .basis{font-size:10.5px;color:var(--sub);margin-top:2px;letter-spacing:-.1px;line-height:1.3}
   .theme-btn{flex:0 0 auto;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--card);
     color:var(--sub2);font-size:15px;display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow)}
-  nav.boards{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;margin:0 0 9px;padding-bottom:1px}
+  nav.boards{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;margin:0 0 7px;padding-bottom:1px}
   nav.boards::-webkit-scrollbar{display:none}
   nav.boards a{flex:0 0 auto;font-size:11px;font-weight:700;text-decoration:none;color:var(--sub2);
     background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 10px;letter-spacing:-.2px}
   nav.boards a.here{background:var(--pill);color:var(--pill-text);border-color:var(--pill)}
 
   /* 3탭 */
-  .tabwrap{position:sticky;top:0;z-index:20;background:var(--bg);padding:2px 0 7px}
+  .tabwrap{position:sticky;top:0;z-index:20;background:var(--bg);padding:1px 0 6px}
   .mtabs{display:flex;gap:4px;background:var(--chip-bg);border:1px solid var(--line);border-radius:12px;padding:3px}
   .mtabs button{flex:1;min-width:0;border:0;background:transparent;color:var(--sub2);font-size:12.5px;font-weight:800;
     letter-spacing:-.4px;padding:8px 2px;border-radius:9px;font-family:inherit;cursor:pointer;white-space:nowrap}
@@ -48,8 +48,8 @@
 
   /* 요약 바 */
   .sumline{display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);
-    border-radius:11px;padding:7px 10px;box-shadow:var(--shadow);font-size:11.5px;font-weight:700;color:var(--sub2);
-    letter-spacing:-.25px;margin-bottom:8px}
+    border-radius:11px;padding:6px 9px;box-shadow:var(--shadow);font-size:11.5px;font-weight:700;color:var(--sub2);
+    letter-spacing:-.25px;margin-bottom:7px}
   .sumline .dot{width:3px;height:3px;border-radius:50%;background:var(--sub);opacity:.55;flex:0 0 auto}
   .sumline b{font-weight:800;color:var(--text)}
   .sumline .ok{color:var(--green)}
@@ -57,20 +57,20 @@
 
   /* 달력 */
   .cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;background:var(--card);border:1px solid var(--line);
-    border-radius:14px;padding:8px 8px 9px;box-shadow:var(--shadow)}
+    border-radius:14px;padding:7px 7px 8px;box-shadow:var(--shadow)}
   .wd{font-size:9.5px;font-weight:800;color:var(--sub);text-align:center;letter-spacing:-.2px;padding-bottom:1px}
   .wd.we{color:var(--red);opacity:.8}
   .wlab{grid-column:1 / -1;font-size:9.5px;font-weight:800;color:var(--sub);letter-spacing:-.2px;
-    margin:5px 1px 0;display:flex;align-items:center;gap:5px}
+    margin:4px 1px 0;display:flex;align-items:center;gap:5px}
   .wlab::after{content:"";flex:1;height:1px;background:var(--line)}
   .wlab.cur{color:var(--green)}
-  .cell{appearance:none;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:4px 1px 3px;
-    display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0;font-family:inherit;color:var(--text);
-    cursor:pointer;line-height:1.15;transition:background .15s ease}
-  .cell .cd{font-size:9px;font-weight:800;color:var(--sub);font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+  .cell{position:relative;appearance:none;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:3px 1px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:0;font-family:inherit;
+    color:var(--text);cursor:pointer;line-height:1.15;transition:background .15s ease}
+  .cell .cd{font-size:9px;font-weight:800;color:var(--sub);font-variant-numeric:tabular-nums;letter-spacing:-.3px;line-height:1.25}
   .cell .cm{font-size:9.5px;font-weight:800;letter-spacing:-.35px;text-align:center;word-break:break-all;
-    line-height:1.2;height:22px;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:0 1px}
-  .cell .cs{font-size:9px;font-weight:900;height:11px;color:var(--green);line-height:1}
+    line-height:1.18;height:23px;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:0 1px}
+  .cell .cs{position:absolute;top:1px;right:2px;font-size:8.5px;font-weight:900;color:var(--green);line-height:1}
   .cell.off{opacity:.55}
   .cell.off .cm{font-weight:700;color:var(--sub)}
   .cell.today{box-shadow:inset 0 0 0 1.5px var(--blue)}
@@ -79,9 +79,9 @@
   .cell.sel .cs{color:var(--pill-text)}
 
   /* 상세 카드 */
-  .detail{margin-top:8px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 12px 12px;
+  .detail{margin-top:7px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 11px 11px;
     box-shadow:var(--shadow)}
-  .dc-top{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+  .dc-top{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:6px}
   .dc-date{font-size:15px;font-weight:800;letter-spacing:-.45px;font-variant-numeric:tabular-nums}
   .dc-date em{font-style:normal;font-size:12px;color:var(--sub2);margin-left:2px;font-weight:700}
   .chip{font-size:10px;font-weight:800;border-radius:6px;padding:2.5px 6px;letter-spacing:-.2px;
@@ -96,7 +96,7 @@
     color:var(--sub2);border-radius:8px;padding:6px 9px;font-size:11.5px;font-weight:800;letter-spacing:-.2px;
     cursor:pointer;font-family:inherit;white-space:nowrap}
   .eat-btn[data-on="1"]{background:var(--green);border-color:var(--green);color:#fff}
-  .mrow{display:flex;gap:8px;align-items:flex-start;padding:6px 0;border-top:1px dashed var(--line)}
+  .mrow{display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-top:1px dashed var(--line)}
   .mrow:first-of-type{border-top:0;padding-top:0}
   .mk{flex:0 0 30px;font-size:10px;font-weight:800;letter-spacing:-.2px;border-radius:6px;padding:2px 0;text-align:center;
     background:var(--chip-bg);color:var(--sub2);border:1px solid var(--line);margin-top:2px}
@@ -104,12 +104,12 @@
   [data-theme="dark"] .mk.l{color:#a8c6ff;background:#1b2a45;border-color:#2b4470}
   .mv{min-width:0;flex:1;font-size:13px;font-weight:700;letter-spacing:-.3px;line-height:1.4}
   .mv .sm{display:block;font-size:11px;font-weight:600;color:var(--sub);margin-top:1px;letter-spacing:-.2px;line-height:1.4}
-  .dc-note{font-size:11.5px;color:var(--sub2);margin-top:7px;padding-top:7px;border-top:1px dashed var(--line);
+  .dc-note{font-size:11.5px;color:var(--sub2);margin-top:6px;padding-top:6px;border-top:1px dashed var(--line);
     letter-spacing:-.2px;line-height:1.45}
   .dc-note b{color:var(--text)}
   .dc-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
   .memo{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--text);border-radius:8px;
-    padding:7px 9px;font-size:12px;font-family:inherit;outline:none;letter-spacing:-.2px;margin-top:8px}
+    padding:6px 9px;font-size:12px;font-family:inherit;outline:none;letter-spacing:-.2px;margin-top:7px}
   .memo:focus{border-color:var(--blue)}
   .memo::placeholder{color:var(--sub)}
 
@@ -209,7 +209,7 @@
   .info b{color:var(--sub2);display:block;margin-bottom:4px;font-size:11px}
   .info ul{margin:0;padding-left:14px}
   .info li{margin:2px 0}
-  footer{text-align:center;font-size:10.5px;color:var(--sub);margin-top:14px;line-height:1.6;letter-spacing:-.1px}
+  footer{text-align:center;font-size:10.5px;color:var(--sub);margin-top:12px;line-height:1.6;letter-spacing:-.1px}
   .reset{border:1px solid var(--line);background:var(--card);color:var(--sub2);border-radius:8px;padding:5px 9px;
     font-size:10.5px;font-weight:700;font-family:inherit;cursor:pointer;letter-spacing:-.2px}
   .hidden{display:none!important}
@@ -462,7 +462,7 @@ function cellHTML(d){
       aria-selected="${d.key === selKey}" aria-label="${d.dn} ${d.dw} ${d.menu}${eaten ? " 먹음" : ""}">
     <span class="cd">${d.dn}</span>
     <span class="cm">${d.kw}</span>
-    <span class="cs">${eaten ? "✓" : ""}</span>
+    ${eaten ? `<span class="cs">✓</span>` : ""}
   </button>`;
 }
 
