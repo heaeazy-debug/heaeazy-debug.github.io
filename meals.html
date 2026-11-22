@@ -70,8 +70,10 @@
   .cell .crow{display:flex;align-items:center;justify-content:center;gap:1px;line-height:1.25}
   .cell .cd{font-size:9px;font-weight:800;color:var(--sub);font-variant-numeric:tabular-nums;letter-spacing:-.3px}
   .cell .cs{font-size:8.5px;font-weight:900;color:var(--green)}
-  .cell .cm{font-size:9.5px;font-weight:800;letter-spacing:-.35px;text-align:center;word-break:break-all;
-    line-height:1.18;height:23px;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:0 1px}
+  .cell .cm{font-size:9.5px;font-weight:800;letter-spacing:-.35px;text-align:center;
+    line-height:1.18;height:23px;overflow:hidden;display:flex;flex-direction:column;align-items:center;
+    justify-content:center;padding:0 1px}
+  .cell .cm span{display:block;max-width:100%;overflow:hidden}
   .cell.off{opacity:.55}
   .cell.off .cm{font-weight:700;color:var(--sub)}
   .cell.today{box-shadow:inset 0 0 0 1.5px var(--blue)}
@@ -463,7 +465,7 @@ function cellHTML(d){
   return `<button type="button" class="${cls.join(" ")}" data-key="${d.key}" role="gridcell"
       aria-selected="${d.key === selKey}" aria-label="${d.dn} ${d.dw} ${d.menu}${eaten ? " 먹음" : ""}">
     <span class="crow"><span class="cd">${d.dn}</span>${eaten ? `<span class="cs">✓</span>` : ""}</span>
-    <span class="cm">${d.kw}</span>
+    <span class="cm">${d.kw.split("·").map(l => `<span>${l}</span>`).join("")}</span>
   </button>`;
 }
 
