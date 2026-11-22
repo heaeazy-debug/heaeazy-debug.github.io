@@ -350,7 +350,7 @@
 
 <script>
 /* ── 날짜 데이터 ───────────────────────────────────────────── */
-const TODAY = "2026-11-23";
+let TODAY = "2026-11-23";   // 기기 날짜가 이 2주 안에 있으면 그 날짜로 바뀐다(아래) 
 
 /* 지난주 11/16~22 (기기 캘린더 기록) */
 const WEEK_PREV = [
@@ -399,6 +399,13 @@ const WEEK_CUR = [
 ];
 
 const ALL = WEEK_PREV.concat(WEEK_CUR);
+
+/* 오늘 표시·기본 선택은 기기 날짜 기준, 범위를 벗어나면 11/23로 고정 */
+(() => {
+  const now = new Date(), p = n => String(n).padStart(2, "0");
+  const k = now.getFullYear() + "-" + p(now.getMonth() + 1) + "-" + p(now.getDate());
+  if(ALL.some(d => d.key === k)) TODAY = k;
+})();
 
 /* ── 장보기 15종 (쿠팡 결제 완료) ─────────────────────────── */
 const SHOP = [
