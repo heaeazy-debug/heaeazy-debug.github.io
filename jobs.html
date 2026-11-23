@@ -542,16 +542,18 @@ const archSel    = document.getElementById("dateSel");
 const pastBanner = document.getElementById("pastBanner");
 const pastText   = document.getElementById("pastText");
 const ARCH_CACHE = {};
+const pageFooter = document.querySelector("footer");
+const FOOT_LIVE = pageFooter ? pageFooter.innerHTML : "";
 let ARCH_LATEST = "2026-11-24";
 
 function archToggle(on){
-  ["#kpiGrid", ".controls", "#list", "#empty", "#etcLabel", "details.etc", "#jobsInfo"].forEach(sel => {
+  [".cond", "#kpiGrid", ".controls", "#list", "#empty", "#etcLabel", "details.etc", "#jobsInfo"].forEach(sel => {
     const el = document.querySelector(sel);
     if(el) el.classList.toggle("hidden", on);
   });
   ARCH_BOX.classList.toggle("hidden", !on);
   pastBanner.classList.toggle("hidden", !on);
-  if(!on){ refNow = new Date(); ARCH_BOX.classList.add("hidden"); }
+  if(!on){ refNow = new Date(); ARCH_BOX.classList.add("hidden"); if(pageFooter) pageFooter.innerHTML = FOOT_LIVE; }
 }
 
 function archPaint(date, d){
@@ -559,6 +561,7 @@ function archPaint(date, d){
   refNow = new Date(date + "T12:00:00+09:00");
   archSel.value = date;
   pastText.innerHTML = `과거 기록 열람 중 · <b>${date} (${d.dw || ""})</b>`;
+  if(pageFooter) pageFooter.innerHTML = `${date} (${d.dw || ""}) 기록 그대로 · D-Day는 그날 기준 계산 · 개인정보 표기 0건`;
   archToggle(true);
   const soon = list.filter(isSoon).length;
   const risk = (j.kpi && j.kpi["요건 리스크"] && j.kpi["요건 리스크"].v) || "–";

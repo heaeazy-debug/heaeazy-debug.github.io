@@ -712,6 +712,8 @@ const pastText   = document.getElementById("pastText");
 const sumlineEl  = document.getElementById("sumline");
 const LIVE_SUMLINE = sumlineEl ? sumlineEl.innerHTML : "";
 const ARCH_CACHE = {};
+const pageFooter = document.querySelector("footer");
+const FOOT_LIVE = pageFooter ? pageFooter.innerHTML : "";
 let ARCH_LATEST = "2026-11-24";
 
 function archToggle(on){
@@ -728,6 +730,7 @@ function archPaint(date, d){
   const m = d.meals || {};
   archSel.value = date;
   pastText.innerHTML = `과거 기록 열람 중 · <b>${date} (${d.dw || ""})</b>`;
+  if(pageFooter) pageFooter.innerHTML = `${date} (${d.dw || ""}) 기록 그대로 · 기기 캘린더 실측 · 개인정보 표기 0건`;
   ARCH_BOX.innerHTML = `
     <div class="arch-date">🕘 그날 기준 · ${m.basis || date}</div>
     <div class="arch-sum">${d.summary || ""}</div>`;
@@ -771,6 +774,7 @@ function archGo(date){
 
 function archShowLatest(){
   archToggle(false);
+  if(pageFooter) pageFooter.innerHTML = FOOT_LIVE;
   ARCH_BOX.classList.add("hidden");
   ARCH_FOOT.classList.add("hidden");
   ARCH_BOX.innerHTML = ""; ARCH_FOOT.innerHTML = "";

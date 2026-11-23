@@ -1179,6 +1179,8 @@ const archSel    = document.getElementById("dateSel");
 const pastBanner = document.getElementById("pastBanner");
 const pastText   = document.getElementById("pastText");
 const ARCH_CACHE = {};
+const pageFooter = document.querySelector("footer");
+const FOOT_LIVE = pageFooter ? pageFooter.innerHTML : "";
 let ARCH_LATEST = "2026-11-24";
 let archCur = null, archStockSel = null;
 
@@ -1194,6 +1196,7 @@ function archToggle(on){
     try{ v = localStorage.getItem("bonus-board-view") || "contest"; }catch(e){}
     showView(v);
     archCur = null; archStockSel = null;
+    if(pageFooter) pageFooter.innerHTML = FOOT_LIVE;
   }
 }
 
@@ -1361,6 +1364,7 @@ function archPaint(date, d){
   archToggle(true);
   archSel.value = date;
   pastText.innerHTML = `과거 기록 열람 중 · <b>${date} (${d.dw || ""})</b>`;
+  if(pageFooter) pageFooter.innerHTML = `${date} (${d.dw || ""}) 기록 그대로 · 개인정보 표기 0건 · 검색 비공개 페이지`;
   ARCH_BOX.innerHTML = `
     <div class="arch-date">🕘 그날 기준 · ${b.basis || date}</div>
     <div class="arch-sum">${d.summary || ""}</div>
