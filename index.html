@@ -141,6 +141,11 @@
   .note{font-size:11px;color:var(--sub);margin-top:8px;letter-spacing:-.15px}
   .sum-note{font-size:11px;color:var(--sub);margin:10px 2px 0;line-height:1.55;letter-spacing:-.15px}
   .sum-note b{color:var(--sub2);font-weight:600}
+  .notice{margin:12px 0 0;padding:10px 13px;border-radius:12px;border:1px solid #e6c98b;background:#fdf6e7;
+    font-size:11.5px;line-height:1.55;color:#7d5a12;letter-spacing:-.15px}
+  .notice b{font-weight:700;color:#5e430c}
+  [data-theme="dark"] .notice{background:#2a2317;border-color:#5c4a24;color:#e8c882}
+  [data-theme="dark"] .notice b{color:#f1d59a}
 
   /* ── 남은 신청 가능 (신청 대기) ── */
   .remain{background:var(--card);border:1px solid #d9e5fb;border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
@@ -269,7 +274,7 @@
   <header class="top">
     <div>
       <h1>부수익 현황</h1>
-      <div class="basis">기준일 2026-11-23 (월) 13:23 KST · 응모·리뷰·공모주 합산</div>
+      <div class="basis">기준일 2026-11-24 (화) 07:45 KST · 응모·리뷰·공모주 합산</div>
     </div>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="다크 모드 전환">◐</button>
   </header>
@@ -286,10 +291,14 @@
     <button type="button" data-v="stock" aria-selected="false">공모주·부업</button>
   </div>
 
+  <div class="notice">
+    ⚠ <b>인절미(PC) 확인 멈춤</b> — 노션 〈인절미 작업 보고〉·요청함의 마지막 확인이 <b>11/23 03:47 KST</b>이고, 11/24 07:45 기준 <b>약 28시간</b> 갱신이 없습니다(PC 꺼짐 추정). 그래서 인절미 몫 신규는 <b>0건</b>이고, 11/23 아침 승인한 <b>취소·위시 정리 요청(420981c4)도 아직 [대기]</b>입니다.
+  </div>
+
   <div id="viewContest">
 
   <!-- 남은 신청 가능 (신청 대기) -->
-  <div class="sec-label">남은 신청 가능 <span class="sub">· 11/23 13:23 기준</span></div>
+  <div class="sec-label">남은 신청 가능 <span class="sub">· 11/24 07:45 기준</span></div>
   <section class="remain" aria-label="남은 신청 가능 건수">
     <div class="rk-head">
       <div class="k">남은 신청 가능 (신청 대기)</div>
@@ -309,13 +318,13 @@
   <section class="grid" aria-label="전체 합산 요약">
     <div class="card result">
       <div class="k">총 제출</div>
-      <div class="v c-green" id="vTotal">1,367</div>
-      <div class="s">오늘 <b id="sToday">+684</b> · 체험단 <b id="sContest">1,330</b> · 웹 경품 <b id="sWeb">37</b></div>
+      <div class="v c-green" id="vTotal">1,377</div>
+      <div class="s">11/23 <b id="sToday">+684</b> · 체험단 <b id="sContest">1,340</b> · 웹 경품 <b id="sWeb">37</b></div>
     </div>
     <div class="card result">
       <div class="k">발표 완료</div>
-      <div class="v c-blue" id="vDone">141</div>
-      <div class="s">무신사 <b>65</b> · 지그재그 <b>60</b> · 포포몬 <b>10</b> · 리뷰노트 <b>3</b> · 체험뷰 <b>2</b> · 카카오 <b>1</b></div>
+      <div class="v c-blue" id="vDone">144</div>
+      <div class="s">무신사 <b>65</b> · 지그재그 <b>60</b> · 포포몬 <b>10</b> · 리뷰노트 <b>3</b> · 네이버+ <b>3</b> · 체험뷰 <b>2</b> · 카카오 <b>1</b></div>
     </div>
     <div class="card result">
       <div class="k">당첨</div>
@@ -325,20 +334,20 @@
     <div class="card result">
       <div class="k">당첨률</div>
       <div class="v c-green" id="vRate">0.7<small>%</small></div>
-      <div class="s">당첨 1 ÷ 발표 확인 141</div>
+      <div class="s">당첨 1 ÷ 발표 확인 144</div>
     </div>
     <div class="card wide">
       <div class="k">발표 대기</div>
-      <div class="v" id="vWait">847<small>+</small></div>
-      <div class="s">콩떡 18개 채널 <b id="sWait13">847</b> · 발표 임박 7일 내 <b id="sSoon">407</b> · 미집계 채널 제외</div>
+      <div class="v" id="vWait">848<small>+</small></div>
+      <div class="s">콩떡 18개 채널 <b id="sWait13">848</b> · 발표 임박 7일 내 <b id="sSoon">408</b> · 미집계 채널 제외</div>
     </div>
     <div class="card wide">
       <div class="k">대표 할 일</div>
       <div class="v c-purple" id="vTodo">3</div>
-      <div class="s">① 카카오 5만 원 초과 재확인(22% 명시 건만 취소) ② 네이버 로그인 — SSG·네이버+ 후보 4건 남음 ③ 무신사 앱 전용 138건 — 웹 신청 불가, 앱에서 신청(마감 11/29)</div>
+      <div class="s">① SSG 본인확인 SMS(끝 7788) 2건 · 클라우드리뷰 번호 변경 확인 ② 11번가 10건 — 오늘(11/24) 24:00 마감 ③ 무신사 앱 전용 138건 — 앱에서 신청(마감 11/29)</div>
     </div>
   </section>
-  <div class="sum-note">※ 11/23 13:23 이어받기로 <b>강남맛집 6건·택배의여왕 2건</b>을 더 신청해 총 제출이 1,359 → <b>1,367건</b>, 발표 대기가 <b>847건+</b>입니다. 남은 신청 가능은 <b>380건</b>(웹 242 · 앱 전용 138)이고, 그중 클라우드리뷰 228건과 무신사 138건이 대부분입니다. 카카오 나머지 <b>326건</b>(발표 11/27~12/01)과 웹 경품 <b>37건</b>은 발표 결과가 집계 중이라 발표 완료·당첨률 계산에서 빠졌고, 당첨률은 <b>0.7%</b>(당첨 1 ÷ 발표 확인 141)입니다.</div>
+  <div class="sum-note">※ <b>11/23 13:25 콩떡이 최종 보고</b>(택배의여왕 2 · 네이버+ 3 · 강남맛집 4)를 13:11~13:21 <b>찰떡 이어받기분</b>과 대조했습니다. 택배의여왕 2건과 네이버+ 3건은 이미 신청돼 있던 건(중복 0), 강남맛집은 웅조네·양씨네 2건이 13:20 마이페이지 12건에 포함되고 <b>르뱅 사워도우·제이앤랩 향수 2건만 미확인</b>(확인되면 14건)입니다. 네이버+는 마이페이지 내역 <b>18건</b>(진행 7 · 미당첨 3)으로 정정해 총 제출이 <b>1,367 → 1,377건</b>이 됐고, 인절미 몫으로 따로 더하던 2건은 이 18건에 포함된 것으로 보고 뺐습니다. 남은 신청 가능 <b>380건</b>(웹 242 · 앱 138)은 그대로이고 클라우드리뷰 228·무신사 138이 대부분입니다. <b>11/24 신규는 09:00 스캔 후</b> 반영합니다.</div>
 
   <!-- 컨트롤 -->
   <div class="controls">
@@ -376,8 +385,8 @@
       <div class="todo-item">
         <div class="todo-num">2</div>
         <div>
-          <div class="todo-t">네이버 로그인 — 6곳 중 4곳 풀림, SSG·네이버+ 남음</div>
-          <div class="todo-d">09:00에 비밀번호 불일치로 막혔던 6곳 중 강남맛집·택배의여왕·뷰티의여왕·클라우드리뷰는 세션이 살아나 신청·스캔을 마쳤다. 후보가 남은 곳은 SSG닷컴(셀다움 미스트·속눈썹 2건)과 네이버+(페퍼민트 스크럽 샴푸·앰플엔 비비크림 2건)뿐이고, 다음 실행에서 로그인 상태를 확인해 신청한다.</div>
+          <div class="todo-t">SSG 본인확인 SMS · 클라우드리뷰 번호 변경 확인</div>
+          <div class="todo-d">SSG닷컴은 <b>010-****-7788</b>로 오는 본인확인 SMS가 있어야 해서 셀다움 미스트·속눈썹 2건이 대기 중이다. 클라우드리뷰는 ‘채널 등록 이후 신청이 가능합니다’ 오류로 신청이 막혀 사이트 문의가 필요하고, 등록 번호가 <b>010-****-7788</b>이라 <b>010-****-8579</b>로 바꿀지 결정이 필요하다. 네이버+ 후보 2건(페퍼민트 스크럽 샴푸·앰플엔 비비크림)은 아직 미신청이다.</div>
         </div>
       </div>
       <div class="todo-item">
@@ -385,6 +394,13 @@
         <div>
           <div class="todo-t">무신사 — 신규 145건이 앱 전용으로 변경</div>
           <div class="todo-d">11/23 신규 145건 중 기준 통과 138건. 웹에서는 신청이 막혀 앱에서만 된다. 후보 표(캠페인 ID·상품·판매가·신청/모집)는 받아 두었으니 앱에서 골라 신청하면 된다. 마감 11/29.</div>
+        </div>
+      </div>
+      <div class="todo-item">
+        <div class="todo-num">!</div>
+        <div>
+          <div class="todo-t">인절미(PC) 확인 멈춤 — 승인 요청 미처리</div>
+          <div class="todo-d">노션 마지막 확인이 <b>11/23 03:47</b>이라 약 28시간째 멈춰 있다. 11/23 아침에 승인한 택배·뷰티의여왕 발표 전 취소(어나더페이스 나이아치온 겔 마스크팩·트루스오브뷰티 앰플·스팟크림)와 카카오 비메이저 영양제·제외 성분 화장품 위시 제거가 아직 <b>[대기]</b>다. PC를 켜서 인절미를 깨우면 처리된다.</div>
         </div>
       </div>
       <div class="todo-item">
@@ -415,12 +431,12 @@
       <div class="tl-row soon">
         <div class="tl-date">11/23 (월) 13:00</div>
         <div class="tl-body">지그재그 남은 53건 중 40건 발표 <span style="color:var(--sub);font-weight:600">· 종료 60건은 전부 미당첨</span></div>
-        <div class="tl-sub">13:00 발표분 결과는 다음 스캔에서 반영 · 먼데이블루 후드집업 → 11/24~25 순차</div>
+        <div class="tl-sub">13:00 발표분 결과는 11/24 09:00 스캔에서 반영 · 먼데이블루 후드집업 → 11/24~25 순차</div>
       </div>
       <div class="tl-row soon">
-        <div class="tl-date">11/23 (월) 14:41</div>
-        <div class="tl-body">11번가 신규 10건 오픈 <span style="color:var(--sub);font-weight:600">· 21:00 회차에서 이어받기</span></div>
-        <div class="tl-sub">09:00 스캔에서 잡힌 11번가 2건은 이미 신청 · 누적 10건 · 14:42 이어서 신청 예정</div>
+        <div class="tl-date">11/24 (화) 24:00</div>
+        <div class="tl-body">11번가 10건 마감 <span style="color:var(--sub);font-weight:600">· 로그인 카드 대기</span></div>
+        <div class="tl-sub">11/23 14:41 오픈분 · 21:00 이어받기 못 함 → 오늘 안에 처리해야 한다</div>
       </div>
       <div class="tl-row soon">
         <div class="tl-date">11/24 (화) ~</div>
@@ -429,7 +445,7 @@
       </div>
       <div class="tl-row soon">
         <div class="tl-date">11/25 (수) ~</div>
-        <div class="tl-body">네이버+ 6건 · 뷰티의여왕 블레쥬 크림 4차</div>
+        <div class="tl-body">네이버+ 7건 · 뷰티의여왕 블레쥬 크림 4차</div>
         <div class="tl-sub">네이버+ 뷰티시스 앰플 11/25 10:00 · 레뷰 빌라르 마사지기 V2 11/27 · 리뷰노트 컴포트미 부츠 11/28</div>
       </div>
       <div class="tl-row soon">
@@ -439,8 +455,8 @@
       </div>
       <div class="tl-row">
         <div class="tl-date">11/30 (월) ~</div>
-        <div class="tl-body">무신사 188건 · 티블 15건 · 강남맛집 12건</div>
-        <div class="tl-sub">무신사 발표 65건은 11/22 전부 미선정 확인 · 11/23 신규 145건은 앱 전용</div>
+        <div class="tl-body">무신사 188건 · 티블 15건 · 강남맛집 12건(+2 미확인)</div>
+        <div class="tl-sub">무신사 발표 65건은 11/22 전부 미선정 확인 · 11/23 신규 145건은 앱 전용 · 강남맛집은 르뱅·제이앤랩 2건 마이페이지 재확인 필요</div>
       </div>
       <div class="tl-row">
         <div class="tl-date">12/31 (목)</div>
@@ -465,24 +481,25 @@
     <b>집계 기준</b>
     <ul>
       <li>상단 요약은 <b>콩떡·인절미·찰떡 전체 합산 한 세트</b>다. 채널별 세부는 아래 카드에서 본다.</li>
-      <li><b>총 제출 1,367건</b> = 콩떡 18개 채널 977 + 카카오 327 + 포포몬 18 + 놀러와 6 + 인절미 네이버+ 2 + 웹 경품 37. 이 중 체험단 1,330건 · 웹 경품 37건.</li>
+      <li><b>총 제출 1,377건</b> = 콩떡 18개 채널 989 + 카카오 327 + 포포몬 18 + 놀러와 6 + 웹 경품 37. 이 중 체험단 1,340건 · 웹 경품 37건. (11/24 07:45 네이버+ 마이페이지 실측으로 6 → 18건 정정)</li>
       <li><b>남은 신청 가능 380건</b> = 웹 신청 242(클라우드리뷰 228 · 11번가 10 · 네이버+ 2 · SSG 테스터존 2) + 앱 전용 138(무신사). 나머지 12개 채널(리뷰노트·지그재그·클립뷰·서울오빠·포포몬·링블·레뷰·리뷰플레이스·체험뷰·아싸뷰·티블·뷰티의여왕)은 현재 기준 통과 건 소진으로 0건이다. 클라우드리뷰 228건은 스캔만 끝나고 아직 신청하지 않은 후보라 누적 신청 건수에는 넣지 않았다.</li>
-      <li>확인 응모 977건 = 리뷰노트 260 + 택배의여왕·뷰티의여왕 68 + 지그재그 113 + 무신사 253 + 링블 28 + 레뷰 18 + 티블 15 + 체험뷰 15 + 클립뷰 27 + 네이버+ 6 + 서울오빠 16 + 강남맛집 12 + 리뷰플레이스 86 + 11번가 10 + 스타일씨 12 + SSG 테스터존 3 + 아싸뷰 35. 택배의여왕·뷰티의여왕은 마이페이지 합산으로 한 카드에 묶었다(18개 채널 = 카드 17장).</li>
-      <li><b>발표 완료 141건</b> = 무신사 65 + 지그재그 60 + 포포몬 10 + 리뷰노트 3 + 체험뷰 2 + 카카오 1(오르골 무드등 당첨). 11/23 09:00 스캔에서 지그재그 미당첨 2건·체험뷰 미선정 1건(유다의 어머니)이 추가 확인됐다. 카카오 나머지 326건과 웹 경품 37건은 발표 결과가 집계 중이라 여기서 빠졌다.</li>
-      <li><b>당첨률 = 당첨 1 ÷ 발표 확인 141 = 0.7%</b>. 카드에서는 발표 완료가 0건인 채널을 <b>–대기</b>, 발표 결과가 집계되지 않은 채널(카카오)을 <b>미집계</b>로 표기해 0.0%와 구분한다.</li>
-      <li><b>발표 대기 847건+</b> = 콩떡 18개 채널 발표 대기 합(리뷰노트 257 · 무신사 188 · 리뷰플레이스 86 · 택배·뷰티의여왕 68 · 지그재그 53 · 아싸뷰 35 · 링블 28 · 클립뷰 27 · 레뷰 18 · 서울오빠 16 · 티블 15 · 체험뷰 13 · 스타일씨 12 · 강남맛집 12 · 11번가 10 · 네이버+ 6 · SSG 테스터존 3). 카카오 326 · 포포몬 8 · 놀러와 6 · 웹 경품 37은 미집계라 빠져 있어 실제 대기는 847건보다 많다.</li>
-      <li><b>발표 임박 407건</b> = 발표일이 11/23~11/29인 6개 채널의 발표 대기 합(리뷰노트 257 · 택배·뷰티의여왕 68 · 지그재그 53 · 레뷰 18 · 네이버+ 6 · 웹 경품 공공기관 5). 신규 5채널(146건)과 카카오(11/27~12/01)는 발표 일정·건수가 확정되지 않아 뺐다.</li>
-      <li>오늘 제출 684건 = 11/22 보고·밤사이 611건 + 11/23 09:00 정기 스캔 신규 65건(리뷰노트 28 · 클립뷰 9 · 서울오빠 8 · 지그재그 7 · 링블 3 · 포포몬 3 · 레뷰 2 · 리뷰플레이스 2 · 11번가 2 · 체험뷰 1) + 13:23 이어받기 8건(강남맛집 6 · 택배의여왕 2). 채널 카드의 ‘오늘’은 그 채널이 마지막 스캔에서 새로 넣은 건수(재확인·재스캔분 포함)라 합계와 다르다.</li>
+      <li>확인 응모 989건 = 리뷰노트 260 + 택배의여왕·뷰티의여왕 68 + 지그재그 113 + 무신사 253 + 링블 28 + 레뷰 18 + 티블 15 + 체험뷰 15 + 클립뷰 27 + 네이버+ 18 + 서울오빠 16 + 강남맛집 12 + 리뷰플레이스 86 + 11번가 10 + 스타일씨 12 + SSG 테스터존 3 + 아싸뷰 35. 택배의여왕·뷰티의여왕은 마이페이지 합산으로 한 카드에 묶었다(18개 채널 = 카드 17장).</li>
+      <li><b>발표 완료 144건</b> = 무신사 65 + 지그재그 60 + 포포몬 10 + 리뷰노트 3 + 네이버+ 3(미당첨) + 체험뷰 2 + 카카오 1(오르골 무드등 당첨). 11/23 09:00 스캔에서 지그재그 미당첨 2건·체험뷰 미선정 1건이 추가 확인됐고, 네이버+ 미당첨 3건은 11/23 13:18 마이페이지 실측이다. 카카오 나머지 326건과 웹 경품 37건은 발표 결과가 집계 중이라 빠졌다.</li>
+      <li><b>당첨률 = 당첨 1 ÷ 발표 확인 144 = 0.7%</b>. 카드에서는 발표 완료가 0건인 채널을 <b>–대기</b>, 발표 결과가 집계되지 않은 채널(카카오)을 <b>미집계</b>로 표기해 0.0%와 구분한다.</li>
+      <li><b>발표 대기 848건+</b> = 콩떡 18개 채널 발표 대기 합(리뷰노트 257 · 무신사 188 · 리뷰플레이스 86 · 택배·뷰티의여왕 68 · 지그재그 53 · 아싸뷰 35 · 링블 28 · 클립뷰 27 · 레뷰 18 · 서울오빠 16 · 티블 15 · 체험뷰 13 · 스타일씨 12 · 강남맛집 12 · 11번가 10 · 네이버+ 7 · SSG 테스터존 3). 카카오 326 · 포포몬 8 · 놀러와 6 · 웹 경품 37은 미집계라 빠져 있어 실제 대기는 848건보다 많다.</li>
+      <li><b>발표 임박 408건</b> = 발표일이 11/23~11/29인 6개 채널의 발표 대기 합(리뷰노트 257 · 택배·뷰티의여왕 68 · 지그재그 53 · 레뷰 18 · 네이버+ 7 · 웹 경품 공공기관 5). 신규 5채널(146건)과 카카오(11/27~12/01)는 발표 일정·건수가 확정되지 않아 뺐다.</li>
+      <li>11/23 제출 684건 = 11/22 보고·밤사이 611건 + 11/23 09:00 정기 스캔 신규 65건(리뷰노트 28 · 클립뷰 9 · 서울오빠 8 · 지그재그 7 · 링블 3 · 포포몬 3 · 레뷰 2 · 리뷰플레이스 2 · 11번가 2 · 체험뷰 1) + 13:11~13:21 이어받기 8건(강남맛집 6 · 택배의여왕 2). <b>11/24 신규는 09:00 스캔 후</b> 더해진다. 채널 카드의 ‘오늘’은 그 채널이 마지막 스캔에서 새로 넣은 건수(재확인·재스캔분 포함)라 합계와 다르다.</li>
       <li><b>09:00 스캔 누적 보정</b> — 마이페이지 실측값을 그대로 썼다: 리뷰노트 228→260(신규 +28, 나머지 4건은 직전 22:54 집계와의 시점 차이) · 지그재그 106→113 · 클립뷰 18→27 · 서울오빠 8→16 · 링블 25→28 · 레뷰 17→18 · 리뷰플레이스 84→86 · 11번가 8→10 · 체험뷰 14→15 · 포포몬 15→18(신청 대기 8). 그래서 총 제출 증가폭(+68)이 신규 보고분(65건)보다 조금 크다.</li>
       <li><b>취소 반영</b> — 리뷰플레이스 98→84(유해·중복 14: 속옷·3중 기능성·필링·아르투아 중복 3쌍·비메이저 영양제 7·전성분 미확인 1) · 링블 29→25(비메이저 영양제·보충제 4) · 아싸뷰 36→35(신청 후 취소 6: 달리프 글램 원스텝 톤 블리치 1785913082 · 사전 제외 14) · 스타일씨 무명·전성분 미확인 4.</li>
       <li>클립뷰는 11/23 09:00 마이페이지 실측 27건(전부 신청·대기)이고 잔여 191건 중단은 유지다. 내부 기록 33건이 10건으로 보이던 차이는 11건 직접 취소로 확인됐다.</li>
-      <li>네이버+는 콩떡 계정 실측 6건만 카드에 넣었다. 기존 보드의 8건(인절미 2 포함)과 겹치는지는 확인 전이라 임의로 합산하지 않았다 — 인절미 2건이 중복이면 총계는 1,358건.</li>
+      <li><b>네이버+ 중복 대조(11/24 07:45)</b> — 마이페이지 내역 <b>18건</b>: 진행 중 7건 전부 신청 완료 · 미당첨 3 · 나머지 8건은 종료 회차로 상태 미확인. 09:00 스캔의 6건은 진행 중 기준이라 18건으로 정정했고, 콩떡이 13:25 보고 3건(후르디아 립밤·닥터펩티 징크·비타 세럼)은 13:14~13:16 신청분으로 이 18건에 이미 들어 있다. 인절미 몫으로 별도 가산하던 2건은 같은 계정 내역에 포함된 것으로 보고 뻸다(별도 계정이면 +2). 레티놀 앰플은 기준상 미신청이 맞다.</li>
+      <li><b>강남맛집 중복 대조</b> — 13:11~13:21 찰떡 이어받기 6건(함평떡집·벌집삼겹살·FERN·흰돌팜 딸기·양씨네 황금향·웅조네방앗간)으로 마이페이지 12건을 확인했다. 콩떡이 13:25 보고 4건 중 웅조네·양씨네는 이 12건에 포함, <b>르뱅 사워도우(2366799)·제이앤랩 향수(2366829) 2건은 13:20 실측에 없어 미확인</b>이다 — 다음 스캔에서 확인하고, 확인되면 14건으로 올린다. 착불(굴)·선결제 페이백·미검증 보조제는 제외했다.</li>
       <li><b>무신사</b>는 11/23 신규 145건(기준 통과 138건)이 <b>앱 전용</b>으로 바뀌어 웹 신청이 막혔다. 후보 표(캠페인 ID·상품·판매가·신청/모집)만 받아 두었고, 신청은 앱에서 직접 해야 한다(마감 11/29). 남은 신청의 앱 전용 138건이 이 건들이다.</li>
-      <li><b>네이버 로그인</b> — 09:00에 비밀번호 불일치로 막혔던 6곳 중 강남맛집·택배의여왕·뷰티의여왕·클라우드리뷰는 세션이 살아나 신청·스캔을 마쳤다. 후보가 남은 SSG닷컴(2건)·네이버+(2건)는 다음 실행에서 로그인 상태를 확인해 신청한다.</li>
+      <li><b>로그인·본인확인</b> — 강남맛집·택배의여왕·뷰티의여왕은 11/23에 세션이 살아 있어 신청·스캔을 마쳤다. SSG닷컴 2건은 <b>010-****-7788</b> 본인확인 SMS 대기, 클라우드리뷰는 ‘채널 등록 이후 신청’ 오류로 막혀 등록 번호(<b>010-****-7788</b>)를 <b>010-****-8579</b>로 바꿀지 확인이 필요하다. 네이버+ 후보 2건은 미신청.</li>
       <li>웹 경품 37건 = 11/17 6 · 11/19 4 · 11/20 5 · 11/22 5 · 11/23 17(국민생각함 7 · 공공데이터포털·뽐뿌 6 · 돈좀요 3 · SGIS 퀴즈 1). ‘모두가 도시농부’ 설문이 뽐뿌·돈좀요 두 경로로 각각 제출돼 실질 1건은 중복일 수 있다.</li>
       <li>당첨 가치 33,900원은 동일 상품 오늘의집 판매가(50,000원→32%, 11/22 09:25 기준). 실제 지급가는 0원.</li>
       <li>개인정보 마스킹: 이름·핸들·이메일·신체 치수 표기 0건, 전화번호는 끝 4자리만 표기(공개 페이지).</li>
-      <li>출처: 콩떡이 11/23 09:00 정기 스캔(신규 65건 · 마이페이지 11장) · 11/22 22:54 13개 채널 실측 · 11/23 00:53 유해·중복 18건 취소 · 07:56 아싸뷰 1건 취소로 35건 · 13:23 이어받기(강남맛집 6 · 택배의여왕 2) / 인절미 노션 〈인절미 작업 보고〉(최신 11/21 18:06) / 찰떡 기록.</li>
+      <li>출처: 콩떡이 11/24 07:30 공모주 스캔 · 11/23 13:25 네이버 QR 복구 6곳 최종 보고 · 11/23 13:18~13:21 찰떡 마이페이지 실측(강남맛집 12·네이버+ 18·택배의여왕·SSG·클라우드리뷰) · 11/23 09:00 정기 스캔(신규 65건 · 마이페이지 11장) · 11/22 22:54 13개 채널 실측 · 11/23 00:53 유해·중복 18건 취소 · 07:56 아싸뷰 1건 취소로 35건 / 인절미 노션 〈인절미 작업 보고〉(마지막 확인 11/23 03:47) / 찰떡 기록.</li>
     </ul>
   </div>
 
@@ -575,55 +592,42 @@
     <section class="grid">
       <div class="card">
         <div class="k">철회·취소</div>
-        <div class="v c-red">2<small>건</small></div>
-        <div class="s">에스에프씨 · 아델 — 수요예측 부진</div>
+        <div class="v c-red">3<small>건</small></div>
+        <div class="s">에스에프씨 · 아델 · <b>케이엠에프(11/23 철회)</b> — 수요예측 부진</div>
       </div>
       <div class="card">
-        <div class="k">다음 주 후보</div>
-        <div class="v c-blue">3<small>건</small></div>
-        <div class="s">11/24~25 · 11/27~30</div>
+        <div class="k">오늘·이번 주 후보</div>
+        <div class="v c-blue">2<small>건</small></div>
+        <div class="s">11/24~25 신영스팩12호 · 11/27~30 에이엔에이치스트럭쳐</div>
       </div>
       <div class="card wide">
         <div class="k">계좌 개설 선행</div>
-        <div class="v c-orange">3<small>곳</small></div>
-        <div class="s">주관사 IBK·신영·NH 모두 <b>보유 증권사 10곳(KB·대신·미래에셋·삼성·신한·키움·하나·한투·토스·카카오페이)에 없음</b> → 비대면 계좌 개설이 먼저</div>
+        <div class="v c-orange">2<small>곳</small></div>
+        <div class="s">주관사 신영·NH가 <b>보유 증권사 10곳(KB·대신·미래에셋·삼성·신한·키움·하나·한투·토스·카카오페이)에 없음</b> → 비대면 개설이 먼저 · IBK는 케이엠에프 철회로 <b>불필요</b></div>
       </div>
     </section>
 
     <div class="mcard" style="margin-top:10px">
-      <div class="mc-h"><div class="mc-name" style="color:var(--red)">철회·취소 2건</div><div class="mc-val" style="color:var(--red)">청약 불가</div></div>
+      <div class="mc-h"><div class="mc-name" style="color:var(--red)">철회·취소 3건</div><div class="mc-val" style="color:var(--red)">청약 불가</div></div>
       <div class="mc-b">
         <b>에스에프씨</b> — 11/17 수요예측 부진으로 <b>공모 철회신고서</b> 제출 → 11/18~19 청약 취소. 확정 공모가·증거금은 산출 전 철회라 <span class="r">집계 사이트의 ‘확정가’는 쓰면 안 되는 값</span>.<br>
-        <b>아델</b> — 11/20 수요예측 부진으로 철회 → 11/23~24 청약 취소(삼성·미래에셋 주관 예정이었음).
+        <b>아델</b> — 11/20 수요예측 부진으로 철회 → 11/23~24 청약 취소(삼성·미래에셋 주관 예정이었음).<br>
+        <b>케이엠에프</b> — 11/23 11:32 철회신고서 제출 → 11/24~25 청약·11/27 환불·12/3 상장 전부 취소(올해 5번째 철회). <b>IBK투자증권 비대면 계좌 개설도 불필요</b>.
       </div>
     </div>
 
-    <div class="sec-label">다음 주 후보 3건 <span class="sub">· 메리트 판단 포함</span></div>
-
-    <div class="stock">
-      <div class="st-h"><div class="st-name">케이엠에프</div><div class="st-when">11/24(화)~25(수)</div></div>
-      <div class="st-grid">
-        <div><div class="st-k">주관사</div><div class="st-v2">IBK 단독</div></div>
-        <div><div class="st-k">최소 증거금</div><div class="st-v2">75,000~89,000원</div></div>
-        <div><div class="st-k">확인 시점</div><div class="st-v2">11/23 공고</div></div>
-        <div><div class="st-k">판단</div><div class="st-v2">조건부</div></div>
-      </div>
-      <div class="st-judge"><b>조건부</b> — 11/23 공고에서 경쟁률 1.5만:1 이상·300:1 이상, 확약 3% 이상일 때만 검토.</div>
-      <div class="req">⚠ IBK 계좌 개설 선행</div>
-      <label class="chk" data-id="acct-ibk" data-on="0"><input type="checkbox" data-id="acct-ibk"><span class="box">✓</span><span class="chk-t">IBK 비대면 계좌 개설 완료</span></label>
-      <label class="chk" data-id="sub-kmf" data-on="0"><input type="checkbox" data-id="sub-kmf"><span class="box">✓</span><span class="chk-t">케이엠에프 청약 완료</span></label>
-    </div>
+    <div class="sec-label">이번 주·다음 주 후보 2건 <span class="sub">· 11/24 07:30 스캔 · 메리트 판단 포함</span></div>
 
     <div class="stock">
       <div class="st-h"><div class="st-name">신영스팩12호</div><div class="st-when">11/24(화)~25(수)</div></div>
       <div class="st-grid">
         <div><div class="st-k">주관사</div><div class="st-v2">신영 단독</div></div>
         <div><div class="st-k">최소 증거금</div><div class="st-v2">20,000원</div></div>
-        <div><div class="st-k">공모가</div><div class="st-v2">2,000원 예정</div></div>
-        <div><div class="st-k">판단</div><div class="st-v2">메리트 낮음</div></div>
+        <div><div class="st-k">공모가</div><div class="st-v2">2,000원 확정</div></div>
+        <div><div class="st-k">판단</div><div class="st-v2">메리트 없음 · 참여 불가</div></div>
       </div>
-      <div class="st-judge"><b>메리트 없음에 가깝다</b> — 스팩 상장은 첫날 상승 폭이 제한적이고 공모가 2,000원대라 최소 청약으로도 수익이 작다. 11/23 확정 공모가 공고만 확인.</div>
-      <div class="req">⚠ 신영 계좌 개설 선행</div>
+      <div class="st-judge"><b>메리트 없음 + 참여 불가</b> — 확정 2,000원 / 기관 1,275.80:1 / 확약 0.00% / 유통 98.35%. 10~11월 상장 스팩 3곳 모두 시초가만 뜨고 종가는 공모가를 밑돌았다. 신영증권 미보유 + 청약초일 4영업일 전(11/18) 개설 계좌만 가능해 <b>이번 청약은 참여할 수 없다</b>.</div>
+      <div class="req">⚠ 신영 계좌는 엔키화이트햇(12/1~2) 청약용으로 11/25까지</div>
       <label class="chk" data-id="acct-shinyoung" data-on="0"><input type="checkbox" data-id="acct-shinyoung"><span class="box">✓</span><span class="chk-t">신영 비대면 계좌 개설 완료</span></label>
     </div>
 
@@ -633,20 +637,34 @@
         <div><div class="st-k">주관사</div><div class="st-v2">NH 단독</div></div>
         <div><div class="st-k">최소 증거금</div><div class="st-v2">56,000~68,000원</div></div>
         <div><div class="st-k">확인 시점</div><div class="st-v2">11/26 공고</div></div>
-        <div><div class="st-k">판단</div><div class="st-v2">후보 중 최상위</div></div>
+        <div><div class="st-k">판단</div><div class="st-v2">11/26 공고 후</div></div>
       </div>
-      <div class="st-judge"><b>후보 중 가장 낫다</b> — 방산 테마에 유통물량 29.49%로 구조가 좋은 편. 11/26 공고에서 12,500원 이상·500:1 이상이면 추천.</div>
+      <div class="st-judge"><b>11/26 확정공고까지 보류</b> — 수요예측이 ~11/25 진행 중이라 지금은 판단하지 않는다. 11/26 확정공고에서 <b>확정가 12,500원↑ · 경쟁률 500:1↑ · 확약 5%↑</b>이면 메리트 최대. NH 비대면은 당일 개설 후 바로 청약이 되지만 <b>11/26 사전 개설 권장</b>.</div>
       <div class="req">⚠ NH 계좌 개설 선행</div>
       <label class="chk" data-id="acct-nh" data-on="0"><input type="checkbox" data-id="acct-nh"><span class="box">✓</span><span class="chk-t">NH 비대면 계좌 개설 완료</span></label>
       <label class="chk" data-id="sub-anh" data-on="0"><input type="checkbox" data-id="sub-anh"><span class="box">✓</span><span class="chk-t">에이엔에이치스트럭쳐 청약 완료</span></label>
+    </div>
+
+    <div class="stock">
+      <div class="st-h"><div class="st-name">엔키화이트햇</div><div class="st-when">12/1(화)~2(수)</div></div>
+      <div class="st-grid">
+        <div><div class="st-k">주관사</div><div class="st-v2">신영 단독</div></div>
+        <div><div class="st-k">일정</div><div class="st-v2">수요예측 ~11/26 · 확정공고 11/30</div></div>
+        <div><div class="st-k">계좌 기한</div><div class="st-v2">11/25(수)까지</div></div>
+        <div><div class="st-k">판단</div><div class="st-v2">11/30 공고 후</div></div>
+      </div>
+      <div class="st-judge"><b>계좌 기한이 먼저다</b> — 신영 청약에 참여하려면 4영업일 전 규정으로 <b>11/25(수)까지</b> 신영 계좌를 개설해야 한다. 메리트 판단은 11/30 확정공고에서 한다.</div>
+      <div class="req">⚠ 신영 계좌 개설 선행(11/25 마감)</div>
+      <label class="chk" data-id="acct-shinyoung2" data-on="0"><input type="checkbox" data-id="acct-shinyoung2"><span class="box">✓</span><span class="chk-t">신영 계좌 개설(11/25까지) 완료</span></label>
     </div>
 
     <div class="info">
       <b>공모주 원칙</b>
       <ul>
         <li>증권사 무관 전 종목을 빠짐없이 보고, <b>메리트가 없으면 없다고 명시</b>한다.</li>
-        <li>10~11월은 수요예측 부진으로 철회가 잇따라 시장이 보수적이다 — 알짜만 최소 증거금으로.</li>
-        <li>후보 일정·주관사·최소 증거금은 11/21 스캔 기준이고, 확정 공모가는 공고 당일 다시 확인한다.</li>
+        <li>10~11월은 수요예측 부진으로 철회가 잇따라 시장이 보수적이다 — 알짜만 최소 증거금으로. 철회 3건 중 케이엠에프는 올해 5번째다.</li>
+        <li><b>11/24 07:30 콩떡이 스캔 결론</b> — 오늘 청약·상장 3건 모두 메리트 없음(케이엠에프 철회 · 신영스팩12호 참여 불가 · 엠비디는 확정 7,000원(하단가 대비 -27.1%)·기관 187.10:1로 오늘 상장, 메리트 없음). 에이엔에이치스트럭쳐만 11/26 확정공고 보류.</li>
+        <li>후보 일정·주관사·최소 증거금은 11/21 스캔을 바탕으로, 오늘 값은 11/24 07:30 스캔으로 갱신했다. 확정 공모가는 공고 당일 다시 확인한다.</li>
       </ul>
     </div>
 
@@ -669,20 +687,20 @@
     <div class="info">
       <b>기준</b>
       <ul>
-        <li>공모주 후보는 11/21 아침 스캔값이고, 철회 2건은 각 공시일 기준이다.</li>
+        <li>공모주 후보는 11/24 07:30 스캔값이고, 철회 3건은 각 공시일 기준이다.</li>
         <li>계좌 개설·청약 체크는 이 브라우저에만 저장된다(계좌번호·인증정보 없음).</li>
         <li>부업 2건의 착수 시점은 공부 일정이 끝나는 12월 말이다.</li>
       </ul>
     </div>
   </div><!-- /viewStock -->
 
-  <footer>콩떡 · 인절미 · 찰떡 합산 · 29CM·오늘의집·W컨셉 제외<br>다음 갱신 14:42 11번가 10건 신청 · 18:00 퇴근 브리핑 · 21:00 재스캔</footer>
+  <footer>콩떡 · 인절미 · 찰떡 합산 · 29CM·오늘의집·W컨셉 제외<br>다음 갱신 09:00 체험단·출석 스캔 · 11번가 10건 24:00 마감 · 18:00 퇴근 브리핑</footer>
 </div>
 
 <script>
 const CHANNELS = [
   {name:"리뷰노트", group:"contest", owners:["콩떡"], c13:true, total:260, done:3, wait:257, win:0, today:28, ann:"11/24~11/28", status:"발표 임박", st:"soon", exclude:"9", note:"11/23 09:00 +28 신청 → 누적 260 · 잔여 0건(전량 신청 완료) · 컴포트미 양가죽 부츠 11/28 · 발표 3건은 미선정"},
-  {name:"택배의여왕 · 뷰티의여왕", group:"contest", owners:["콩떡","인절미"], c13:true, total:68, done:0, wait:68, win:0, today:2, ann:"11/24~11/27", status:"발표 임박", st:"soon", exclude:"1+", note:"마이페이지 실측 66 + 13:23 택배의여왕 2(호두정과·서리태) = 68 · 블레쥬 크림 4차 11/25~"},
+  {name:"택배의여왕 · 뷰티의여왕", group:"contest", owners:["콩떡","인절미"], c13:true, total:68, done:0, wait:68, win:0, today:2, ann:"11/24~11/27", status:"발표 임박", st:"soon", exclude:"1+", note:"마이페이지 실측 66 + 13:23 택배의여왕 2(호두정과·서리태) = 68 · 13:25 콩떡이 최종 보고 2건도 같은 건(중복 0) · 블레쥬 크림 4차 11/25~"},
   {name:"지그재그", group:"contest", owners:["콩떡"], c13:true, total:113, done:60, wait:53, win:0, today:7, ann:"11/23~11/25", status:"대기 53 · 미당첨 60", st:"soon", exclude:"3+", note:"11/23 09:00 +7 → 전체 113 · 당첨 0 · 미당첨 60(09:00에 2건 추가 확인) · 남은 53건 중 40건 11/23 13:00 발표"},
   {name:"무신사", group:"contest", owners:["콩떡"], c13:true, total:253, done:65, wait:188, win:0, today:0, ann:"11/30", status:"미선정 65", st:"fail", exclude:"다수", note:"253건은 11/23 더블체크에서 보드와 일치 확인 · 발표 65건 전부 미선정 · 11/23 신규 145건(기준 통과 138)은 앱 전용이라 웹 신청 불가"},
   {name:"링블", group:"contest", owners:["콩떡"], c13:true, total:28, done:0, wait:28, win:0, today:3, ann:"사이트 공지", status:"대기", st:"", exclude:"5+", note:"29 → 25(영양제·보충제 4건 취소) + 11/23 신규 3 = 28 · 출석 30P/일 적립"},
@@ -690,16 +708,16 @@ const CHANNELS = [
   {name:"티블", group:"contest", owners:["콩떡"], c13:true, total:15, done:0, wait:15, win:0, today:0, ann:"11/30~", status:"대기", st:"", exclude:"다수", note:""},
   {name:"체험뷰", group:"contest", owners:["콩떡"], c13:true, total:15, done:2, wait:13, win:0, today:1, ann:"사이트 공지", status:"미선정 2", st:"fail", exclude:"11+", note:"11/23 +1(하이바이 젤리케이스+그립톡) → 신청 15 · 미선정 2(유다의 어머니 추가) · 나머지 13건 대기"},
   {name:"클립뷰", group:"contest", owners:["콩떡"], c13:true, total:27, done:0, wait:27, win:0, today:9, ann:"12/31 (상시)", status:"상시모집", st:"always", exclude:"다수", note:"11/23 09:00 마이페이지 실측 27건(전부 신청·대기) · 09:00 신규 9건은 실속형 선별 · 잔여 191건 중단 유지"},
-  {name:"네이버+ 무료체험", group:"contest", owners:["콩떡","인절미"], c13:true, total:6, done:0, wait:6, win:0, today:0, ann:"11/25~", status:"발표 임박", st:"soon", exclude:"다수", note:"콩떡 계정 6건 · 기존 8건(인절미 2)·미당첨 3건과 중복 여부 확인 중"},
+  {name:"네이버+ 무료체험", group:"contest", owners:["콩떡","인절미"], c13:true, total:18, done:3, wait:7, win:0, today:0, ann:"11/26~12/02", status:"진행 7 · 미당첨 3", st:"soon", exclude:"다수", note:"11/23 13:18 마이페이지 내역 18건 = 진행 7(전부 신청) + 미당첨 3 + 종료 회차 8 · 콩떡이 13:25 보고 3건(후르디아 립밤·닥터펩티 2)은 13:14~13:16 신청분으로 포함 · 레티놀 앰플은 기준상 미신청"},
   {name:"서울오빠", group:"contest", owners:["콩떡"], c13:true, total:16, done:0, wait:16, win:0, today:8, ann:"캠페인별", status:"대기", st:"", exclude:"—", note:"11/23 +8 → 신청 16 · 포인트 100P · 블로그 주소 중복은 그대로 두기로 · 출석 50P/일"},
-  {name:"강남맛집", group:"contest", owners:["콩떡"], c13:true, total:12, done:0, wait:12, win:0, today:6, ann:"11/30~", status:"대기", st:"", exclude:"—", note:"13:23 이어받기 6건 신청 완료 — 함평떡집·벌집삼겹살·FERN 에너지젤·흰돌팜 딸기·양씨네 황금향 2.5kg·웅조네방앗간(착불 굴·선결제 페이백·미검증 보조제 제외)"},
+  {name:"강남맛집", group:"contest", owners:["콩떡"], c13:true, total:12, done:0, wait:12, win:0, today:6, ann:"11/30~", status:"대기", st:"", exclude:"—", note:"13:11~13:21 이어받기 6건(함평떡집·벌집삼겹살·FERN·흰돌팜 딸기·양씨네 황금향·웅조네)으로 마이페이지 12건 확인 · 콩떡이 13:25 보고 4건 중 르뱅 사워도우·제이앤랩 향수 2건은 미확인(다음 스캔, 최대 14건)"},
   {name:"리뷰플레이스", group:"contest", owners:["콩떡"], c13:true, total:86, done:0, wait:86, win:0, today:46, ann:"캠페인별", status:"대기", st:"", exclude:"14", note:"사이트 표시 86건(11/23 +2) · 전부 대기 · 넘버즈인 3번은 모집 종료로 취소 버튼 비활성"},
   {name:"11번가", group:"contest", owners:["콩떡"], c13:true, total:10, done:0, wait:10, win:0, today:2, ann:"캠페인별", status:"대기", st:"", exclude:"—", note:"11/23 +2 → 10건 · 전부 대기 · 14:41 오픈 예정 10건은 21:00 회차에서 이어받기"},
   {name:"스타일씨", group:"contest", owners:["콩떡"], c13:true, total:12, done:0, wait:12, win:0, today:13, ann:"캠페인별", status:"신규 채널", st:"", exclude:"30", note:"신규 9 + 기존 3 = 12건 · 무명·전성분 미확인 4건 취소 · 출석 캐시 61C"},
   {name:"SSG 테스터존", group:"contest", owners:["콩떡"], c13:true, total:3, done:0, wait:3, win:0, today:0, ann:"캠페인별", status:"신규 채널", st:"", exclude:"—", note:"신규 채널 3건 · 전부 대기"},
   {name:"아싸뷰", group:"contest", owners:["콩떡"], c13:true, total:35, done:0, wait:35, win:0, today:39, ann:"캠페인별", status:"대기", st:"", exclude:"14", note:"54건 전수 처리 · 최종 유지 35(신규 34 + 기존 1) · 신청 후 취소 6(달리프 톤 블리치 07:56) · 사전 제외 14 · 마이페이지 ‘선정 대기 35’ 확인"},
-  {name:"카카오 선물하기", group:"contest", owners:["인절미"], c13:false, total:327, done:null, wait:null, win:1, today:0, ann:"11/27~12/01", status:"당첨 1", st:"win", exclude:"93", note:"13채널 실측 밖 · 오르골 무드등 당첨·후기 완료 · 5만 원 초과 7건은 22% 본인 부담 명시분만 취소"},
-  {name:"포포몬", group:"contest", owners:["인절미","콩떡"], c13:false, total:18, done:10, wait:8, win:0, today:8, ann:"—", status:"미선정 10 · 대기 8", st:"fail", exclude:"—", note:"선정 0 · 미선정 10 · 신청 대기 8(11/23 지원 5 + 09:00 +3: 모카리움 침구 60만·메디덴코 치약·울아빠짜장)"},
+  {name:"카카오 선물하기", group:"contest", owners:["인절미"], c13:false, total:327, done:null, wait:null, win:1, today:0, ann:"11/27~12/01", status:"당첨 1", st:"win", exclude:"93", note:"13채널 실측 밖 · 오르골 무드등 당첨·후기 완료 · 5만 원 초과 7건은 22% 본인 부담 명시분만 취소 · 인절미 11/23 03:47 멈춤으로 신규 0"},
+  {name:"포포몬", group:"contest", owners:["인절미","콩떡"], c13:false, total:18, done:10, wait:8, win:0, today:8, ann:"—", status:"미선정 10 · 대기 8", st:"fail", exclude:"—", note:"선정 0 · 미선정 10 · 신청 대기 8(11/23 지원 5 + 09:00 +3: 모카리움 침구 60만·메디덴코 치약·울아빠짜장) · 인절미 멈춤으로 신규 0"},
   {name:"놀러와체험단", group:"contest", owners:["인절미"], c13:false, total:6, done:0, wait:6, win:0, today:0, ann:"—", status:"대기", st:"", exclude:"—", note:""},
   {name:"웹 경품 (설문·퀴즈)", group:"web", owners:["찰떡","인절미","콩떡"], c13:false, total:32, done:0, wait:32, win:0, today:17, ann:"11/24~12/11", status:"대기", st:"", exclude:"—", note:"11/17 6 · 11/19 4 · 11/20 5 · 11/23 17(국민생각함 7 · 공공데이터포털·뽐뿌 6 · 돈좀요 3 · SGIS 1)"},
   {name:"웹 경품 (공공기관·설문)", group:"web", owners:["콩떡"], c13:false, total:5, done:0, wait:5, win:0, today:0, ann:"11/27·12/4·미정", status:"발표 임박", st:"soon", exclude:"14", note:"11/22 첫 실행 · 보류 14건"}
@@ -722,13 +740,13 @@ function fmt(n){ return typeof n === "number" ? n.toLocaleString("ko-KR") : n; }
 /* 상단 전체 합산 — 카드 데이터에서 계산해 화면·카드·설명이 어긋나지 않게 */
 const c13 = CHANNELS.filter(c => c.c13);
 const sum = (arr, key) => arr.reduce((a, c) => a + (typeof c[key] === "number" ? c[key] : 0), 0);
-const TODAY_SUBMITTED = 684;   // 11/22 보고·밤사이 611 + 11/23 09:00 정기 스캔 65(리뷰노트28·클립뷰9·서울오빠8·지그재그7·링블3·포포몬3·레뷰2·리뷰플레이스2·11번가2·체험뷰1) + 13:23 이어받기 8(강남맛집6·택배의여왕2)
+const TODAY_SUBMITTED = 684;   // 11/23분: 611 + 09:00 정기 스캔 65(리뷰노트28·클립뷰9·서울오빠8·지그재그7·링블3·포포몬3·레뷰2·리뷰플레이스2·11번가2·체험뷰1) + 13:11~13:21 이어받기 8(강남맛집6·택배의여왕2)
 const KAKAO_CONFIRMED = 1;     // 카카오는 오르골 당첨 1건만 발표 확인, 나머지 미집계
 
 const c13Total = sum(c13, "total");
 const c13Done  = sum(c13, "done");
 const c13Wait  = sum(c13, "wait");
-const total    = sum(CHANNELS, "total") + 2;   // + 인절미 네이버+ 2건(카드 미표기)
+const total    = sum(CHANNELS, "total");   // 네이버+ 18건 실측에 인절미 몫 포함(별도 가산 없음)
 const webTotal = sum(CHANNELS.filter(c => c.group === "web"), "total");
 const doneAll  = c13Done + sum(CHANNELS.filter(c => !c.c13), "done") + KAKAO_CONFIRMED;
 const winAll   = sum(CHANNELS, "win");
@@ -748,11 +766,11 @@ document.getElementById("sWeb").textContent     = fmt(webTotal);
 
 /* 남은 신청 가능 (신청 대기) — 채널별 후보 합으로 총계를 계산해 카드·목록이 어긋나지 않게 */
 const REMAIN = [
-  {name:"클라우드리뷰", n:228, mode:"web", note:"스캔 완료·미신청 (신청 전 후보)"},
-  {name:"무신사", n:138, mode:"app", note:"오늘부터 앱 전용 · 후보 표 보유 · 마감 11/29"},
-  {name:"11번가", n:10, mode:"web", note:"오늘 14:41 오픈 → 14:42 신청 예정"},
-  {name:"네이버+ 무료체험", n:2, mode:"web", note:"페퍼민트 스크럽 샴푸 · 앰플엔 비비크림"},
-  {name:"SSG 테스터존", n:2, mode:"web", note:"셀다움 미스트 · 속눈썹"}
+  {name:"클라우드리뷰", n:228, mode:"web", note:"스캔 완료·미신청 · 채널 등록 오류 문의 필요(등록 번호 끝 7788 → 8579 확인)"},
+  {name:"무신사", n:138, mode:"app", note:"앱 전용 · 후보 표 보유 · 마감 11/29"},
+  {name:"11번가", n:10, mode:"web", note:"11/23 14:41 오픈분 · 마감 11/24 24:00 · 로그인 카드 대기"},
+  {name:"네이버+ 무료체험", n:2, mode:"web", note:"페퍼민트 스크럽 샴푸 · 앰플엔 비비크림(미신청)"},
+  {name:"SSG 테스터존", n:2, mode:"web", note:"셀다움 미스트 · 속눈썹 · 본인확인 SMS(끝 7788) 대기"}
 ];
 const REMAIN_ZERO = ["리뷰노트","지그재그","클립뷰","서울오빠","포포몬","링블","레뷰","리뷰플레이스","체험뷰","아싸뷰","티블","뷰티의여왕"];
 const rTotal = REMAIN.reduce((a, r) => a + r.n, 0);
