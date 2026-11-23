@@ -1201,11 +1201,13 @@ function archToggle(on){
 }
 
 function archKpiHTML(b){
-  const k = b.kpi || {}, t = b.kpiText || {};
-  const sub = key => (t[key] && t[key].s) ? t[key].s : "";
+  const k = b.kpi || {}, t = b.kpiText || {}, chs = b.channels || [];
+  const doneCh = chs.filter(c => c.done).map(c => `${c.name} ${c.done}`).slice(0, 4).join(" · ");
+  const winCh = chs.filter(c => c.win).map(c => `${c.name} ${c.win}건`).join(" · ");
+  const sub = key => (t[key] && t[key].s) ? t[key].s : (key === "발표 완료" ? (doneCh || "발표 확인분 없음") : key === "당첨" ? (winCh || "아직 없음") : "");
   return `<section class="grid">
     <div class="card result"><div class="k">총 제출</div><div class="v c-green">${k.total || "–"}</div>
-      <div class="s"><b>${k.today || ""}</b> · 체험단 <b>${k.contest || "–"}</b> · 웹 경품 <b>${k.web || "–"}</b></div></div>
+      <div class="s">그날 <b>${k.today || "–"}</b> · 체험단 <b>${k.contest || "–"}</b> · 웹 경품 <b>${k.web || "–"}</b></div></div>
     <div class="card result"><div class="k">발표 완료</div><div class="v c-blue">${k.done || "–"}</div>
       <div class="s">${sub("발표 완료")}</div></div>
     <div class="card result"><div class="k">당첨</div><div class="v c-green">${k.win || "0"}</div>
