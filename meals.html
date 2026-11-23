@@ -220,6 +220,23 @@
   .reset{border:1px solid var(--line);background:var(--card);color:var(--sub2);border-radius:8px;padding:5px 9px;
     font-size:10.5px;font-weight:700;font-family:inherit;cursor:pointer;letter-spacing:-.2px}
   .hidden{display:none!important}
+  /* ── 날짜 선택기 · 과거 기록 ─────────────────────────── */
+  .datebar{display:flex;align-items:center;gap:8px;margin:0 0 10px}
+  .datebar .dl{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--sub);letter-spacing:-.1px}
+  .datebar select{flex:1 1 auto;min-width:0;max-width:100%;appearance:none;-webkit-appearance:none;
+    border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:12px;
+    padding:9px 30px 9px 11px;font-size:13.5px;font-weight:700;font-family:inherit;letter-spacing:-.2px;
+    cursor:pointer;box-shadow:var(--shadow)}
+  .datebar select:disabled{opacity:.6}
+  .pastbanner{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:#fff8e6;border:1px solid #ffe2ad;
+    color:#8a5a00;border-radius:12px;padding:9px 12px;font-size:12.5px;font-weight:700;letter-spacing:-.2px;margin:0 0 12px}
+  [data-theme="dark"] .pastbanner{background:#2f2513;border-color:#5a4419;color:#ffd08a}
+  .pastbanner button{margin-left:auto;border:1px solid currentColor;background:transparent;color:inherit;
+    border-radius:999px;padding:5px 10px;font-size:11.5px;font-weight:800;font-family:inherit;cursor:pointer}
+  .arch-date{font-size:11.5px;font-weight:700;color:var(--sub);margin:2px 2px 7px;letter-spacing:-.15px}
+  .arch-sum{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;
+    box-shadow:var(--shadow);font-size:13px;letter-spacing:-.2px;line-height:1.5;margin-bottom:10px}
+  .loadnote{font-size:12px;color:var(--sub);padding:10px 2px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -238,6 +255,18 @@
     <a href="jobs.html">이직</a>
     <a href="meals.html" class="here">식단·장보기</a>
   </nav>
+
+  <div class="datebar">
+    <span class="dl">📅 기록 보기</span>
+    <select id="dateSel" aria-label="기록 날짜 선택"></select>
+  </div>
+
+  <div class="pastbanner hidden" id="pastBanner">
+    <span id="pastText"></span>
+    <button type="button" id="toLatest">최신으로</button>
+  </div>
+
+  <div id="archiveView" class="hidden"></div>
 
   <div class="tabwrap">
     <div class="mtabs" role="tablist" aria-label="식단 보기">
@@ -351,6 +380,8 @@
     </div>
   </section>
 
+  <div id="archiveFoot" class="hidden"></div>
+
   <footer>2026-11-24 07:55 기준 · 기기 '희욱' 캘린더 실측 일치 · 우기 점심 11/24 사진 확인<br>개인정보 표기 0건 · 검색 비공개 페이지</footer>
 </div>
 
@@ -359,7 +390,7 @@
 let TODAY = "2026-11-24";   // 기기 날짜가 이 2주 안에 있으면 그 날짜로 바뀐다(아래) 
 
 /* 지난주 11/16~22 (기기 캘린더 기록) */
-const WEEK_PREV = [
+let WEEK_PREV = [
   {key:"2026-11-16", dw:"월", dn:"11/16", kw:"—", menu:"기록 없음", time:"—", off:true, lunch:null,
    note:"이번 기록은 11/17부터 남아 있어요.", tags:["기록 없음"]},
   {key:"2026-11-17", dw:"화", dn:"11/17", kw:"간장밥", menu:"간장계란밥 + 회식", time:"18:00", lunch:null,
@@ -377,7 +408,7 @@ const WEEK_PREV = [
 ];
 
 /* 이번 주 11/23~29 (기기 캘린더 최종본) */
-const WEEK_CUR = [
+let WEEK_CUR = [
   {key:"2026-11-23", dw:"월", dn:"11/23", kw:"미역국·수육", woogi:"삼겹야채찜 · 들기름막국수 · 아욱된장국", wshort:"삼겹찜", menu:"소고기 미역국 + 수육 + 쌈채소", time:"18:00",
    lunch:"회사 구내식당", lunchNote:"회사 주간 식단표 11:20 캡처 예정", today:true,
    note:"수육용 <b>한돈 목심 500g·모둠쌈</b>과 미역국 재료까지 이번 주 식단 재료로 결제 완료. 국물 간은 약하게, 밥은 반 공기.",
@@ -404,7 +435,7 @@ const WEEK_CUR = [
    note:"주말 마무리는 간단하게 — 양념보다 후라이드·오븐구이 쪽.", tags:["주말","간단"]}
 ];
 
-const ALL = WEEK_PREV.concat(WEEK_CUR);
+let ALL = WEEK_PREV.concat(WEEK_CUR);
 
 /* 오늘 표시·기본 선택은 기기 날짜 기준, 범위를 벗어나면 11/23로 고정 */
 (() => {
@@ -483,11 +514,21 @@ function cellHTML(d){
   </button>`;
 }
 
+function weekName(arr){
+  if(!arr.length) return "";
+  const a = arr[0].key, b = arr[arr.length - 1].key;
+  if(a <= TODAY && TODAY <= b) return "이번 주";
+  return b < TODAY ? "지난주" : "다음 주";
+}
+function weekRange(arr){
+  if(!arr.length) return "";
+  return arr[0].dn + "~" + arr[arr.length - 1].dn;
+}
 function renderCal(){
   const head = DOW.map(d => `<div class="wd${d === "토" || d === "일" ? " we" : ""}">${d}</div>`).join("");
   calEl.innerHTML = head
-    + `<div class="wlab">지난주 11/16~22</div>` + WEEK_PREV.map(cellHTML).join("")
-    + `<div class="wlab cur">이번 주 11/23~29</div>` + WEEK_CUR.map(cellHTML).join("");
+    + `<div class="wlab">${weekName(WEEK_PREV)} ${weekRange(WEEK_PREV)}</div>` + WEEK_PREV.map(cellHTML).join("")
+    + `<div class="wlab cur">${weekName(WEEK_CUR)} ${weekRange(WEEK_CUR)}</div>` + WEEK_CUR.map(cellHTML).join("");
 }
 
 /* ── 상세 카드 ───────────────────────────────────────────── */
@@ -660,6 +701,113 @@ themeBtn.addEventListener("click", () => setTheme(root.getAttribute("data-theme"
 renderCal();
 renderDetail();
 paintStats();
+
+/* ── 날짜별 기록(아카이브) ───────────────────────────────── */
+const LIVE_STATE = { prev: WEEK_PREV, cur: WEEK_CUR, today: TODAY };
+const ARCH_BOX   = document.getElementById("archiveView");
+const ARCH_FOOT  = document.getElementById("archiveFoot");
+const archSel    = document.getElementById("dateSel");
+const pastBanner = document.getElementById("pastBanner");
+const pastText   = document.getElementById("pastText");
+const sumlineEl  = document.getElementById("sumline");
+const LIVE_SUMLINE = sumlineEl ? sumlineEl.innerHTML : "";
+const ARCH_CACHE = {};
+let ARCH_LATEST = "2026-11-24";
+
+function archToggle(on){
+  [".tabwrap", "#panel-shop", "#panel-an"].forEach(sel => {
+    const el = document.querySelector(sel);
+    if(el) el.classList.toggle("hidden", on);
+  });
+  ARCH_BOX.classList.toggle("hidden", !on);
+  ARCH_FOOT.classList.toggle("hidden", !on);
+  pastBanner.classList.toggle("hidden", !on);
+}
+
+function archPaint(date, d){
+  const m = d.meals || {};
+  archSel.value = date;
+  pastText.innerHTML = `과거 기록 열람 중 · <b>${date} (${d.dw || ""})</b>`;
+  ARCH_BOX.innerHTML = `
+    <div class="arch-date">🕘 그날 기준 · ${m.basis || date}</div>
+    <div class="arch-sum">${d.summary || ""}</div>`;
+  ARCH_FOOT.innerHTML = (m.notes || []).map(n => `<div class="info"><b>${n.title || "메모"}</b><ul>${n.items.map(i => `<li>${i}</li>`).join("")}</ul></div>`).join("");
+  archToggle(true);
+
+  WEEK_PREV = m.weekPrev || [];
+  WEEK_CUR  = m.weekCur || [];
+  ALL       = WEEK_PREV.concat(WEEK_CUR);
+  TODAY     = date;
+  selKey    = ALL.some(x => x.key === date) ? date : (WEEK_CUR[0] ? WEEK_CUR[0].key : date);
+
+  if(sumlineEl){
+    const meals = WEEK_CUR.filter(x => !x.off).length;
+    const paid = m.paid || "";
+    sumlineEl.innerHTML = `<span>확정 <b>${meals}끼</b></span><span class="dot"></span>
+      <span>먹음 <b id="sumEat">0/${meals}</b></span>
+      ${paid ? `<span class="dot"></span><span class="ok">${m.paidLabel || "결제 완료"} <b>${paid}</b></span>` : ""}
+      ${m.remainTask ? `<span class="dot"></span><span class="todo">${m.remainTask.t}</span>` : ""}`;
+  }
+  renderCal();
+  renderDetail();
+  paintStats();
+  window.scrollTo({top: 0});
+}
+
+function archGo(date){
+  if(!date) return;
+  if(ARCH_CACHE[date]){ archPaint(date, ARCH_CACHE[date]); return; }
+  ARCH_BOX.innerHTML = `<div class="loadnote">${date} 기록을 불러오는 중…</div>`;
+  ARCH_BOX.classList.remove("hidden");
+  fetch("history/" + date + ".json", {cache: "no-store"})
+    .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(j => { ARCH_CACHE[date] = j; archPaint(date, j); })
+    .catch(() => {
+      archShowLatest();
+      ARCH_FOOT.classList.remove("hidden");
+      ARCH_FOOT.innerHTML = `<div class="loadnote">${date} 기록을 불러오지 못했습니다(오프라인으로 열었거나 기록 파일이 없을 때). 위 화면은 최신 기준입니다.</div>`;
+    });
+}
+
+function archShowLatest(){
+  archToggle(false);
+  ARCH_BOX.classList.add("hidden");
+  ARCH_FOOT.classList.add("hidden");
+  ARCH_BOX.innerHTML = ""; ARCH_FOOT.innerHTML = "";
+  WEEK_PREV = LIVE_STATE.prev; WEEK_CUR = LIVE_STATE.cur; ALL = WEEK_PREV.concat(WEEK_CUR);
+  TODAY = LIVE_STATE.today;
+  selKey = ALL.some(x => x.key === TODAY) ? TODAY : ALL[0].key;
+  if(sumlineEl) sumlineEl.innerHTML = LIVE_SUMLINE;
+  renderCal(); renderDetail(); paintStats();
+  if(ARCH_LATEST) archSel.value = ARCH_LATEST;
+  if(location.search) history.replaceState(null, "", location.pathname);
+}
+
+document.getElementById("toLatest").addEventListener("click", archShowLatest);
+archSel.addEventListener("change", () => {
+  const v = archSel.value;
+  if(!v || v === ARCH_LATEST){ archShowLatest(); return; }
+  history.replaceState(null, "", "?d=" + v);
+  archGo(v);
+});
+
+(function archInit(){
+  fetch("history/index.json", {cache: "no-store"})
+    .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(idx => {
+      const dates = (idx && idx.dates) || [];
+      if(!dates.length) throw new Error("empty");
+      ARCH_LATEST = dates[0].date;
+      archSel.innerHTML = dates.map((x, i) => `<option value="${x.date}">${x.date} (${x.dw})${i === 0 ? " · 최신" : ""}</option>`).join("");
+      archSel.value = ARCH_LATEST;
+      const want = new URLSearchParams(location.search).get("d");
+      if(want && want !== ARCH_LATEST && dates.some(x => x.date === want)) archGo(want);
+    })
+    .catch(() => {
+      archSel.innerHTML = `<option value="2026-11-24">2026-11-24 (화) · 최신</option>`;
+      archSel.disabled = true;
+    });
+})();
 </script>
 </body>
 </html>

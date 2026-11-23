@@ -134,6 +134,23 @@
   footer{text-align:center;font-size:11px;color:var(--sub);margin-top:20px;line-height:1.6;letter-spacing:-.1px}
   .hidden{display:none!important}
   .empty{text-align:center;color:var(--sub);font-size:13px;padding:26px 10px}
+  /* ── 날짜 선택기 · 과거 기록 ─────────────────────────── */
+  .datebar{display:flex;align-items:center;gap:8px;margin:0 0 10px}
+  .datebar .dl{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--sub);letter-spacing:-.1px}
+  .datebar select{flex:1 1 auto;min-width:0;max-width:100%;appearance:none;-webkit-appearance:none;
+    border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:12px;
+    padding:9px 30px 9px 11px;font-size:13.5px;font-weight:700;font-family:inherit;letter-spacing:-.2px;
+    cursor:pointer;box-shadow:var(--shadow)}
+  .datebar select:disabled{opacity:.6}
+  .pastbanner{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:#fff8e6;border:1px solid #ffe2ad;
+    color:#8a5a00;border-radius:12px;padding:9px 12px;font-size:12.5px;font-weight:700;letter-spacing:-.2px;margin:0 0 12px}
+  [data-theme="dark"] .pastbanner{background:#2f2513;border-color:#5a4419;color:#ffd08a}
+  .pastbanner button{margin-left:auto;border:1px solid currentColor;background:transparent;color:inherit;
+    border-radius:999px;padding:5px 10px;font-size:11.5px;font-weight:800;font-family:inherit;cursor:pointer}
+  .arch-date{font-size:11.5px;font-weight:700;color:var(--sub);margin:2px 2px 7px;letter-spacing:-.15px}
+  .arch-sum{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;
+    box-shadow:var(--shadow);font-size:13px;letter-spacing:-.2px;line-height:1.5}
+  .loadnote{font-size:12px;color:var(--sub);padding:10px 2px;line-height:1.5}
 </style>
 </head>
 <body>
@@ -153,6 +170,18 @@
     <a href="meals.html">식단·장보기</a>
   </nav>
 
+  <div class="datebar">
+    <span class="dl">📅 기록 보기</span>
+    <select id="dateSel" aria-label="기록 날짜 선택"></select>
+  </div>
+
+  <div class="pastbanner hidden" id="pastBanner">
+    <span id="pastText"></span>
+    <button type="button" id="toLatest">최신으로</button>
+  </div>
+
+  <div id="archiveView" class="hidden"></div>
+
   <div class="cond">
     <span class="chip">연봉 4,200만 ↑</span>
     <span class="chip">대기업 전국</span>
@@ -162,7 +191,7 @@
     <span class="chip no">주말·특근 제외</span>
   </div>
 
-  <div class="grid">
+  <div class="grid" id="kpiGrid">
     <div class="card"><div class="k">추적 공고</div><div class="v c-blue">8<small>건</small></div><div class="s">11/23 신규 3건(지아이에스·아데나·대주기계) · 이수페타시스 제외 · 상시 1건</div></div>
     <div class="card"><div class="k">마감 임박</div><div class="v c-red" id="vSoon">–</div><div class="s">D-7 이내 · 내일까지 우선</div></div>
     <div class="card"><div class="k">내 표시</div><div class="v" id="vMine">0<small>/9</small></div><div class="s">관심·지원완료·패스 저장</div></div>
@@ -186,13 +215,13 @@
   <div class="list" id="list"></div>
   <div class="empty hidden" id="empty">조건에 맞는 공고가 없어요.</div>
 
-  <div class="sec-label">보류·제외 참고 <span>· 왜 뺐는지</span></div>
+  <div class="sec-label" id="etcLabel">보류·제외 참고 <span>· 왜 뺐는지</span></div>
   <details class="etc">
     <summary><span>검토 후 제외·보류 27건</span><span class="cnt">펼치기 ▾</span></summary>
     <div class="etc-body" id="etcList"></div>
   </details>
 
-  <div class="info">
+  <div class="info" id="jobsInfo">
     <b>기준과 출처</b>
     <ul>
       <li>D-Day는 기기 시각 기준 자동 계산이라, 날짜가 지나면 화면에서 바로 <b>마감 경과</b>로 바뀐다. 11/24 07:55 기준 추적 8건(기존 6 + 신규 3 − 이수페타시스 제외)이고, 아워홈(11/22 12:00 마감)·이수페타시스(11/24 사용자 확인으로 제외)는 제외 목록에 있다.</li>
@@ -356,10 +385,11 @@ const ETC = [
 /* ── 유틸 ─────────────────────────────────────────────────── */
 const KST_MS = 9 * 3600 * 1000;
 const dayNum = d => Math.floor((d.getTime() + KST_MS) / 86400000);
+let refNow = new Date();          // 과거 기록을 볼 때는 그날 정오로 바꾼다
 function dday(end){
   if(!end) return {text:"상시", cls:""};
   const e = new Date(end);
-  const now = new Date();
+  const now = refNow;
   if(e.getTime() < now.getTime()) return {text:"마감", cls:"over"};
   const diff = dayNum(e) - dayNum(now);
   if(diff <= 0) return {text:"D-DAY", cls:"urgent"};
@@ -455,13 +485,16 @@ function render(){
   updateMine();
 }
 
-document.getElementById("etcList").innerHTML = ETC.map(e => `
+function etcHTML(arr){
+  return arr.map(e => `
   <div class="etc-item">
     <div class="etc-top"><div class="etc-name">${e.n}</div><div class="etc-dl">${e.d}</div></div>
     <div class="etc-sub">${e.s}</div>
     <div class="etc-why">${e.w}</div>
     ${e.u ? `<a href="${e.u}" target="_blank" rel="noopener">공고 보기 ↗</a>` : ""}
   </div>`).join("");
+}
+document.getElementById("etcList").innerHTML = etcHTML(ETC);
 
 document.querySelectorAll(".tab").forEach(btn => {
   btn.addEventListener("click", () => {
@@ -502,6 +535,103 @@ setTheme(savedTheme);
 themeBtn.addEventListener("click", () => setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark"));
 
 render();
+
+/* ── 날짜별 기록(아카이브) ───────────────────────────────── */
+const ARCH_BOX   = document.getElementById("archiveView");
+const archSel    = document.getElementById("dateSel");
+const pastBanner = document.getElementById("pastBanner");
+const pastText   = document.getElementById("pastText");
+const ARCH_CACHE = {};
+let ARCH_LATEST = "2026-11-24";
+
+function archToggle(on){
+  ["#kpiGrid", ".controls", "#list", "#empty", "#etcLabel", "details.etc", "#jobsInfo"].forEach(sel => {
+    const el = document.querySelector(sel);
+    if(el) el.classList.toggle("hidden", on);
+  });
+  ARCH_BOX.classList.toggle("hidden", !on);
+  pastBanner.classList.toggle("hidden", !on);
+  if(!on){ refNow = new Date(); ARCH_BOX.classList.add("hidden"); }
+}
+
+function archPaint(date, d){
+  const j = d.jobs || {}, list = j.jobs || [], etc = j.excluded || [];
+  refNow = new Date(date + "T12:00:00+09:00");
+  archSel.value = date;
+  pastText.innerHTML = `과거 기록 열람 중 · <b>${date} (${d.dw || ""})</b>`;
+  archToggle(true);
+  const soon = list.filter(isSoon).length;
+  const risk = (j.kpi && j.kpi["요건 리스크"] && j.kpi["요건 리스크"].v) || "–";
+  ARCH_BOX.innerHTML = `
+    <div class="arch-date">🕘 그날 기준 · ${j.basis || date}</div>
+    <div class="arch-sum">${d.summary || ""}</div>
+    <div style="height:12px"></div>
+    <div class="grid">
+      <div class="card"><div class="k">추적 공고</div><div class="v c-blue">${list.length}<small>건</small></div>
+        <div class="s">${(j.kpi && j.kpi["추적 공고"] && j.kpi["추적 공고"].s) || ""}</div></div>
+      <div class="card"><div class="k">마감 임박</div><div class="v c-red">${soon}<small>건</small></div>
+        <div class="s">그날 기준 D-7 이내</div></div>
+      <div class="card"><div class="k">검토 후 제외·보류</div><div class="v">${etc.length}<small>건</small></div>
+        <div class="s">왜 뺐는지 아래에</div></div>
+      <div class="card"><div class="k">요건 리스크</div><div class="v c-orange">${risk.replace(/[^\d]/g, "") || "–"}<small>건</small></div>
+        <div class="s">${(j.kpi && j.kpi["요건 리스크"] && j.kpi["요건 리스크"].s) || ""}</div></div>
+    </div>
+    <div class="list" style="margin-top:14px">${list.map(cardHTML).join("")}</div>
+    ${etc.length ? `<div class="sec-label">보류·제외 참고 <span>· ${etc.length}건</span></div>
+      <details class="etc" open><summary><span>검토 후 제외·보류 ${etc.length}건</span><span class="cnt">펼치기 ▾</span></summary>
+        <div class="etc-body">${etcHTML(etc)}</div></details>` : ""}
+    ${(j.notes || []).map(n => `<div class="info"><b>${n.title || "기준"}</b><ul>${n.items.map(i => `<li>${i}</li>`).join("")}</ul></div>`).join("")}`;
+  window.scrollTo({top: 0});
+}
+
+function archGo(date){
+  if(!date) return;
+  if(ARCH_CACHE[date]){ archPaint(date, ARCH_CACHE[date]); return; }
+  ARCH_BOX.innerHTML = `<div class="loadnote">${date} 기록을 불러오는 중…</div>`;
+  fetch("history/" + date + ".json", {cache: "no-store"})
+    .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(j => { ARCH_CACHE[date] = j; archPaint(date, j); })
+    .catch(() => {
+      archToggle(false); refNow = new Date();
+      if(ARCH_LATEST) archSel.value = ARCH_LATEST;
+      ARCH_BOX.classList.remove("hidden");
+      ARCH_BOX.innerHTML = `<div class="loadnote">${date} 기록을 불러오지 못했습니다(오프라인으로 열었거나 기록 파일이 없을 때). 위 화면은 최신 기준입니다.</div>`;
+      pastBanner.classList.add("hidden");
+    });
+}
+
+function archShowLatest(){
+  archToggle(false);
+  ARCH_BOX.classList.add("hidden");
+  if(ARCH_LATEST) archSel.value = ARCH_LATEST;
+  if(location.search) history.replaceState(null, "", location.pathname);
+}
+
+document.getElementById("toLatest").addEventListener("click", archShowLatest);
+archSel.addEventListener("change", () => {
+  const v = archSel.value;
+  if(!v || v === ARCH_LATEST){ archShowLatest(); return; }
+  history.replaceState(null, "", "?d=" + v);
+  archGo(v);
+});
+
+(function archInit(){
+  fetch("history/index.json", {cache: "no-store"})
+    .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(idx => {
+      const dates = (idx && idx.dates) || [];
+      if(!dates.length) throw new Error("empty");
+      ARCH_LATEST = dates[0].date;
+      archSel.innerHTML = dates.map((x, i) => `<option value="${x.date}">${x.date} (${x.dw})${i === 0 ? " · 최신" : ""}</option>`).join("");
+      archSel.value = ARCH_LATEST;
+      const want = new URLSearchParams(location.search).get("d");
+      if(want && want !== ARCH_LATEST && dates.some(x => x.date === want)) archGo(want);
+    })
+    .catch(() => {
+      archSel.innerHTML = `<option value="2026-11-24">2026-11-24 (화) · 최신</option>`;
+      archSel.disabled = true;
+    });
+})();
 </script>
 </body>
 </html>
