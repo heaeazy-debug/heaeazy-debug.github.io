@@ -142,7 +142,7 @@
   <header class="top">
     <div>
       <h1>이직 공고 비교판</h1>
-      <div class="basis">2026-11-23 기준 · 추적 6건 · 마감 D-Day 자동 계산</div>
+      <div class="basis">2026-11-23 18:00 기준 · 추적 9건(신규 3) · 마감 D-Day 자동 계산</div>
     </div>
     <button class="theme-btn" id="themeBtn" aria-label="다크 모드 전환">◐</button>
   </header>
@@ -163,10 +163,10 @@
   </div>
 
   <div class="grid">
-    <div class="card"><div class="k">추적 공고</div><div class="v c-blue">6<small>건</small></div><div class="s">아워홈 1건은 11/22 마감(제외 목록) · 상시 1건</div></div>
+    <div class="card"><div class="k">추적 공고</div><div class="v c-blue">9<small>건</small></div><div class="s">11/23 신규 3건(지아이에스·아데나·대주기계) · 상시 1건</div></div>
     <div class="card"><div class="k">마감 임박</div><div class="v c-red" id="vSoon">–</div><div class="s">D-7 이내 · 내일까지 우선</div></div>
-    <div class="card"><div class="k">내 표시</div><div class="v" id="vMine">0<small>/6</small></div><div class="s">관심·지원완료·패스 저장</div></div>
-    <div class="card"><div class="k">요건 리스크</div><div class="v c-orange">2<small>건</small></div><div class="s">어학 요건 · 4,200만 경계</div></div>
+    <div class="card"><div class="k">내 표시</div><div class="v" id="vMine">0<small>/9</small></div><div class="s">관심·지원완료·패스 저장</div></div>
+    <div class="card"><div class="k">요건 리스크</div><div class="v c-orange">3<small>건</small></div><div class="s">어학 요건 · 초봉 4,200만 미달 소지</div></div>
   </div>
 
   <div class="controls">
@@ -188,25 +188,25 @@
 
   <div class="sec-label">보류·제외 참고 <span>· 왜 뺐는지</span></div>
   <details class="etc">
-    <summary><span>검토 후 제외·보류 16건</span><span class="cnt">펼치기 ▾</span></summary>
+    <summary><span>검토 후 제외·보류 26건</span><span class="cnt">펼치기 ▾</span></summary>
     <div class="etc-body" id="etcList"></div>
   </details>
 
   <div class="info">
     <b>기준과 출처</b>
     <ul>
-      <li>D-Day는 기기 시각 기준 자동 계산이라, 날짜가 지나면 화면에서 바로 <b>마감 경과</b>로 바뀐다. 11/23 기준 추적 6건이고, 아워홈(11/22 12:00 마감)은 제외 목록으로 옮겼다.</li>
-      <li>연봉·평점·매출은 11/18~11/20 직접 조회값(잡플래닛·블라인드·잡코리아·DART·인크루트). 공고에 급여가 없으면 <b>공시·추정</b>으로 따로 적었다.</li>
+      <li>D-Day는 기기 시각 기준 자동 계산이라, 날짜가 지나면 화면에서 바로 <b>마감 경과</b>로 바뀐다. 11/23 18:00 기준 추적 9건(기존 6 + 신규 3)이고, 아워홈(11/22 12:00 마감)은 제외 목록에 있다.</li>
+      <li>연봉·평점·매출은 11/18~11/20 직접 조회값(잡플래닛·블라인드·잡코리아·DART·인크루트)이고, 11/23 신규 3건은 11/23 조회값이다. 공고에 급여가 없으면 <b>공시·추정</b>으로 따로 적었다.</li>
       <li>근무형태가 공고에 없으면 카드에 <b>확인 필요</b>로 표시했다 — 교대·주말 여부는 면접 전 사전 전화로 확인할 항목.</li>
       <li>내 표시(관심·지원완료·패스)는 이 브라우저에만 저장되고 서버로 전송되지 않는다.</li>
     </ul>
   </div>
 
-  <footer>2026-11-23 13:00 기준 · 추적 6건 D-Day 자동 계산<br>개인정보 표기 0건 · 검색 비공개 페이지</footer>
+  <footer>2026-11-23 18:00 기준 · 추적 9건 D-Day 자동 계산<br>개인정보 표기 0건 · 검색 비공개 페이지</footer>
 </div>
 
 <script>
-/* ── 공고 데이터 (11/20 비교표 + 11/22 재확인 · 11/23 아워홈 마감 제외) ── */
+/* ── 공고 데이터 (11/20 비교표 + 11/23 18:00 재확인 · 신규 3건 추가, 아워홈 마감 제외) ── */
 const JOBS = [
   {
     id:"sold", name:"(주)솔디펜스", kind:"코스닥 215090 · 중소기업(방산협력) · 106명",
@@ -291,11 +291,63 @@ const JOBS = [
     op:"1,256억(−3.4%) · 순손실 1,131억(분리막 손상차손)",
     note:'핏 좋음 — 구미 3공단 근무지·사무직·대기업급 처우. 리스크: 신입 초봉 4,000만이라 <b>경력 트랙(3년↑) 협상 필요</b>, 2년차라 요건 경계. 분리막 적자.',
     url:"https://m.catch.co.kr/NCS/RecruitInfoDetails/581429"
+  },
+  {
+    id:"gis", name:"(주)지아이에스", kind:"코스닥 306620 · 중소기업 · 206명 · 구미 5공단",
+    title:"(구미) 생산관리본부 구매팀 — 구매업무, 가공품 견적 검토·발주, 가공품 원가 분석, 매입 마감",
+    place:"경북 구미시 산동읍 5공단5로 55",
+    end:"2026-12-13T23:59:00+09:00",
+    salary:"공고 미기재(면접 후 결정) · 정규직 수습 6개월",
+    salary2:"평균 5,775만(잡코리아) · 신입 초봉 3,400만",
+    shape:"정규직 · 경력무관(신입 포함) · 고졸↑ · 주 5일(월~금) 08:30~17:30 — <b>공고 명시 ✓</b>",
+    jp:"낮은 편", jpn:"리뷰 적음", bl:"미확인",
+    rev:"연결 758억(2025, −27.4%) / 별도 263억(+20%)",
+    op:"연결 16억(−55%) / 별도 3억(흑자전환) · 순손실 −36억",
+    note:'<span class="warn">11/23 08:00 신규 접수</span> — 엑셀 고급·원가분석·견적 우대 = 데이터 가공 강점 직결, 구미 5공단(자택 인근), 주5일 주간 명시. 리스크: 신입 초봉 3,400만(경력 트랙 협상 필요), 2025년 구미 고객사 투자 축소로 수주 감소, 부채비율 233%, 잡플래닛 리뷰 적어 내부 정보 부족.',
+    url:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55640297"
+  },
+  {
+    id:"adena", name:"(주)아데나", kind:"중소기업(방산 전원공급장치) · 구미공장 · 110~130명",
+    title:"방산부문 자재관리 — 구미공장 자재관리 업무(L-SAM·천궁·해궁·KFX 전원공급장치)",
+    place:"경북 구미시 산호대로 104-7 (공단동)",
+    end:"2026-12-24T23:59:00+09:00",
+    salary:"공고 미기재(면접 후 결정) · 정규직",
+    salary2:"평균 4,486만(잡코리아, 임원포함) / 5,041만(잡플래닛 국민연금)",
+    shape:"정규직 · 신입/경력 1~4년 · 대졸(2,3년)↑ · 주 5일(월~금) 08:30~17:30 — <b>공고 명시 ✓</b>",
+    jp:"2.2", jpn:"19", bl:"미확인",
+    rev:"280.3억(2025, 사람인) / 사내 표기 380억(2026)",
+    op:"미확인(공시 확인 필요)",
+    note:'<span class="warn">11/23 신규 포착</span> — 방산 전원장치 자재관리로 현 직무와 직결, 경력 1~4년 요건에 정확히 부합. 리스크: 잡플래닛 2.2·경영진 1.9(추천 21%), 급여 미기재(평균 4,486만으로 <b>4,200 경계</b>), 영업이익 미확인.',
+    url:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55386987"
+  },
+  {
+    id:"daejoo", name:"(주)대주기계", kind:"중소기업 · 75~86명 · 대구 달성",
+    title:"자재관리팀 자재관리 — 입·출고, 재고관리·실사, 자재 발주·납기, 창고관리, ERP 입력·관리",
+    place:"대구 달성군 유가읍 테크노순환로4길 25",
+    end:"2026-11-30T23:59:00+09:00",
+    salary:"★대졸 초임 기준 연봉 4,700만 원 명시 ✓",
+    salary2:"블라인드 연봉정보 5,301만 · 국민연금 추정 5,127만",
+    shape:"정규직 · 경력무관(신입 가능) · 대졸4년↑ · 근무일시 <b>공고 미기재 → 확인 필요</b>(복지에 '휴일(특근)수당' 항목)",
+    jp:"2.7", jpn:"253", bl:"3.0 (52건, 추천 47%)",
+    rev:"329억(2025, +49%)",
+    op:"7.7억(2025, +256%) · 순이익 1.3억(−92%)",
+    note:'<span class="warn">11/23 신규 포착</span> — 이번 스캔에서 <b>연봉 기준(4,200만)을 공고에 명시한 유일한 건</b>. 리스크: 워라밸 평점 2.1(장시간 근무·회의 많음 리뷰), 근무일시 미기재 + 특근수당 항목 → 주간 상주·주말 특근 여부 사전 확인 필요, 부채비율 상승.',
+    url:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55628840"
   }
 ];
 
 /* ── 보류·제외 ────────────────────────────────────────────── */
 const ETC = [
+  {n:"(주)화신 대구공장 (대리급)", s:"생산관리팀 경력직(대리급) · 대구 달서구", d:"~12/23", w:"11/23 신규 — 경력 4~7년 요건으로 2년차 미달 소지(참고)", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55645756"},
+  {n:"(주)화신 대구공장 (사원급)", s:"생산관리팀 사원급(신입) · 대구 달서구", d:"~12/23", w:"신입 전용 공고 — 2년차 처우·직급 협의 필요(보류)·급여 미기재", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55645715"},
+  {n:"(주)백그라운드(서치펌)", s:"[유명 반도체 그룹사 중견기업] 제조현장 관리 · 구미", d:"~12/07", w:"11/23 신규 — 경력 1~8년으로 요건은 부합하나 급여·고용주 미공개로 4,200만 검증 불가(보류)", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55638926"},
+  {n:"(주)성보산업", s:"SMT/PBA 구매자재팀(관리직/생산직) · 구미", d:"채용 시 마감", w:"관리직·생산직 혼합 모집, 급여 미기재(보류)", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55640415"},
+  {n:"(주)광림정공", s:"진공사업부 생산관리(2명) · 대구 달성군", d:"~12/23", w:"11/23 신규 — 급여 미기재·재무 미확인(보류)", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55645026"},
+  {n:"근우테크(주)", s:"자재구매·자재관리 신입·경력 · 대구 북구", d:"~2027/01/19", w:"급여 미기재·규모 미확인(보류)", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55633892"},
+  {n:"(주)씨엠티엑스", s:"생산관리팀 공정관리 · 구미", d:"~11/30", w:"급여 미기재, 같은 회사 경력 5년↑ 공고 병행(보류)", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55568077"},
+  {n:"(주)삼화양행 구미2", s:"품질관리/생산관리/장치·설비 · 구미", d:"~2027/01/17", w:"생산·설비·품질 혼합 직무, 급여 미기재(보류)", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55610171"},
+  {n:"삼성엔지니어링", s:"방산 치공구 생산관리 경력 · 충남 아산", d:"채용 시 마감", w:"경력 5년↑ 요건으로 미달(참고)", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55643878"},
+  {n:"씨앤에이코리아", s:"[방산용 소재] 생산관리자 대리~과장 · 경기 이천", d:"~11/25", w:"중소기업인데 근무지 경기 → 구미·대구권 조건 밖", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55626547"},
   {n:"(주)아워홈", s:"안산공장 생산관리파트 생산기획 담당자(신입) · 경기 안산", d:"11/22 12:00 마감", w:"접수 종료 — 11/23 기준 추적 제외(상경계열 전공 요건·급여 미기재·퇴사율 약 39%)", u:"https://m.catch.co.kr/NCS/RecruitInfoDetails/579982"},
   {n:"(주)아바텍", s:"MLCC사업부 생산관리팀 신입/경력 · 구미 산동", d:"~12/18", w:"보류 — 평균연봉 3,988만으로 4,200만 미달 소지 · 잡플래닛 2.4(33건, 추천 21%)", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55606795"},
   {n:"한화에어로스페이스(주)", s:"항공사업부 하반기 경력 — 생산관리·구매·사업기획 · 창원·아산·서울·분당", d:"~11/29 24:00", w:"경력 5년↑ 요건 → 2년차 미달 소지(참고)", u:"https://m.catch.co.kr/NCS/RecruitInfoDetails/581312"},
@@ -349,7 +401,7 @@ function mineBadge(id){
 }
 function updateMine(){
   const n = JOBS.filter(j => store[j.id]).length;
-  document.getElementById("vMine").innerHTML = n + "<small>/6</small>";
+  document.getElementById("vMine").innerHTML = n + "<small>/9</small>";
   const soon = JOBS.filter(isSoon).length;
   document.getElementById("vSoon").innerHTML = soon + "<small>건</small>";
   document.getElementById("tAll").textContent = "";
