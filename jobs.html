@@ -142,7 +142,7 @@
   <header class="top">
     <div>
       <h1>이직 공고 비교판</h1>
-      <div class="basis">2026-11-22 기준 · 추적 7건 · 마감 D-Day 자동 계산</div>
+      <div class="basis">2026-11-23 기준 · 추적 6건 · 마감 D-Day 자동 계산</div>
     </div>
     <button class="theme-btn" id="themeBtn" aria-label="다크 모드 전환">◐</button>
   </header>
@@ -163,9 +163,9 @@
   </div>
 
   <div class="grid">
-    <div class="card"><div class="k">추적 공고</div><div class="v c-blue">7<small>건</small></div><div class="s">마감 지난 1건 · 상시 1건</div></div>
+    <div class="card"><div class="k">추적 공고</div><div class="v c-blue">6<small>건</small></div><div class="s">아워홈 1건은 11/22 마감(제외 목록) · 상시 1건</div></div>
     <div class="card"><div class="k">마감 임박</div><div class="v c-red" id="vSoon">–</div><div class="s">D-7 이내 · 내일까지 우선</div></div>
-    <div class="card"><div class="k">내 표시</div><div class="v" id="vMine">0<small>/7</small></div><div class="s">관심·지원완료·패스 저장</div></div>
+    <div class="card"><div class="k">내 표시</div><div class="v" id="vMine">0<small>/6</small></div><div class="s">관심·지원완료·패스 저장</div></div>
     <div class="card"><div class="k">요건 리스크</div><div class="v c-orange">2<small>건</small></div><div class="s">어학 요건 · 4,200만 경계</div></div>
   </div>
 
@@ -188,40 +188,26 @@
 
   <div class="sec-label">보류·제외 참고 <span>· 왜 뺐는지</span></div>
   <details class="etc">
-    <summary><span>검토 후 제외·보류 15건</span><span class="cnt">펼치기 ▾</span></summary>
+    <summary><span>검토 후 제외·보류 16건</span><span class="cnt">펼치기 ▾</span></summary>
     <div class="etc-body" id="etcList"></div>
   </details>
 
   <div class="info">
     <b>기준과 출처</b>
     <ul>
-      <li>D-Day는 기기 시각 기준 자동 계산이라, 날짜가 지나면 화면에서 바로 <b>마감 경과</b>로 바뀐다.</li>
+      <li>D-Day는 기기 시각 기준 자동 계산이라, 날짜가 지나면 화면에서 바로 <b>마감 경과</b>로 바뀐다. 11/23 기준 추적 6건이고, 아워홈(11/22 12:00 마감)은 제외 목록으로 옮겼다.</li>
       <li>연봉·평점·매출은 11/18~11/20 직접 조회값(잡플래닛·블라인드·잡코리아·DART·인크루트). 공고에 급여가 없으면 <b>공시·추정</b>으로 따로 적었다.</li>
       <li>근무형태가 공고에 없으면 카드에 <b>확인 필요</b>로 표시했다 — 교대·주말 여부는 면접 전 사전 전화로 확인할 항목.</li>
       <li>내 표시(관심·지원완료·패스)는 이 브라우저에만 저장되고 서버로 전송되지 않는다.</li>
     </ul>
   </div>
 
-  <footer>2026-11-22 18:00 브리핑 기준 · 7건 전부 유효 재확인<br>개인정보 표기 0건 · 검색 비공개 페이지</footer>
+  <footer>2026-11-23 13:00 기준 · 추적 6건 D-Day 자동 계산<br>개인정보 표기 0건 · 검색 비공개 페이지</footer>
 </div>
 
 <script>
-/* ── 공고 데이터 (11/20 비교표 + 11/22 재확인) ───────────────── */
+/* ── 공고 데이터 (11/20 비교표 + 11/22 재확인 · 11/23 아워홈 마감 제외) ── */
 const JOBS = [
-  {
-    id:"awh", name:"(주)아워홈", kind:"대기업(한화 계열) · 9,880명",
-    title:"안산공장 생산관리파트 생산기획 담당자 (신입)",
-    place:"경기 안산시 단원구 원시동",
-    end:"2026-11-22T12:00:00+09:00",
-    salary:"공고 미기재(면접 후 결정) · 수습 2개월 급여 80%",
-    salary2:"평균 5,072만 · 신입 평균 4,801만 · 포지션 추정 4,611만",
-    shape:"주간 사무직(공장 생산기획) · 근무시간·교대 여부 <b>공고 미기재 → 확인 필요</b>",
-    jp:"2.7", jpn:"1,943", bl:"집계상 '낮은 편'",
-    rev:"2조 2,071억(별도 2025) / 연결 2조 4,497억",
-    op:"699억(별도) / 804억(연결)",
-    note:'<span class="warn">11/22 12:00 마감 — 지금 시각 기준 접수 종료</span> · 캐치 메타상 접수 종료가 11/22 12:00으로 표기돼 주말 오전 마감이었다. 리스크: 자격요건 <b>‘상경계열 전공’</b>이라 전공 요건 미충족 소지, 급여 미기재, 퇴사율 약 39%.',
-    url:"https://m.catch.co.kr/NCS/RecruitInfoDetails/579982"
-  },
   {
     id:"sold", name:"(주)솔디펜스", kind:"코스닥 215090 · 중소기업(방산협력) · 106명",
     title:"구미사업장 생산지원팀 — 생산계획·납기·ERP 생산실적·공정/외주 관리",
@@ -310,10 +296,11 @@ const JOBS = [
 
 /* ── 보류·제외 ────────────────────────────────────────────── */
 const ETC = [
+  {n:"(주)아워홈", s:"안산공장 생산관리파트 생산기획 담당자(신입) · 경기 안산", d:"11/22 12:00 마감", w:"접수 종료 — 11/23 기준 추적 제외(상경계열 전공 요건·급여 미기재·퇴사율 약 39%)", u:"https://m.catch.co.kr/NCS/RecruitInfoDetails/579982"},
   {n:"(주)아바텍", s:"MLCC사업부 생산관리팀 신입/경력 · 구미 산동", d:"~12/18", w:"보류 — 평균연봉 3,988만으로 4,200만 미달 소지 · 잡플래닛 2.4(33건, 추천 21%)", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55606795"},
   {n:"한화에어로스페이스(주)", s:"항공사업부 하반기 경력 — 생산관리·구매·사업기획 · 창원·아산·서울·분당", d:"~11/29 24:00", w:"경력 5년↑ 요건 → 2년차 미달 소지(참고)", u:"https://m.catch.co.kr/NCS/RecruitInfoDetails/581312"},
-  {n:"한화시스템 (구미)", s:"협력사 구매 관리 담당(글로벌 SCM) · 구미", d:"~11/22", w:"경력 5년↑ 요건 → 미달", u:"https://m.catch.co.kr/NCS/RecruitInfoDetails/581312"},
-  {n:"비케이알(BKR·버거킹)", s:"SCM본부 Global Sourcing 정규직 · 서울 종로", d:"~11/22 24:00", w:"중견인데 근무지 서울 → ‘중견 이하는 구미·대구’ 조건 밖", u:"https://m.catch.co.kr/NCS/RecruitInfoDetails/581215"},
+  {n:"한화시스템 (구미)", s:"협력사 구매 관리 담당(글로벌 SCM) · 구미", d:"11/22 마감", w:"경력 5년↑ 요건 → 미달", u:"https://m.catch.co.kr/NCS/RecruitInfoDetails/581312"},
+  {n:"비케이알(BKR·버거킹)", s:"SCM본부 Global Sourcing 정규직 · 서울 종로", d:"11/22 24:00 마감", w:"중견인데 근무지 서울 → ‘중견 이하는 구미·대구’ 조건 밖", u:"https://m.catch.co.kr/NCS/RecruitInfoDetails/581215"},
   {n:"아주산업", s:"2026 모듈러사업팀 생산관리 매니저 · 서울 서초", d:"~12/31", w:"중견인데 근무지 서울 → 조건 밖", u:"https://m.catch.co.kr/NCS/RecruitInfoDetails/580383"},
   {n:"동종업계1위 대기업 사무직(서치펌)", s:"SCM·구매관리·SAP 사무직 · 경북 김천", d:"~12/10", w:"계약직 + 근무지 김천(생활권 밖) · 연봉협의", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55533550"},
   {n:"유티아이(주)", s:"생산부문(생산관리팀·생산기술팀) · 성남·구미", d:"~11/30", w:"생산관리팀이 현장 관리 성격·급여 미기재로 조건 검증 불가", u:"https://www.saramin.co.kr/zf_user/search/recruit?searchType=search&searchword=구미%20생산관리"},
@@ -362,7 +349,7 @@ function mineBadge(id){
 }
 function updateMine(){
   const n = JOBS.filter(j => store[j.id]).length;
-  document.getElementById("vMine").innerHTML = n + "<small>/7</small>";
+  document.getElementById("vMine").innerHTML = n + "<small>/6</small>";
   const soon = JOBS.filter(isSoon).length;
   document.getElementById("vSoon").innerHTML = soon + "<small>건</small>";
   document.getElementById("tAll").textContent = "";
