@@ -74,6 +74,8 @@
     line-height:1.18;height:23px;overflow:hidden;display:flex;flex-direction:column;align-items:center;
     justify-content:center;padding:0 1px}
   .cell .cm span{display:block;max-width:100%;overflow:hidden}
+  .cell .cl{font-size:8.5px;font-weight:800;color:var(--purple);letter-spacing:-.35px;line-height:1.15;
+    white-space:nowrap;max-width:100%;overflow:hidden}
   .cell.off{opacity:.55}
   .cell.off .cm{font-weight:700;color:var(--sub)}
   .cell.today{box-shadow:inset 0 0 0 1.5px var(--blue)}
@@ -105,6 +107,8 @@
     background:var(--chip-bg);color:var(--sub2);border:1px solid var(--line);margin-top:2px}
   .mk.l{color:#1d4ed8;background:#eef4ff;border-color:#d8e5ff}
   [data-theme="dark"] .mk.l{color:#a8c6ff;background:#1b2a45;border-color:#2b4470}
+  .mk.u{color:#6d28d9;background:#f4ecff;border-color:#e4d3ff}
+  [data-theme="dark"] .mk.u{color:#c9b2ff;background:#2d2340;border-color:#463563}
   .mv{min-width:0;flex:1;font-size:13px;font-weight:700;letter-spacing:-.3px;line-height:1.4}
   .mv .sm{display:block;font-size:11px;font-weight:600;color:var(--sub);margin-top:1px;letter-spacing:-.2px;line-height:1.4}
   .dc-note{font-size:11.5px;color:var(--sub2);margin-top:6px;padding-top:6px;border-top:1px dashed var(--line);
@@ -224,7 +228,7 @@
   <header class="top">
     <div>
       <h1>주간 식단·장보기</h1>
-      <div class="basis">이번 주 11/23(월)~29(일) · 지난주 11/16~22 기록 · 기기 캘린더 최종본 기준</div>
+      <div class="basis">기준 2026-11-24 07:55 · 이번 주 11/23(월)~29(일) · 지난주 11/16~22 · 기기 '희욱' 캘린더 실측 일치</div>
     </div>
     <button class="theme-btn" id="themeBtn" aria-label="다크 모드 전환">◐</button>
   </header>
@@ -248,6 +252,7 @@
     <div class="sumline" id="sumline">
       <span>확정 <b>6끼</b></span><span class="dot"></span>
       <span>먹음 <b id="sumEat">0/6</b></span><span class="dot"></span>
+      <span>우기 점심 <b>5일</b></span><span class="dot"></span>
       <span class="ok">결제 완료 <b class="ok">87,650원</b></span><span class="dot"></span>
       <span class="todo">바지락 11/25</span>
     </div>
@@ -265,7 +270,7 @@
         <span class="rm-due">11/25(수) 15:00 전</span>
       </div>
       <div class="rm-t">바지락 별도 주문</div>
-      <div class="rm-d">목요일 바지락술찜용. 냉장 2~3일이 한계라 <b>11/25 주문 → 11/26 사용</b>. 로켓프레시 생물은 15:00 결제 마감을 넘기면 다음 날 새벽 도착으로 밀림.</div>
+      <div class="rm-d">목요일 바지락술찜용. 냉장 2~3일이 한계라 <b>11/25 주문 → 11/26 사용</b>. 로켓프레시 생물은 15:00 결제 마감을 넘기면 다음 날 새벽 도착으로 밀림. <b>화이트와인은 집에 있어 술은 사지 않는다</b>(바지락만).</div>
     </div>
 
     <div class="paid">
@@ -302,10 +307,11 @@
       <b>메모</b>
       <ul>
         <li>월요일이 <b>소고기 미역국 + 수육 + 쌈채소</b>로 바뀌어 미역국 재료(미역·국거리 소고기)가 새로 필요하고, 금요일은 닭안심 대신 <b>원팬 에그인헬</b>이라 닭안심·구운 채소 재료가 이번 주에는 쓰이지 않는다.</li>
-        <li>바지락은 장바구니에 담지 않았다 — <b>11/25(수) 15:00 전 별도 주문</b>이 유일하게 남은 결제다.</li>
+        <li>바지락은 장바구니에 담지 않았다 — <b>11/25(수) 15:00 전 별도 주문</b>이 유일하게 남은 결제다. <b>화이트와인은 집에 있어 술은 구매 불필요</b>하다(11/24 07:55 확인).</li>
         <li>로켓프레시 생물은 <b>15:00 결제 마감</b>을 넘기면 다음 날 새벽 도착으로 밀린다.</li>
         <li>금요일 원팬 에그인헬은 <b>12:00 → 18:00 저녁으로 이동 확정</b>(11/23).</li>
         <li>결제·주문은 직접 하는 원칙이라 이 보드는 <b>체크·메모만</b> 기억한다(카드·계정 정보 없음). 품목별 영수증은 확인하지 않았다.</li>
+        <li>우기 점심은 11/24 07:55 기준 이번 주 회사 점심 식단표 사진으로 월~금 5일을 확인해 넣었다. 보드에는 <b>‘우기 점심’으로만</b> 표기하고 소속·회사명은 적지 않는다.</li>
       </ul>
     </div>
   </section>
@@ -345,12 +351,12 @@
     </div>
   </section>
 
-  <footer>기기 캘린더 11/22 17:10 조회 + 11/23 금요일 저녁 이동 확정 · 쿠팡 재주문 결제 완료 기준<br>개인정보 표기 0건 · 검색 비공개 페이지</footer>
+  <footer>2026-11-24 07:55 기준 · 기기 '희욱' 캘린더 실측 일치 · 우기 점심 11/24 사진 확인<br>개인정보 표기 0건 · 검색 비공개 페이지</footer>
 </div>
 
 <script>
 /* ── 날짜 데이터 ───────────────────────────────────────────── */
-let TODAY = "2026-11-23";   // 기기 날짜가 이 2주 안에 있으면 그 날짜로 바뀐다(아래) 
+let TODAY = "2026-11-24";   // 기기 날짜가 이 2주 안에 있으면 그 날짜로 바뀐다(아래) 
 
 /* 지난주 11/16~22 (기기 캘린더 기록) */
 const WEEK_PREV = [
@@ -372,23 +378,23 @@ const WEEK_PREV = [
 
 /* 이번 주 11/23~29 (기기 캘린더 최종본) */
 const WEEK_CUR = [
-  {key:"2026-11-23", dw:"월", dn:"11/23", kw:"미역국·수육", menu:"소고기 미역국 + 수육 + 쌈채소", time:"18:00",
+  {key:"2026-11-23", dw:"월", dn:"11/23", kw:"미역국·수육", woogi:"삼겹야채찜 · 들기름막국수 · 아욱된장국", wshort:"삼겹찜", menu:"소고기 미역국 + 수육 + 쌈채소", time:"18:00",
    lunch:"회사 구내식당", lunchNote:"회사 주간 식단표 11:20 캡처 예정", today:true,
    note:"수육용 <b>한돈 목심 500g·모둠쌈</b>과 미역국 재료까지 이번 주 식단 재료로 결제 완료. 국물 간은 약하게, 밥은 반 공기.",
    tags:["한식","단백질"], warn:["미역국 재료 추가분"]},
-  {key:"2026-11-24", dw:"화", dn:"11/24", kw:"연어구이", menu:"연어구이 + 샐러드", time:"18:00",
+  {key:"2026-11-24", dw:"화", dn:"11/24", kw:"연어구이", woogi:"우거지해장국 · 파채돼지불고기 · 김치전", wshort:"해장국", menu:"연어구이 + 샐러드", time:"18:00",
    lunch:"회사 구내식당", lunchNote:"회사 주간 식단표 11:20 캡처 예정",
    note:"<b>노르웨이 생연어 200g · 유러피안 샐러드 300g</b> 결제 완료 — 생연어는 받은 날 바로 냉장(0~2℃).",
    tags:["생선","저탄수"]},
-  {key:"2026-11-25", dw:"수", dn:"11/25", kw:"샤브샤브", menu:"소고기 샤브샤브", time:"18:00",
+  {key:"2026-11-25", dw:"수", dn:"11/25", kw:"샤브샤브", woogi:"고추잡채&꽃빵 · 난자완스 · 짬뽕국", wshort:"고추잡채", menu:"소고기 샤브샤브", time:"18:00",
    lunch:"회사 구내식당", lunchNote:"회사 주간 식단표 11:20 캡처 예정",
    note:"<b>한우 1+ 300g · 모둠채소 · 버섯 · 육수</b> 결제 완료. 오늘 <b>15:00 전 바지락 주문</b>이 남은 일.",
    tags:["한식","국물"], warn:["15:00 전 바지락 주문"]},
-  {key:"2026-11-26", dw:"목", dn:"11/26", kw:"바지락찜", menu:"바지락술찜", time:"18:00",
+  {key:"2026-11-26", dw:"목", dn:"11/26", kw:"바지락찜", woogi:"능성어구이 · 숙주매운떡갈비조림 · 맑은버섯국", wshort:"능성어", menu:"바지락술찜", time:"18:00",
    lunch:"회사 구내식당", lunchNote:"회사 주간 식단표 11:20 캡처 예정",
-   note:"바지락은 냉장 2~3일 한계 — <b>수요일 주문 → 목요일 사용</b>. 해감은 소금물 1시간.",
+   note:"바지락은 냉장 2~3일 한계 — <b>수요일 주문 → 목요일 사용</b>. 해감은 소금물 1시간. <b>화이트와인은 집에 있어 술은 사지 않는다</b> — 바지락만 주문하면 된다.",
    tags:["해물"], warn:["11/25 주문분"]},
-  {key:"2026-11-27", dw:"금", dn:"11/27", kw:"에그인헬", menu:"원팬 에그인헬", time:"18:00",
+  {key:"2026-11-27", dw:"금", dn:"11/27", kw:"에그인헬", woogi:"베테랑칼국수 · 오징어초무침 · 보리밥", wshort:"칼국수", menu:"원팬 에그인헬", time:"18:00",
    lunch:"회사 구내식당", lunchNote:"회사 주간 식단표 11:20 캡처 예정",
    note:"<b>디벨라 홀토마토 · 유정란 15구 · 모짜렐라</b> 결제 완료. 11/23 확정으로 <b>12:00 → 18:00 저녁</b>으로 이동.",
    tags:["양식","저녁"]},
@@ -473,6 +479,7 @@ function cellHTML(d){
       aria-selected="${d.key === selKey}" aria-label="${d.dn} ${d.dw} ${d.menu}${eaten ? " 먹음" : ""}">
     <span class="crow"><span class="cd">${d.dn}</span>${eaten ? `<span class="cs">✓</span>` : ""}</span>
     <span class="cm">${d.kw.split("·").map(l => `<span>${l}</span>`).join("")}</span>
+    ${d.woogi ? `<span class="cl">우 ${d.wshort}</span>` : ""}
   </button>`;
 }
 
@@ -516,6 +523,10 @@ function renderDetail(){
       <button class="eat-btn" type="button" id="eatBtn" data-on="${eaten ? 1 : 0}" aria-pressed="${eaten}">${eaten ? "✓ 먹음" : "먹음 체크"}</button>
     </div>
     ${lunchRow}
+    ${d.woogi ? `<div class="mrow">
+      <span class="mk u">우기</span>
+      <span class="mv">${d.woogi}<span class="sm">우기 님 회사 점심 · 식단표 사진 확인</span></span>
+    </div>` : ""}
     <div class="mrow">
       <span class="mk">저녁</span>
       <span class="mv">${d.menu}<span class="sm">집</span></span>

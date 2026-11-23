@@ -142,7 +142,7 @@
   <header class="top">
     <div>
       <h1>이직 공고 비교판</h1>
-      <div class="basis">2026-11-23 18:00 기준 · 추적 9건(신규 3) · 마감 D-Day 자동 계산</div>
+      <div class="basis">2026-11-24 07:55 기준 · 추적 8건(이수페타시스 제외) · 마감 D-Day 자동 계산</div>
     </div>
     <button class="theme-btn" id="themeBtn" aria-label="다크 모드 전환">◐</button>
   </header>
@@ -163,10 +163,10 @@
   </div>
 
   <div class="grid">
-    <div class="card"><div class="k">추적 공고</div><div class="v c-blue">9<small>건</small></div><div class="s">11/23 신규 3건(지아이에스·아데나·대주기계) · 상시 1건</div></div>
+    <div class="card"><div class="k">추적 공고</div><div class="v c-blue">8<small>건</small></div><div class="s">11/23 신규 3건(지아이에스·아데나·대주기계) · 이수페타시스 제외 · 상시 1건</div></div>
     <div class="card"><div class="k">마감 임박</div><div class="v c-red" id="vSoon">–</div><div class="s">D-7 이내 · 내일까지 우선</div></div>
     <div class="card"><div class="k">내 표시</div><div class="v" id="vMine">0<small>/9</small></div><div class="s">관심·지원완료·패스 저장</div></div>
-    <div class="card"><div class="k">요건 리스크</div><div class="v c-orange">3<small>건</small></div><div class="s">어학 요건 · 초봉 4,200만 미달 소지</div></div>
+    <div class="card"><div class="k">요건 리스크</div><div class="v c-orange">4<small>건</small></div><div class="s">초봉 4,200만 미달 소지 · 어학 요건은 0건(이수페타시스 제외)</div></div>
   </div>
 
   <div class="controls">
@@ -188,21 +188,21 @@
 
   <div class="sec-label">보류·제외 참고 <span>· 왜 뺐는지</span></div>
   <details class="etc">
-    <summary><span>검토 후 제외·보류 26건</span><span class="cnt">펼치기 ▾</span></summary>
+    <summary><span>검토 후 제외·보류 27건</span><span class="cnt">펼치기 ▾</span></summary>
     <div class="etc-body" id="etcList"></div>
   </details>
 
   <div class="info">
     <b>기준과 출처</b>
     <ul>
-      <li>D-Day는 기기 시각 기준 자동 계산이라, 날짜가 지나면 화면에서 바로 <b>마감 경과</b>로 바뀐다. 11/23 18:00 기준 추적 9건(기존 6 + 신규 3)이고, 아워홈(11/22 12:00 마감)은 제외 목록에 있다.</li>
+      <li>D-Day는 기기 시각 기준 자동 계산이라, 날짜가 지나면 화면에서 바로 <b>마감 경과</b>로 바뀐다. 11/24 07:55 기준 추적 8건(기존 6 + 신규 3 − 이수페타시스 제외)이고, 아워홈(11/22 12:00 마감)·이수페타시스(11/24 사용자 확인으로 제외)는 제외 목록에 있다.</li>
       <li>연봉·평점·매출은 11/18~11/20 직접 조회값(잡플래닛·블라인드·잡코리아·DART·인크루트)이고, 11/23 신규 3건은 11/23 조회값이다. 공고에 급여가 없으면 <b>공시·추정</b>으로 따로 적었다.</li>
       <li>근무형태가 공고에 없으면 카드에 <b>확인 필요</b>로 표시했다 — 교대·주말 여부는 면접 전 사전 전화로 확인할 항목.</li>
       <li>내 표시(관심·지원완료·패스)는 이 브라우저에만 저장되고 서버로 전송되지 않는다.</li>
     </ul>
   </div>
 
-  <footer>2026-11-23 18:00 기준 · 추적 9건 D-Day 자동 계산<br>개인정보 표기 0건 · 검색 비공개 페이지</footer>
+  <footer>2026-11-24 07:55 기준 · 추적 8건 D-Day 자동 계산<br>개인정보 표기 0건 · 검색 비공개 페이지</footer>
 </div>
 
 <script>
@@ -249,20 +249,6 @@ const JOBS = [
     op:"22.5억(2025, 흑자전환) · 2024년 −48.9억",
     note:'핏 최상 — 방산 물자 수급·ERP/PLM 우대. 리스크: 초임 4,200만으로 <b>기준 경계선</b>, 부채비율 185%, 신원조사 필요.',
     url:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55459022"
-  },
-  {
-    id:"isup", name:"(주)이수페타시스", kind:"코스피 007660 · 중견/대기업 · 1,445명",
-    title:"구매팀 — 원부자재 조달·설비/공사 구매·구매전략 (NPI 제품관리 등 팀별 병행)",
-    place:"대구 달성군 논공읍",
-    end:"2026-11-26T23:59:00+09:00",
-    salary:"회사 내규(잡코리아 5,000만 집계)",
-    salary2:"공시 평균급여 9,849만(2025 사업보고서) · 블라인드 6,200만 · 잡플래닛 5,170만",
-    shape:"정규직 · 대졸 4년↑ · 경력 3~4년(팀별 상이) · 주간 사무 추정, 근무시간 미기재",
-    jp:"3.1", jpn:"224", bl:"3.1 (198건, 추천 71%)",
-    rev:"1조 880억(연결 2025) / 캐치 9,297억",
-    op:"2,047억(2025, +101%)",
-    note:'<span class="warn">★자격요건 ‘영어 OPIc IH 이상 또는 중국어 HSK 5급 이상’ 필수 → 현재 성적 미보유로 서류 단계 리스크 큼.</span> 같은 팀 11/21 마감분은 종료 표시.',
-    url:"https://www.jobkorea.co.kr/Recruit/GI_Read/50250414"
   },
   {
     id:"asm", name:"에이에스엠케이(ASM 코리아)", kind:"외국계/중견기업 · 541명 · 화성 동탄",
@@ -338,6 +324,7 @@ const JOBS = [
 
 /* ── 보류·제외 ────────────────────────────────────────────── */
 const ETC = [
+  {n:"(주)이수페타시스", s:"구매팀 — 원부자재 조달·설비/공사 구매 · 대구 달성 논공", d:"~11/26", w:"어학 필수 요건(OPIc IH 또는 HSK 5급 이상) 미보유 — 11/24 사용자 직접 확인 후 추적 제외", u:"https://www.jobkorea.co.kr/Recruit/GI_Read/50250414"},
   {n:"(주)화신 대구공장 (대리급)", s:"생산관리팀 경력직(대리급) · 대구 달서구", d:"~12/23", w:"11/23 신규 — 경력 4~7년 요건으로 2년차 미달 소지(참고)", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55645756"},
   {n:"(주)화신 대구공장 (사원급)", s:"생산관리팀 사원급(신입) · 대구 달서구", d:"~12/23", w:"신입 전용 공고 — 2년차 처우·직급 협의 필요(보류)·급여 미기재", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55645715"},
   {n:"(주)백그라운드(서치펌)", s:"[유명 반도체 그룹사 중견기업] 제조현장 관리 · 구미", d:"~12/07", w:"11/23 신규 — 경력 1~8년으로 요건은 부합하나 급여·고용주 미공개로 4,200만 검증 불가(보류)", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55638926"},
@@ -401,7 +388,7 @@ function mineBadge(id){
 }
 function updateMine(){
   const n = JOBS.filter(j => store[j.id]).length;
-  document.getElementById("vMine").innerHTML = n + "<small>/9</small>";
+  document.getElementById("vMine").innerHTML = n + "<small>/8</small>";
   const soon = JOBS.filter(isSoon).length;
   document.getElementById("vSoon").innerHTML = soon + "<small>건</small>";
   document.getElementById("tAll").textContent = "";
