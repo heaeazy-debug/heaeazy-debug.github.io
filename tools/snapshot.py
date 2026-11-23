@@ -184,68 +184,71 @@ def read(path):
 
 
 def parse_bonus(html):
+    clean = strip_scripts(html)
     ch = js_var(html, "CHANNELS") or []
     remain = js_var(html, "REMAIN") or []
     rzero = js_var(html, "REMAIN_ZERO") or []
     stock = js_var(html, "STOCK") or []
     stock_today = js_var(html, "STOCK_TODAY")
-    money_view = inner(html, "viewMoney") or html
+    money_view = inner(clean, "viewMoney") or clean
 
     kpi = {}
     for key, id_ in [("total", "vTotal"), ("done", "vDone"), ("win", "vWin"), ("rate", "vRate"),
                      ("wait", "vWait"), ("wait13", "sWait13"), ("soon", "sSoon"), ("today", "sToday"),
                      ("contest", "sContest"), ("web", "sWeb"), ("remain", "rTotal"),
                      ("remainWeb", "rWeb"), ("remainApp", "rApp")]:
-        h = inner(html, id_)
+        h = inner(clean, id_)
         if h:
             kpi[key] = h.replace("<small>", "").replace("</small>", "").strip()
             if key in ("rate",):
                 kpi[key] = kpi[key].replace("%", "")
 
-    basis = re.search(r'class="basis">(.*?)</div>', html, re.S)
-    headline = [text(x) for x in re.findall(r'<div class="sumline">(.*?)</div>', html, re.S)]
+    basis = re.search(r'class="basis">(.*?)</div>', clean, re.S)
+    headline = [text(x) for x in re.findall(r'<div class="sumline">(.*?)</div>', clean, re.S)]
     return {
         "basis": text(basis.group(1)) if basis else "",
         "kpi": kpi,
-        "kpiText": labeled_cards(html, ["총 제출", "발표 완료", "당첨", "당첨률", "발표 대기", "대표 할 일",
+        "kpiText": labeled_cards(clean, ["총 제출", "발표 완료", "당첨", "당첨률", "발표 대기", "대표 할 일",
                                         "남은 신청 가능 (신청 대기)"]),
         "channels": ch,
         "remain": remain,
         "remainZero": rzero,
         "stock": {"today": stock_today, "events": stock,
-                  "headline": headline, "notes": info_blocks(inner(html, "viewStock"))},
+                  "headline": headline, "notes": info_blocks(inner(clean, "viewStock"))},
         "money": [m for m in money_cards(money_view) if len(m["v"]) <= 14][:6],
-        "notes": info_blocks(inner(html, "viewContest")),
-        "moneyNotes": info_blocks(inner(html, "viewMoney")),
-        "sumNotes": sum_notes(html),
+        "notes": info_blocks(inner(clean, "viewContest")),
+        "moneyNotes": info_blocks(inner(clean, "viewMoney")),
+        "sumNotes": sum_notes(clean),
     }
 
 
 def parse_jobs(html):
+    clean = strip_scripts(html)
     jobs = js_var(html, "JOBS") or []
     etc = js_var(html, "ETC") or []
-    basis = re.search(r'class="basis">(.*?)</div>', html, re.S)
-    cond = [text(c) for c in re.findall(r'<span class="chip[^"]*">(.*?)</span>', html, re.S)]
+    basis = re.search(r'class="basis">(.*?)</div>', clean, re.S)
+    cond = [text(c) for c in re.findall(r'<span class="chip[^"]*">(.*?)</span>', clean, re.S)]
     return {
         "basis": text(basis.group(1)) if basis else "",
         "conditions": cond,
-        "kpi": labeled_cards(html, ["추적 공고", "마감 임박", "요건 리스크"]),
+        "kpi": labeled_cards(clean, ["추적 공고", "마감 임박", "요건 리스크"]),
         "tracked": len(jobs),
         "jobs": jobs,
         "excluded": etc,
-        "notes": info_blocks(html),
+        "notes": info_blocks(clean),
     }
 
 
 def parse_meals(html):
+    clean = strip_scripts(html)
     wk_prev = js_var(html, "WEEK_PREV") or []
     wk_cur = js_var(html, "WEEK_CUR") or []
     shop = js_var(html, "SHOP") or []
     adjust = js_var(html, "ADJUST") or []
-    basis = re.search(r'class="basis">(.*?)</div>', html, re.S)
-    sumline = re.search(r'<div class="sumline"[^>]*>(.*?)</div>', html, re.S)
-    paid = re.search(r'<div class="pv">(.*?)</div>', html, re.S)
-    remain = re.search(r'<div class="rm-t">(.*?)</div>\s*<div class="rm-d">(.*?)</div>', html, re.S)
+    basis = re.search(r'class="basis">(.*?)</div>', clean, re.S)
+    sumline = re.search(r'<div class="sumline"[^>]*>(.*?)</div>', clean, re.S)
+    paid = re.search(r'<div class="pv">(.*?)</div>', clean, re.S)
+    remain = re.search(r'<div class="rm-t">(.*?)</div>\s*<div class="rm-d">(.*?)</div>', clean, re.S)
     return {
         "basis": text(basis.group(1)) if basis else "",
         "weekPrev": wk_prev,
@@ -268,9 +271,9 @@ def strip_scripts(html):
 
 
 def build(date, src_dir):
-    idx = strip_scripts(read(os.path.join(src_dir, "index.html")))
-    jbs = strip_scripts(read(os.path.join(src_dir, "jobs.html")))
-    mls = strip_scripts(read(os.path.join(src_dir, "meals.html")))
+    idx = read(os.path.join(src_dir, "index.html"))
+    jbs = read(os.path.join(src_dir, "jobs.html"))
+    mls = read(os.path.join(src_dir, "meals.html"))
     snap = {
         "date": date,
         "dw": weekday_kr(date),
