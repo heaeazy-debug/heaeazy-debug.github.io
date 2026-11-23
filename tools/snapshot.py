@@ -144,7 +144,7 @@ def num(h):
 
 def info_blocks(html):
     out = []
-    for m in re.finditer(r'<div class="info">(.*?)</div>\s*(?=<div class="info">|<!--|</div><!--|$)', html, re.S):
+    for m in re.finditer(r'<div class="info">(.*?)</ul>', html, re.S):
         body = m.group(1)
         t = re.search(r"<b>(.*?)</b>", body, re.S)
         items = [text(li) for li in re.findall(r"<li>(.*?)</li>", body, re.S)]
@@ -263,10 +263,14 @@ def weekday_kr(date):
     return "월화수목금토일"[datetime.date.fromisoformat(date).weekday()]
 
 
+def strip_scripts(html):
+    return re.sub(r"<script>.*?</script>", "", html, flags=re.S)
+
+
 def build(date, src_dir):
-    idx = read(os.path.join(src_dir, "index.html"))
-    jbs = read(os.path.join(src_dir, "jobs.html"))
-    mls = read(os.path.join(src_dir, "meals.html"))
+    idx = strip_scripts(read(os.path.join(src_dir, "index.html")))
+    jbs = strip_scripts(read(os.path.join(src_dir, "jobs.html")))
+    mls = strip_scripts(read(os.path.join(src_dir, "meals.html")))
     snap = {
         "date": date,
         "dw": weekday_kr(date),
@@ -308,9 +312,21 @@ def main():
     if os.path.exists(path):
         with open(path, encoding="utf-8") as f:
             old = json.load(f)
-        for keep in ("summary", "title", "createdNote", "stockExtra"):
+        for keep in ("summary", "title", "createdNote"):
             if old.get(keep):
                 snap[keep] = old[keep]
+        # 페이지에 구조로 남지 않는 값은 기존 파일 것을 이어 쓴다
+        ost = old.get("bonus", {}).get("stock", {})
+        nst = snap["bonus"]["stock"]
+        if ost.get("withdrawn"):
+            nst["withdrawn"] = ost["withdrawn"]
+        if ost.get("events") and not nst.get("events"):
+            snap["bonus"]["stock"] = ost
+        elif ost.get("headline") and not nst.get("headline"):
+            nst["headline"] = ost["headline"]
+        for k in ("paid", "paidLabel", "remainTask"):
+            if old.get("meals", {}).get(k):
+                snap["meals"][k] = old["meals"][k]
     with open(path, "w", encoding="utf-8") as f:
         json.dump(snap, f, ensure_ascii=False, indent=1)
 

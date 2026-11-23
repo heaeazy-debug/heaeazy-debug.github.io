@@ -8,9 +8,9 @@
    "label": "2026-11-24 (화)",
    "summary": "총 제출 1,435건(체험단 1,398 · 웹 경품 37) · 당첨 2(체험뷰 유다의 어머니 신규) · 발표 완료 146(1.4%) · 남은 신청 322(웹 184 · 앱 138) · 이직 추적 8건 · 클라우드리뷰 56건 신청",
    "isLatest": true,
-   "hasBonus": true,
-   "hasJobs": true,
-   "hasMeals": true
+   "hasBonus": false,
+   "hasJobs": false,
+   "hasMeals": false
   },
   {
    "date": "2026-11-23",
@@ -18,9 +18,9 @@
    "label": "2026-11-23 (월)",
    "summary": "총 제출 1,367건(체험단 1,330 · 웹 경품 37) · 당첨 1 · 발표 완료 141(0.7%) · 남은 신청 380(웹 242 · 앱 138) · 이직 추적 9건 · 공모주 후보 3건 전부 계좌 개설 선행",
    "isLatest": false,
-   "hasBonus": true,
-   "hasJobs": true,
-   "hasMeals": true
+   "hasBonus": false,
+   "hasJobs": false,
+   "hasMeals": false
   },
   {
    "date": "2026-11-22",
@@ -28,9 +28,9 @@
    "label": "2026-11-22 (일)",
    "summary": "총 제출 1,100건(체험단 1,080 · 웹 경품 20) · 당첨 1(카카오 오르골 무드등) · 발표 완료 80 · 발표 대기 666+ · 이직 추적 7건 · 다음 주 식단 11/23~29 결제 예정 87,650원",
    "isLatest": false,
-   "hasBonus": true,
-   "hasJobs": true,
-   "hasMeals": true
+   "hasBonus": false,
+   "hasJobs": false,
+   "hasMeals": false
   }
  ]
 }
