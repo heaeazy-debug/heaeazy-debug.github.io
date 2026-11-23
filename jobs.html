@@ -567,7 +567,8 @@ function archPaint(date, d){
   const risk = (j.kpi && j.kpi["요건 리스크"] && j.kpi["요건 리스크"].v) || "–";
   ARCH_BOX.innerHTML = `
     <div class="arch-date">🕘 그날 기준 · ${j.basis || date}</div>
-    <div class="arch-sum">${d.summary || ""}</div>
+    <div class="arch-sum"><b>추적 ${list.length}건 · 마감 임박 ${soon}건 · 제외·보류 ${etc.length}건</b>
+      ${d.summary ? `<br><span style="color:var(--sub)">${d.summary}</span>` : ""}</div>
     <div style="height:12px"></div>
     <div class="grid">
       <div class="card"><div class="k">추적 공고</div><div class="v c-blue">${list.length}<small>건</small></div>

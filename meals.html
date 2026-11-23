@@ -733,7 +733,8 @@ function archPaint(date, d){
   if(pageFooter) pageFooter.innerHTML = `${date} (${d.dw || ""}) 기록 그대로 · 기기 캘린더 실측 · 개인정보 표기 0건`;
   ARCH_BOX.innerHTML = `
     <div class="arch-date">🕘 그날 기준 · ${m.basis || date}</div>
-    <div class="arch-sum">${d.summary || ""}</div>`;
+    <div class="arch-sum"><b>${(m.weekCur && m.weekCur.length ? weekRange(m.weekCur) + " · 확정 " + m.weekCur.filter(x => !x.off).length + "끼" : "")}${m.paid ? " · " + (m.paidLabel || "결제 완료") + " " + m.paid : ""}${m.remainTask ? " · " + m.remainTask.t : ""}</b>
+      ${d.summary ? `<br><span style="color:var(--sub)">${d.summary}</span>` : ""}</div>`;
   ARCH_FOOT.innerHTML = (m.notes || []).map(n => `<div class="info"><b>${n.title || "메모"}</b><ul>${n.items.map(i => `<li>${i}</li>`).join("")}</ul></div>`).join("");
   archToggle(true);
 
