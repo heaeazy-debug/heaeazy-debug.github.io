@@ -145,7 +145,8 @@
 
   <div id="archiveView" class="hidden"></div>
 
-  <details class="condbar">
+  <div id="liveView">
+<details class="condbar">
     <summary>
       <span class="cb-l">조건</span>
       <span class="cb-t">2027 주말 · 2인 왕복 · 김해/대구 출발 · 특가만</span>
@@ -182,6 +183,7 @@
       <li>요금은 실시간 변동·좌석 마감에 따라 달라진다. 예매 직전에 한 번 더 확인한다.</li>
       <li>개인정보(이름·연락처·이메일)는 페이지에 넣지 않는다.</li>
     </ul>
+  </div>
   </div>
 
   <footer>자동 · PC · 직접 합산 · 2026-11-25 07:35 실측<br>다음 실측 11/25 18:00 퇴근 브리핑 · 예약·결제는 하지 않음 · 검색 비공개 페이지</footer>
@@ -272,6 +274,8 @@ let ARCH_LATEST  = null;
 function archToggle(on){
   ARCH_BOX.classList.toggle("hidden", !on);
   pastBanner.classList.toggle("hidden", !on);
+  const live = document.getElementById("liveView");
+  if(live) live.classList.toggle("hidden", on);
 }
 function archKpiHTML(k){
   if(!k) return "";
