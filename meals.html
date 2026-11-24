@@ -791,6 +791,14 @@ function archGo(date){
 
 function archShowLatest(){
   archToggle(false);
+  {
+    const cur = document.querySelector('.mtabs button[aria-selected="true"]');
+    const on = (cur && cur.dataset.tab) || "cal";
+    ["cal", "shop", "an"].forEach(t => {
+      const p = document.getElementById("panel-" + t);
+      if(p) p.classList.toggle("hidden", t !== on);
+    });
+  }
   if(pageFooter) pageFooter.innerHTML = FOOT_LIVE;
   ARCH_BOX.classList.add("hidden");
   ARCH_FOOT.classList.add("hidden");
