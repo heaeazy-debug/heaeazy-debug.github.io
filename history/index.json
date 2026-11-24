@@ -6,11 +6,13 @@
    "date": "2026-11-25",
    "dw": "수",
    "label": "2026-11-25 (수)",
-   "summary": "총 제출 1,731건(체험단 1,684 · 웹 경품 47) · 오늘 +15(지그재그 15건 웹 신청 완료) · 당첨 3 · 발표 완료 157(1.9%) · 발표 대기 915+ · 남은 신청 289(웹 151 · 앱 138) · 이직 추적 6건",
+   "summary": "총 제출 1,731건 · 당첨 3 · 발표 완료 157(1.9%) · 남은 신청 151(웹 151·무신사 제외) · 공고 추적 6건 · 항공권 특가 1/5(김해→후쿠오카 563,200원)",
    "isLatest": true,
    "hasBonus": true,
    "hasJobs": true,
-   "hasMeals": true
+   "hasMeals": true,
+   "hasFlights": true,
+   "hasToday": true
   },
   {
    "date": "2026-11-24",
@@ -20,7 +22,9 @@
    "isLatest": false,
    "hasBonus": true,
    "hasJobs": true,
-   "hasMeals": true
+   "hasMeals": true,
+   "hasFlights": false,
+   "hasToday": false
   },
   {
    "date": "2026-11-23",
@@ -30,7 +34,9 @@
    "isLatest": false,
    "hasBonus": true,
    "hasJobs": true,
-   "hasMeals": true
+   "hasMeals": true,
+   "hasFlights": false,
+   "hasToday": false
   },
   {
    "date": "2026-11-22",
@@ -40,7 +46,9 @@
    "isLatest": false,
    "hasBonus": true,
    "hasJobs": true,
-   "hasMeals": true
+   "hasMeals": true,
+   "hasFlights": false,
+   "hasToday": false
   }
  ]
 }

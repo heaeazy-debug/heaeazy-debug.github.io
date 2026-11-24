@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f6f8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>항공권 특가 추적</title>
+<style>
+  :root{
+    --bg:#f4f5f7;--card:#ffffff;--line:#eceef2;--text:#1c1f26;--sub:#8a909c;--sub2:#5f6570;
+    --green:#12a150;--orange:#c2740b;--blue:#2563eb;--purple:#7c3aed;--red:#d32f2f;
+    --chip-bg:#f2f3f6;--shadow:0 1px 2px rgba(20,24,32,.04),0 6px 18px rgba(20,24,32,.045);
+    --pill:#1c1f26;--pill-text:#fff;
+  }
+  [data-theme="dark"]{
+    --bg:#0f1115;--card:#191c22;--line:#262a33;--text:#ecedf1;--sub:#8b919d;--sub2:#b3b8c2;
+    --green:#3ddc84;--orange:#f0a44a;--blue:#6ea8ff;--purple:#b79cff;--red:#ff6b6b;
+    --chip-bg:#22262e;--shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+    --pill:#ecedf1;--pill-text:#14171c;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;
+    font-size:15px;line-height:1.45;word-break:keep-all;-webkit-font-smoothing:antialiased;
+    transition:background .2s ease,color .2s ease;
+  }
+  .app{max-width:480px;margin:0 auto;padding:18px 16px calc(28px + env(safe-area-inset-bottom))}
+  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:2px 0 12px}
+  h1{font-size:22px;letter-spacing:-.5px;margin:0;font-weight:800}
+  .basis{font-size:11.5px;color:var(--sub);margin-top:4px;letter-spacing:-.1px}
+  .theme-btn{flex:0 0 auto;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);
+    color:var(--sub2);font-size:16px;display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow)}
+  nav.boards{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;margin:0 0 12px;padding-bottom:2px}
+  nav.boards::-webkit-scrollbar{display:none}
+  nav.boards a{flex:0 0 auto;font-size:11px;font-weight:700;text-decoration:none;color:var(--sub2);
+    background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 9px;letter-spacing:-.2px}
+  nav.boards a.here{background:var(--pill);color:var(--pill-text);border-color:var(--pill)}
+  .cond{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+  .chip{font-size:11.5px;font-weight:700;letter-spacing:-.2px;border-radius:8px;padding:5px 8px;
+    background:var(--chip-bg);border:1px solid var(--line);color:var(--sub2)}
+  .chip.no{color:var(--sub);background:transparent;border-style:dashed}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+  .k{font-size:12.5px;color:var(--sub2);font-weight:600;letter-spacing:-.2px}
+  .v{font-size:25px;font-weight:800;letter-spacing:-.8px;line-height:1.15;margin-top:6px;font-variant-numeric:tabular-nums}
+  .v small{font-size:13px;font-weight:700;margin-left:1px}
+  .s{font-size:11.5px;color:var(--sub);margin-top:5px;letter-spacing:-.15px;line-height:1.4}
+  .c-green{color:var(--green)}.c-orange{color:var(--orange)}.c-blue{color:var(--blue)}.c-red{color:var(--red)}
+  .sec-label{font-size:12px;font-weight:700;color:var(--sub);letter-spacing:.2px;margin:20px 2px 8px;display:flex;align-items:center;gap:6px}
+  .sec-label span{font-weight:500}
+  .list{display:flex;flex-direction:column;gap:10px}
+  .fl{padding:15px 14px 13px}
+  .fl-head{display:flex;align-items:flex-start;gap:8px}
+  .fl-name{font-size:15.5px;font-weight:800;letter-spacing:-.4px;line-height:1.3;min-width:0}
+  .fl-date{font-size:11.5px;color:var(--sub);margin-top:3px;letter-spacing:-.15px;font-weight:600}
+  .merit{flex:0 0 auto;text-align:center;border-radius:10px;padding:5px 8px;font-size:11.5px;font-weight:800;letter-spacing:-.3px;
+    background:var(--chip-bg);color:var(--sub2);border:1px solid var(--line);white-space:nowrap}
+  .merit.best{color:#fff;background:var(--green);border-color:var(--green)}
+  .merit.low{color:#8a5a00;background:#fff5e0;border-color:#ffe2ad}
+  [data-theme="dark"] .merit.low{color:#ffd08a;background:#3a2c12;border-color:#5a4419}
+  .price{display:flex;align-items:baseline;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+  .price .pv{font-size:24px;font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+  .price .pa{font-size:11.5px;color:var(--sub);font-weight:700;letter-spacing:-.2px}
+  .price .pp{margin-left:auto;font-size:11px;color:var(--sub);font-weight:700;white-space:nowrap}
+  .rows{margin-top:9px;display:flex;flex-direction:column;gap:6px}
+  .row{display:grid;grid-template-columns:52px 1fr;gap:8px;font-size:12.5px;letter-spacing:-.2px}
+  .row .rk{color:var(--sub);font-weight:600}
+  .row .rv{color:var(--text);min-width:0}
+  .row .rv b{font-weight:700}
+  .row .rv .muted{color:var(--sub)}
+  .note{font-size:12px;color:var(--sub2);background:var(--chip-bg);border-radius:10px;padding:9px 10px;margin-top:10px;
+    letter-spacing:-.2px;line-height:1.45}
+  .note b{color:var(--text)}
+  .fl-foot{display:flex;gap:8px;margin-top:11px;align-items:center}
+  .go{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;background:var(--blue);
+    color:#fff;border-radius:11px;padding:11px 12px;font-size:13px;font-weight:800;letter-spacing:-.3px}
+  [data-theme="dark"] .go{color:#0b1220}
+  .go:active{opacity:.85}
+  .info{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;
+    font-size:11.5px;color:var(--sub);letter-spacing:-.15px;line-height:1.55}
+  .info b{color:var(--sub2);display:block;margin-bottom:4px;font-size:12px}
+  .info ul{margin:0;padding-left:15px}
+  .info li{margin:2px 0}
+  footer{text-align:center;font-size:11px;color:var(--sub);margin-top:20px;line-height:1.6;letter-spacing:-.1px}
+  .hidden{display:none!important}
+  /* ── 날짜 선택기 · 과거 기록 ─────────────────────────── */
+  .datebar{display:flex;align-items:center;gap:8px;margin:0 0 10px}
+  .datebar .dl{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--sub);letter-spacing:-.1px}
+  .datebar select{flex:1 1 auto;min-width:0;max-width:100%;appearance:none;-webkit-appearance:none;
+    border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:12px;
+    padding:9px 30px 9px 11px;font-size:13.5px;font-weight:700;font-family:inherit;letter-spacing:-.2px;
+    cursor:pointer;box-shadow:var(--shadow)}
+  .datebar select:disabled{opacity:.6}
+  .pastbanner{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:#fff8e6;border:1px solid #ffe2ad;
+    color:#8a5a00;border-radius:12px;padding:9px 12px;font-size:12.5px;font-weight:700;letter-spacing:-.2px;margin:0 0 12px}
+  [data-theme="dark"] .pastbanner{background:#2f2513;border-color:#5a4419;color:#ffd08a}
+  .pastbanner button{margin-left:auto;border:1px solid currentColor;background:transparent;color:inherit;
+    border-radius:999px;padding:5px 10px;font-size:11.5px;font-weight:800;font-family:inherit;cursor:pointer}
+  .arch-date{font-size:11.5px;font-weight:700;color:var(--sub);margin:2px 2px 7px;letter-spacing:-.15px}
+  .arch-sum{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;
+    box-shadow:var(--shadow);font-size:13px;letter-spacing:-.2px;line-height:1.5}
+  .loadnote{font-size:12px;color:var(--sub);padding:10px 2px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div>
+      <h1>항공권 특가 추적</h1>
+      <div class="basis">2026-11-24 17:45~58 실측 · Google 항공편 · 성인 2인 왕복 · 세금·수수료 포함</div>
+    </div>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="다크 모드 전환">◐</button>
+  </header>
+
+  <nav class="boards" aria-label="다른 보드">
+    <a href="today.html">오늘</a>
+    <a href="index.html">부수익</a>
+    <a href="jobs.html">공고</a>
+    <a href="meals.html">식단</a>
+    <a href="flights.html" class="here">항공권</a>
+  </nav>
+
+  <div class="datebar">
+    <span class="dl">📅 기록 보기</span>
+    <select id="dateSel" aria-label="기록 날짜 선택"></select>
+  </div>
+
+  <div class="pastbanner hidden" id="pastBanner">
+    <span id="pastText"></span>
+    <button type="button" id="toLatest">최신으로</button>
+  </div>
+
+  <div id="archiveView" class="hidden"></div>
+
+  <div class="cond">
+    <span class="chip">2027년 주말 (금~일 2박 3일)</span>
+    <span class="chip">성인 2인 왕복</span>
+    <span class="chip">김해(PUS)·대구(TAE) 출발</span>
+    <span class="chip">후쿠오카 · 도쿄 · 오사카</span>
+    <span class="chip no">특가·큰 변동만 보고</span>
+  </div>
+
+  <div class="grid">
+    <div class="card"><div class="k">최저 2인 왕복</div><div class="v c-green" id="vBest">563,200<small>원</small></div><div class="s">김해→후쿠오카 · 에어부산 · 특가 메리트 있음</div></div>
+    <div class="card"><div class="k">특가 메리트</div><div class="v c-green" id="vMerit">1<small>/5</small></div><div class="s">나머지 4노선은 정상 주말가·메리트 없음</div></div>
+    <div class="card"><div class="k">실측 노선</div><div class="v c-blue" id="vRoutes">5<small>개</small></div><div class="s">2027-03-05(금)~07(일) · 도쿄는 이번 실측 없음</div></div>
+    <div class="card"><div class="k">어제 대비</div><div class="v c-orange" id="vDiff">+9,800<small>원</small></div><div class="s">김해→후쿠오카 553,400(11/23) → 563,200(11/24)</div></div>
+  </div>
+
+  <div class="sec-label">노선별 실측 <span>· 2027년 3월 첫째 주말 기준</span></div>
+  <div class="list" id="flList"></div>
+
+  <div class="info">
+    <b>기준 · 유의</b>
+    <ul>
+      <li>모두 <b>Google 항공편</b>에서 승객 성인 2명·왕복·이코노미·KRW로 직접 조회했고, 표시가에 <b>세금·수수료가 포함</b>된 금액이다(수하물·좌석지정 별도). 예약·결제는 하지 않았다.</li>
+      <li><b>김해→후쿠오카만 특가</b>다. Google이 "이 검색에서 평소보다 92,400원 저렴"으로 표시했고, 같은 노선 2027-04-16~18 주말(1인 382,900원·2인 765,800원)보다 2인 기준 20만 원 이상 싸다.</li>
+      <li>대구→제주는 Google 자체 표시가 <b>"가격이 현재 비쌉니다"</b>이고, 같은 검색의 3/6(토)~3/9(화) 2인 187,200원 대비 주말이 정확히 2배다 — 정상 주말 프리미엄이다.</li>
+      <li><b>2027년 4월 이후 LCC 운임은 아직 미판매</b>(대구-제주 4/16~18은 LCC 0편·대한항공 2인 576,400원뿐). 판매가 열리면 재실측한다.</li>
+      <li><b>Trinity Airways</b>는 실운항사(대개 타 항공사 위탁)와 수하물 규정이 화면에 없어 미확인이다. 대구 출발 국제선은 이 점을 감안한다.</li>
+      <li>요금은 실시간 변동·좌석 마감에 따라 달라진다. 예매 직전에 한 번 더 확인한다. <b>도쿄(나리타·하네다)는 이번 실측에 없어서 넣지 않았다</b> — 다음 스캔에서 추가한다.</li>
+      <li>개인정보(이름·연락처·이메일)는 페이지에 넣지 않는다.</li>
+    </ul>
+  </div>
+
+  <footer>콩떡 · 인절미 · 찰떡 합산 · 2026-11-24 17:45~58 실측 · 2026-11-25 06:55 갱신<br>다음 실측 11/25 08:00 아침 브리핑 · 예약·결제는 하지 않음 · 검색 비공개 페이지</footer>
+</div>
+
+<script>
+const FLIGHTS = [
+  {route:"김해(PUS) → 후쿠오카(FUK)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:563200, carrier:"에어부산", merit:"특가", rank:"best",
+   out:"금 14:00 부산 → 15:00 후쿠오카 (BX509)", back:"일 09:25 후쿠오카 → 10:25 부산",
+   sub:"1인 281,600원 · 차순위 제주항공 577,200(금 13:10) / 에어부산 583,200(금 18:00) / 에어부산 643,200(07:30) / 제주항공 657,200(07:00) / 진에어 766,600 / Trinity 801,800 / 이스타 921,200·941,200 · 다른 판매처 557,657원도 있음",
+   verdict:"<b>특가 메리트 있음 ★</b> — Google 표시 \"이 검색에서 평소보다 92,400원 저렴\". 같은 노선 4/16~18 주말은 1인 382,900원(2인 765,800원)이라 3/5 주말이 2인 20만 원 이상 싸다.",
+   prev:"11/23 스카이스캐너 553,400원 → 11/24 구글 563,200원 (+9,800원·+1.8%)",
+   link:"https://www.google.com/travel/flights?hl=ko&curr=KRW&q=Flights%20from%20PUS%20to%20FUK%20on%202027-03-05%20through%202027-03-07"},
+  {route:"대구(TAE) → 제주(CJU)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:373000, carrier:"진에어", merit:"메리트 없음",
+   out:"금 19:30 대구 → 20:35 제주 (직항 1시간 5분)", back:"일 07:10 제주 → 08:15 대구",
+   sub:"차순위 진에어 18:15 376,800 / 제주항공 16:25 403,000 / 진에어 12:35 424,800 / 제주항공 08:05 447,000 / 진에어 08:55 457,200 / 대한항공 576,400 · 복귀편을 일 10:50·16:30·17:40로 바꾸면 393,000",
+   verdict:"<b>메리트 없음</b> — Google 표시 \"가격이 현재 비쌉니다\". 같은 검색의 3/6(토)~3/9(화) 2인 187,200원 대비 주말이 2배로 정상 주말 프리미엄이다. 4월은 LCC 미판매(4/16~18은 대한항공 576,400원뿐).",
+   prev:"11/23 373,000원 → 11/24 373,000원 (동일)",
+   link:"https://www.google.com/travel/flights?hl=ko&curr=KRW&q=Flights%20from%20TAE%20to%20CJU%20on%202027-03-05%20through%202027-03-07"},
+  {route:"김해(PUS) → 오사카 간사이(KIX)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:785400, carrier:"진에어", merit:"보통", rank:"low",
+   out:"금 14:05 부산발", back:"—",
+   sub:"에어부산 802,000(16:30) / 에어부산 822,000(11:25) / 진에어 845,400(08:35) / 제주항공 861,000(17:00) · 1인 393,000원",
+   verdict:"<b>메리트 보통</b> — 같은 날 후쿠오카(563,200원)보다 2인 22만 원 비싸다. 특가 아님.",
+   prev:"—",
+   link:"https://www.google.com/travel/flights?hl=ko&curr=KRW&q=Flights%20from%20PUS%20to%20KIX%20on%202027-03-05%20through%202027-03-07"},
+  {route:"대구(TAE) → 후쿠오카(FUK)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:885800, carrier:"Trinity Airways", merit:"메리트 없음",
+   out:"금 17:50 대구 → 19:00 후쿠오카 (직항)", back:"—",
+   sub:"925,800(금 08:20) / 대한항공 경유 1,170,200·1,350,200 · 어제 보이던 티웨이 대구-후쿠오카편은 오늘 목록에 없음(판매 마감 추정)",
+   verdict:"<b>메리트 없음</b> — 같은 날 김해 출발(563,200원)보다 2인 32만 원 비싸다.",
+   prev:"—",
+   link:"https://www.google.com/travel/flights?hl=ko&curr=KRW&q=Flights%20from%20TAE%20to%20FUK%20on%202027-03-05%20through%202027-03-07"},
+  {route:"대구(TAE) → 오사카 간사이(KIX)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:914600, carrier:"Trinity Airways", merit:"낮음", rank:"low",
+   out:"금 16:55 대구 → 18:15 간사이 (직항)", back:"—",
+   sub:"다른 판매처 884,793 / 08:00편 1,004,600 / 대한항공 경유 1,100,600·1,250,600",
+   verdict:"<b>메리트 낮음</b> — 같은 날 김해 출발(785,400원)보다 2인 13만 원 비싸다.",
+   prev:"—",
+   link:"https://www.google.com/travel/flights?hl=ko&curr=KRW&q=Flights%20from%20TAE%20to%20KIX%20on%202027-03-05%20through%202027-03-07"}
+];
+
+function fmt(n){ return typeof n === "number" ? n.toLocaleString("ko-KR") : n; }
+function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function flHTML(f){
+  return `
+  <article class="card fl">
+    <div class="fl-head">
+      <div>
+        <div class="fl-name">${f.route}</div>
+        <div class="fl-date">${f.dates}</div>
+      </div>
+      <span class="merit${f.rank ? " " + f.rank : ""}">${f.merit}</span>
+    </div>
+    <div class="price">
+      <span class="pv">${fmt(f.price)}<small style="font-size:12px;font-weight:700;color:var(--sub)">원</small></span>
+      <span class="pa">2인 왕복 · ${esc(f.carrier)}</span>
+      ${f.prev && f.prev !== "—" ? `<span class="pp">${esc(f.prev)}</span>` : ""}
+    </div>
+    <div class="rows">
+      <div class="row"><span class="rk">가는편</span><span class="rv">${f.out}</span></div>
+      <div class="row"><span class="rk">오는편</span><span class="rv">${f.back && f.back !== "—" ? f.back : '<span class="muted">목록에 미표시 — 예약 단계에서 확인</span>'}</span></div>
+      <div class="row"><span class="rk">차순위</span><span class="rv">${f.sub}</span></div>
+    </div>
+    <div class="note">${f.verdict}</div>
+    <div class="fl-foot"><a class="go" href="${f.link}" target="_blank" rel="noopener noreferrer">Google 항공편에서 다시 보기 ↗</a></div>
+  </article>`;
+}
+
+document.getElementById("flList").innerHTML = FLIGHTS.map(flHTML).join("");
+
+/* 테마 */
+const root = document.documentElement;
+const themeBtn = document.getElementById("themeBtn");
+function setTheme(t){
+  root.setAttribute("data-theme", t);
+  themeBtn.textContent = t === "dark" ? "☀" : "◐";
+  themeBtn.setAttribute("aria-label", t === "dark" ? "라이트 모드 전환" : "다크 모드 전환");
+  try{ localStorage.setItem("apply-board-theme", t); }catch(e){}
+}
+let saved = "light";
+try{ saved = localStorage.getItem("apply-board-theme") || "light"; }catch(e){}
+setTheme(saved);
+themeBtn.addEventListener("click", () => {
+  setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+});
+
+/* ── 과거 기록 ─────────────────────────────────────────── */
+const ARCH_BOX   = document.getElementById("archiveView");
+const archSel    = document.getElementById("dateSel");
+const pastBanner = document.getElementById("pastBanner");
+const pastText   = document.getElementById("pastText");
+const ARCH_CACHE = {};
+let ARCH_LATEST  = null;
+
+function archToggle(on){
+  ARCH_BOX.classList.toggle("hidden", !on);
+  pastBanner.classList.toggle("hidden", !on);
+}
+function archKpiHTML(k){
+  if(!k) return "";
+  return `<div class="arch-sum"><b>최저 2인 왕복 ${esc(k.best || "—")} · 특가 ${esc(k.merit || "—")} · 실측 ${esc(k.routes || "—")}</b></div>`;
+}
+function archPaint(date, d){
+  const f = d.flights || {};
+  archSel.value = date;
+  archToggle(true);
+  pastText.innerHTML = `과거 기록 열람 중 · <b>${date} (${d.dw || ""})</b>`;
+  ARCH_BOX.innerHTML = `
+    <div class="arch-date">🕘 그날 기준 · ${f.basis || date}</div>
+    ${archKpiHTML(f.kpi)}
+    <div class="sec-label" style="margin-top:12px">노선별 실측 <span>· 그날 기록</span></div>
+    <div class="list">${(f.routesList || []).length ? f.routesList.map(flHTML).join("") : `<div class="card"><div class="note" style="margin:0">이 날은 항공권 실측 기록이 없습니다. 다음 기록부터 남습니다.</div></div>`}</div>
+    ${(f.notes || []).length ? `<div class="info"><b>기준 · 유의</b><ul>${f.notes.map(n => `<li>${n}</li>`).join("")}</ul></div>` : ""}`;
+  window.scrollTo({top: 0});
+}
+function archGo(date){
+  if(!date) return;
+  if(ARCH_CACHE[date]){ archPaint(date, ARCH_CACHE[date]); return; }
+  ARCH_BOX.innerHTML = `<div class="loadnote">${date} 기록을 불러오는 중…</div>`;
+  fetch("history/" + date + ".json", {cache: "no-store"})
+    .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(j => { ARCH_CACHE[date] = j; archPaint(date, j); })
+    .catch(err => {
+      archToggle(false);
+      if(ARCH_LATEST) archSel.value = ARCH_LATEST;
+    });
+}
+function archShowLatest(){
+  archToggle(false);
+  ARCH_BOX.innerHTML = "";
+  if(ARCH_LATEST) archSel.value = ARCH_LATEST;
+  if(location.search) history.replaceState(null, "", location.pathname);
+}
+document.getElementById("toLatest").addEventListener("click", archShowLatest);
+archSel.addEventListener("change", () => {
+  const v = archSel.value;
+  if(!v || v === ARCH_LATEST){ archShowLatest(); return; }
+  history.replaceState(null, "", "?d=" + v);
+  archGo(v);
+});
+(function archInit(){
+  fetch("history/index.json", {cache: "no-store"})
+    .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(idx => {
+      const dates = (idx && idx.dates) || [];
+      if(!dates.length) throw new Error("empty");
+      ARCH_LATEST = dates[0].date;
+      archSel.innerHTML = dates.map((x, i) => `<option value="${x.date}">${x.date} (${x.dw})${i === 0 ? " · 최신" : ""}</option>`).join("");
+      archSel.value = ARCH_LATEST;
+      const want = new URLSearchParams(location.search).get("d");
+      if(want && want !== ARCH_LATEST && dates.some(x => x.date === want)) archGo(want);
+    })
+    .catch(() => {
+      archSel.innerHTML = `<option value="2026-11-25">2026-11-25 (수) · 최신</option>`;
+      archSel.disabled = true;
+    });
+})();
+</script>
+</body>
+</html>

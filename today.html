@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f5f6f8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>오늘 브리핑</title>
+<style>
+  :root{
+    --bg:#f4f5f7;--card:#ffffff;--line:#eceef2;--text:#1c1f26;--sub:#8a909c;--sub2:#5f6570;
+    --green:#12a150;--orange:#c2740b;--blue:#2563eb;--purple:#7c3aed;--red:#d32f2f;
+    --chip-bg:#f2f3f6;--shadow:0 1px 2px rgba(20,24,32,.04),0 6px 18px rgba(20,24,32,.045);
+    --pill:#1c1f26;--pill-text:#fff;
+  }
+  [data-theme="dark"]{
+    --bg:#0f1115;--card:#191c22;--line:#262a33;--text:#ecedf1;--sub:#8b919d;--sub2:#b3b8c2;
+    --green:#3ddc84;--orange:#f0a44a;--blue:#6ea8ff;--purple:#b79cff;--red:#ff6b6b;
+    --chip-bg:#22262e;--shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
+    --pill:#ecedf1;--pill-text:#14171c;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;
+    font-size:15px;line-height:1.45;word-break:keep-all;-webkit-font-smoothing:antialiased;
+    transition:background .2s ease,color .2s ease;
+  }
+  .app{max-width:480px;margin:0 auto;padding:18px 16px calc(28px + env(safe-area-inset-bottom))}
+  header.top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin:2px 0 12px}
+  h1{font-size:22px;letter-spacing:-.5px;margin:0;font-weight:800}
+  .basis{font-size:11.5px;color:var(--sub);margin-top:4px;letter-spacing:-.1px}
+  .theme-btn{flex:0 0 auto;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--card);
+    color:var(--sub2);font-size:16px;display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow)}
+  nav.boards{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;margin:0 0 12px;padding-bottom:2px}
+  nav.boards::-webkit-scrollbar{display:none}
+  nav.boards a{flex:0 0 auto;font-size:11px;font-weight:700;text-decoration:none;color:var(--sub2);
+    background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 9px;letter-spacing:-.2px}
+  nav.boards a.here{background:var(--pill);color:var(--pill-text);border-color:var(--pill)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+  .k{font-size:12.5px;color:var(--sub2);font-weight:600;letter-spacing:-.2px}
+  .v{font-size:25px;font-weight:800;letter-spacing:-.8px;line-height:1.15;margin-top:6px;font-variant-numeric:tabular-nums}
+  .v small{font-size:12.5px;font-weight:700;margin-left:1px}
+  .s{font-size:11.5px;color:var(--sub);margin-top:5px;letter-spacing:-.15px;line-height:1.4}
+  .c-green{color:var(--green)}.c-orange{color:var(--orange)}.c-blue{color:var(--blue)}.c-red{color:var(--red)}.c-purple{color:var(--purple)}
+  .sec-label{font-size:12px;font-weight:700;color:var(--sub);letter-spacing:.2px;margin:20px 2px 8px;display:flex;align-items:center;gap:6px}
+  .sec-label span{font-weight:500}
+  .blk{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+  .blk + .blk{margin-top:10px}
+  .blk-h{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+  .blk-h .bt{font-size:14px;font-weight:800;letter-spacing:-.4px}
+  .blk-h .bs{font-size:10.5px;color:var(--sub);font-weight:700;letter-spacing:-.15px}
+  .blk-h a{margin-left:auto;flex:0 0 auto;font-size:11px;font-weight:800;color:var(--blue);text-decoration:none;letter-spacing:-.2px}
+  .line{font-size:13px;letter-spacing:-.25px;line-height:1.55;color:var(--text)}
+  .line + .line{margin-top:5px}
+  .line b{font-weight:800}
+  .line .muted{color:var(--sub)}
+  .li{display:flex;gap:9px;padding:8px 0;border-top:1px solid var(--line);font-size:12.5px;letter-spacing:-.2px;line-height:1.5}
+  .li:first-child{border-top:0;padding-top:0}
+  .li .lk{flex:0 0 44px;color:var(--sub);font-weight:800;font-size:11.5px;letter-spacing:-.2px;font-variant-numeric:tabular-nums}
+  .li .lv{min-width:0}
+  .li .lv b{font-weight:800}
+  .li .lv .d{display:block;color:var(--sub);font-size:11.5px;margin-top:2px;line-height:1.45}
+  .li a{color:var(--blue);font-size:11px;font-weight:700;text-decoration:none;white-space:nowrap}
+  .tag{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:-.1px;border-radius:6px;padding:2px 6px;
+    background:var(--chip-bg);border:1px solid var(--line);color:var(--sub2);margin-right:5px;white-space:nowrap}
+  .tag.g{color:var(--green)}.tag.o{color:var(--orange)}.tag.b{color:var(--blue)}.tag.r{color:var(--red)}
+  .attr{font-size:10.5px;color:var(--sub);letter-spacing:-.1px}
+  .attr a{color:var(--sub);text-decoration:none;border-bottom:1px dotted var(--sub)}
+  .sum-note{font-size:11.5px;color:var(--sub);margin-top:10px;letter-spacing:-.15px;line-height:1.5}
+  .info{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;
+    font-size:11.5px;color:var(--sub);letter-spacing:-.15px;line-height:1.55}
+  .info b{color:var(--sub2);display:block;margin-bottom:4px;font-size:12px}
+  .info ul{margin:0;padding-left:15px}
+  .info li{margin:2px 0}
+  footer{text-align:center;font-size:11px;color:var(--sub);margin-top:20px;line-height:1.6;letter-spacing:-.1px}
+  .hidden{display:none!important}
+  /* ── 날짜 선택기 · 과거 기록 ─────────────────────────── */
+  .datebar{display:flex;align-items:center;gap:8px;margin:0 0 10px}
+  .datebar .dl{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--sub);letter-spacing:-.1px}
+  .datebar select{flex:1 1 auto;min-width:0;max-width:100%;appearance:none;-webkit-appearance:none;
+    border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:12px;
+    padding:9px 30px 9px 11px;font-size:13.5px;font-weight:700;font-family:inherit;letter-spacing:-.2px;
+    cursor:pointer;box-shadow:var(--shadow)}
+  .datebar select:disabled{opacity:.6}
+  .pastbanner{display:flex;align-items:center;gap:8px;flex-wrap:wrap;background:#fff8e6;border:1px solid #ffe2ad;
+    color:#8a5a00;border-radius:12px;padding:9px 12px;font-size:12.5px;font-weight:700;letter-spacing:-.2px;margin:0 0 12px}
+  [data-theme="dark"] .pastbanner{background:#2f2513;border-color:#5a4419;color:#ffd08a}
+  .pastbanner button{margin-left:auto;border:1px solid currentColor;background:transparent;color:inherit;
+    border-radius:999px;padding:5px 10px;font-size:11.5px;font-weight:800;font-family:inherit;cursor:pointer}
+  .arch-date{font-size:11.5px;font-weight:700;color:var(--sub);margin:2px 2px 7px;letter-spacing:-.15px}
+  .arch-sum{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;
+    box-shadow:var(--shadow);font-size:13px;letter-spacing:-.2px;line-height:1.5}
+  .loadnote{font-size:12px;color:var(--sub);padding:10px 2px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div>
+      <h1>오늘 브리핑</h1>
+      <div class="basis">2026-11-25 (수) 06:55 기준 · 08:00 브리핑에서 갱신 예정 · 8대 항목 한 화면</div>
+    </div>
+    <button class="theme-btn" id="themeBtn" type="button" aria-label="다크 모드 전환">◐</button>
+  </header>
+
+  <nav class="boards" aria-label="다른 보드">
+    <a href="today.html" class="here">오늘</a>
+    <a href="index.html">부수익</a>
+    <a href="jobs.html">공고</a>
+    <a href="meals.html">식단</a>
+    <a href="flights.html">항공권</a>
+  </nav>
+
+  <div class="datebar">
+    <span class="dl">📅 기록 보기</span>
+    <select id="dateSel" aria-label="기록 날짜 선택"></select>
+  </div>
+
+  <div class="pastbanner hidden" id="pastBanner">
+    <span id="pastText"></span>
+    <button type="button" id="toLatest">최신으로</button>
+  </div>
+
+  <div id="archiveView" class="hidden"></div>
+
+  <div id="liveView">
+    <div class="grid">
+      <div class="card"><div class="k">오늘 날씨</div><div class="v c-blue" id="vTodayWeather">-3~8<small>℃</small></div><div class="s">구미 공단동 · 맑음(구름 조금) · 강수 0%</div></div>
+      <div class="card"><div class="k">일정</div><div class="v" id="vTodaySched">0<small>건</small></div><div class="s">Google·Outlook 오늘 일정 없음 · 리마인드 3건</div></div>
+      <div class="card"><div class="k">미세먼지</div><div class="v c-green" id="vTodayAir">좋음</div><div class="s">PM10 18 · PM2.5 11 µg/m³ (06:00 공단동)</div></div>
+      <div class="card"><div class="k">남은 신청</div><div class="v c-green" id="vTodayRemain">151<small>건</small></div><div class="s">웹 151 · 무신사 제외 · 총 제출 1,731</div></div>
+    </div>
+
+    <div class="sec-label">8대 항목 <span>· 일정·날씨 · 뉴스 · 식단 · 체험단 · 리뷰 · 공모주·ISA · 공고 · 항공권</span></div>
+    <div id="briefView"></div>
+
+    <div class="sum-note">※ 값마다 기준 시각이 다릅니다(카드 안에 표기). 08:00·18:00 브리핑이 이 화면을 갱신하고, 새 스캔 전 항목은 <b>직전 실측값</b>을 그대로 보여줍니다.</div>
+
+    <div class="info">
+      <b>이 화면의 규칙</b>
+      <ul>
+        <li>8대 항목(일정·날씨 · 오늘 뉴스 · 식단 · 체험단 · 리뷰 · 공모주·ISA · 공고 · 항공권)을 한 화면에 모은 <b>현황판</b>이고, 자세한 표는 각 탭에 있다.</li>
+        <li>없는 값은 지어내지 않는다 — 실측하지 않은 항목은 <b>미실측·확인 필요</b>로 적는다.</li>
+        <li>공개 페이지다. 이름·연락처·이메일·회사명은 넣지 않고, 전화번호는 끝 4자리만 쓴다.</li>
+        <li>날씨 출처 <a class="attr" href="https://developer.apple.com/weatherkit/data-source-attribution/">&#xF8FF; Weather</a> · <a class="attr" href="https://www.airkorea.or.kr/">AirKorea · 한국환경공단</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <footer>콩떡 · 인절미 · 찰떡 합산 · 2026-11-25 06:55 기준 · 08:00 브리핑에서 갱신<br>부수익 · 공고 · 식단 · 항공권 4개 보드 합산 · 검색 비공개 페이지</footer>
+</div>
+
+<script>
+const BRIEF = {
+  date: "2026-11-25 (수)",
+  basis: "2026-11-25 06:55 기준 · 08:00 브리핑에서 갱신 예정",
+  weather: {
+    range:"-3~8℃", cond:"맑음 (구름 조금)", precip:"0%", feel:"-4℃ (06:55)",
+    air:"좋음", airDetail:"PM10 18 · PM2.5 11 µg/m³ · 06:00 공단동 측정",
+    note:"아침 -3℃로 어제보다 춥다. 낮 8℃까지 오르고 바람은 약하다. 미세먼지는 좋음이라 환기·외출 무리 없다.",
+    basisText:"Apple Weather·AirKorea 2026-11-25 06:55 조회"
+  },
+  schedule: {
+    count:0,
+    detail:"Google·Outlook 캘린더 오늘(11/25) 일정 0건. 기기 '희욱' 캘린더는 앱 미연결로 미조회.",
+    reminders:[
+      {t:"10:00", d:"바지락 로켓프레시 주문 알림 — 내일(목) 바지락술찜용, 오늘 15:00 마감 전 주문"},
+      {t:"06:00", d:"구미시근로자문화센터 12월 밸런스요가 온라인 접수(관내 3만 원) — 지난 시각, 접수 결과 확인 필요"},
+      {t:"18:00", d:"퇴근길 브리핑(뉴스·ISA·공모주·항공권) · 08:00 아침 브리핑은 이 화면을 갱신"}
+    ]
+  },
+  news: {
+    basis:"11/24 저녁 실측 기준 · 08:00 브리핑에서 새로 스캔 예정",
+    items:[
+      {cat:"경제", t:"코스피 5,006.03 (+6.32%) — 3거래일 만에 '5천피' 회복", d:"외국인 8거래일 만에 순매수 전환, 기관 순매수, 장초 매수 사이드카 발동. 삼성전자 +6.70%·SK하이닉스 +6.73%·현대차 +11.11%.", src:"파이낸셜뉴스", url:"https://www.fnnews.com/news/202611241604048501"},
+      {cat:"IT·국제", t:"젠슨 황, 사임 11일 만에 엔비디아 CEO 복귀 — 미 반도체 폭등", d:"엔비디아 +31.5%(2003년 이후 최대)·필라델피아반도체 +14.03%·나스닥 +6.51%. 개인·SEC 조사와 수출통제 감독은 계속.", src:"연합뉴스", url:"https://www.yna.co.kr/view/AKR20261124092451008"},
+      {cat:"정치", t:"이재명 대통령 2기 개각 — 국정원장 후보 강금실(첫 여성)", d:"외교 임웅순·통일 홍익표·행안 한준호·문체 강유정 지명. 외교·안보 '자주파' 교체로 한·미관계 재정비 포석.", src:"중앙일보", url:"https://www.joongang.co.kr/newsletter/ainewsbriefing/21843"},
+      {cat:"사회", t:"러시아 군용기 KADIZ 진입 → 울릉군 민방공 경계경보 3분 만에 해제", d:"영공 침범은 없었고 군은 선제 조치라고 설명. 교육부는 시험장 스마트기기 적발 시 당일 전 과목 0점 방안을 보고.", src:"연합뉴스", url:"https://www.yna.co.kr/view/AKR20261124099200530"},
+      {cat:"생활", t:"신세계백화점 폭파 협박범은 울산 중학생 · 30대 남성 61% 미혼", d:"경찰이 발신자를 특정해 범행 자백. 통계청은 30대 미혼 비중 61%(25년 전의 4배)를 발표.", src:"연합뉴스", url:"https://www.yna.co.kr/view/AKR20261124097151057"}
+    ]
+  },
+  meals: {
+    basis:"기기 '희욱' 캘린더 확정 식단 · 11/24 13:05 대조",
+    dinner:"오늘 저녁 18:00 소고기 샤브샤브 (한우 1+ 샤브샤브용 300g·모둠채소·모둠버섯 결제 완료, 육수는 주문에 없음)",
+    lunch:"회사 점심(오늘): 돼지순대국밥·소면·다대기 · 쌀밥 · 부추전 · 풋고추양파무침",
+    todo:"15:00 전 바지락 로켓프레시 주문 — 내일(목) 바지락술찜용. 해감은 소금물 1시간, 화이트와인은 집에 있어 술은 사지 않음.",
+    tomorrow:"내일(11/26 목) 저녁 : 바지락술찜"
+  },
+  contests: {
+    basis:"2026-11-25 06:40 기준 · 콩떡·인절미·찰떡 합산",
+    total:"1,731", today:"+15", done:"157", win:"3", rate:"1.9%", remain:"151",
+    detail:"남은 신청은 웹 151건(클라우드리뷰 144·11번가 3·네이버+ 2·스타일씨 2)뿐이다. 무신사 앱 전용 138건은 희정 님 지시로 제외(누적 253·당첨 1 이력만 보존). 지그재그는 잔여 0건.",
+    todo:"당첨 3건 중 2건이 미제출 — 체험뷰 유다의 어머니 리뷰 마감 12/04, 무신사 퍼퓸 스틱 후기 11/28~12/12(11/26 발송)."
+  },
+  reviews: {
+    basis:"2026-11-24 기준 · 리뷰 탭 실측",
+    items:[
+      {n:"쿠팡", v:"11,630점", d:"11/22 +452점 · 미작성 0건 · 토요일 일괄 작성 루틴"},
+      {n:"올리브영(CJ ONE)", v:"1,331P", d:"최근 +900P · 미작성 0건 · 일리윤 100P 추가 적립 예정"},
+      {n:"네이버페이", v:"잔액 9,988원", d:"포인트 8,708 + 머니 1,280 · 11월 누적 혜택 38,899원(잔액 아님)"},
+      {n:"다이소몰", v:"606P", d:"누적 59건 작성 · 상시 출석 없음(출첵 대상 제외)"},
+      {n:"출석 3곳", v:"서울오빠 150P · 링블 60P · 스타일씨 61C", d:"매일 08:35 네이버페이 출석은 단독 진행"},
+      {n:"체험단 후기", v:"1건 등록 · 2건 미제출", d:"오르골 무드등 완료(마감 12/8) · 도서·퍼퓸 스틱 미제출"}
+    ]
+  },
+  isa: {
+    basis:"삼성증권 중개형 ISA · 2026-11-24 한국장 마감(15:30) 종가",
+    rows:[
+      {n:"KODEX 미국나스닥100", q:"867주 · 평단 27,655원", p:"23,760원", ch:"+3.53%", val:"20,599,920원", pl:"-3,376,965원 (-14.08%)"},
+      {n:"TIGER 미국필라델피아반도체나스닥", q:"422주 · 평단 45,561원", p:"33,160원", ch:"+7.63%", val:"13,993,520원", pl:"-5,233,222원 (-27.22%)"}
+    ],
+    total:"평가액 34,593,440원 · 평가손 -8,610,187원 (-19.93%) · 일간 +1,693,970원(+5.15%)",
+    signal:"물타기 3대 신호 1.5/3 → 보류 · ②VIX 26.56·환율 1,342.20원 진정 ✅ / ①저점 지지 1일째 ❌ / ③악재 해소 △ → 시초가 추격 매수 금지",
+    stocks:"공모주: 11/25(수) 신영 계좌개설 마감 · 11/26(목) 에이엔에이치스트럭쳐 확정공고 · 케이엠에프는 철회로 청약 불가, 신영스팩12호·엠비디는 메리트 없음"
+  },
+  jobs: {
+    basis:"2026-11-24 18:00 기준 · 추적 6건",
+    soon:[
+      {n:"(주)일지테크", d:"~11/26(목) 23:59 · 생산관리·구매관리·공정/금형설계 · 경산", tag:"D-1"},
+      {n:"(주)대주기계", d:"~11/30(월) 23:59 · 자재관리 · 대구 달성 · 대졸 초임 4,700만 명시", tag:"D-5"}
+    ],
+    detail:"그 외 쿠어스텍코리아(12/11)·쏠리드윈텍(12/24)·아데나(12/24)·ASM코리아(상시). 연봉 미달 4건은 제외했다."
+  },
+  flights: {
+    basis:"2026-11-24 17:45~58 실측 · 성인 2인 왕복 · 세금·수수료 포함",
+    best:"김해(PUS)→후쿠오카(FUK) 2027-03-05~07 · 에어부산 563,200원 (1인 281,600원)",
+    detail:"Google '평소보다 92,400원 저렴' — 이번 실측 5노선 중 유일한 특가. 같은 노선 4/16~18 주말(2인 765,800원)보다 20만 원 이상 싸다.",
+    others:"대구→제주 373,000(정상 주말가) · 김해→오사카 785,400 · 대구→후쿠오카 885,800 · 대구→오사카 914,600. 도쿄는 이번 실측 없음."
+  }
+};
+
+function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+function blkHTML(title, sub, body, link){
+  return `<div class="blk"><div class="blk-h"><span class="bt">${title}</span>${sub ? `<span class="bs">${sub}</span>` : ""}${link ? `<a href="${link.href}">${link.text} →</a>` : ""}</div>${body}</div>`;
+}
+
+function briefHTML(b){
+  const w = b.weather || {}, sc = b.schedule || {}, nw = b.news || {}, ml = b.meals || {}, ct = b.contests || {},
+        rv = b.reviews || {}, isa = b.isa || {}, jb = b.jobs || {}, fl = b.flights || {};
+  return [
+    blkHTML("1. 일정 · 날씨", w.basisText || "",
+      `<div class="line"><b>${esc(w.range || "")}</b> · ${esc(w.cond || "")} · 강수 ${esc(w.precip || "")} · 현재 체감 ${esc(w.feel || "")}</div>
+       <div class="line muted">미세먼지 <b>${esc(w.air || "")}</b> — ${esc(w.airDetail || "")}</div>
+       <div class="line">${w.note || ""}</div>
+       <div class="line" style="margin-top:8px">일정 <b>${esc(sc.count)}건</b> — ${esc(sc.detail || "")}</div>
+       ${(sc.reminders || []).map(r => `<div class="li"><span class="lk">${esc(r.t)}</span><span class="lv">${r.d}</span></div>`).join("")}
+       <div class="attr" style="margin-top:8px">날씨 <a href="https://developer.apple.com/weatherkit/data-source-attribution/">&#xF8FF; Weather</a> · <a href="https://www.airkorea.or.kr/">AirKorea · 한국환경공단</a></div>`,
+      null),
+    blkHTML("2. 오늘 뉴스", nw.basis || "",
+      (nw.items || []).map(n => `<div class="li"><span class="lk"><span class="tag b">${esc(n.cat)}</span></span><span class="lv"><b>${esc(n.t)}</b><span class="d">${esc(n.d)} <a href="${n.url}" target="_blank" rel="noopener noreferrer">${esc(n.src)}</a></span></span></div>`).join("")),
+    blkHTML("3. 식단", ml.basis || "",
+      `<div class="line"><b>오늘 저녁</b> — ${esc(ml.dinner)}</div>
+       <div class="line muted">${esc(ml.lunch)}</div>
+       <div class="line" style="margin-top:6px"><span class="tag o">남은 일</span>${esc(ml.todo)}</div>
+       <div class="line muted">${esc(ml.tomorrow)}</div>`,
+      {href:"meals.html", text:"식단 보드"}),
+    blkHTML("4. 체험단", ct.basis || "",
+      `<div class="line">총 제출 <b>${esc(ct.total)}건</b>(오늘 ${esc(ct.today)}) · 발표 완료 <b>${esc(ct.done)}</b> · 당첨 <b>${esc(ct.win)}건</b>(${esc(ct.rate)}) · 남은 신청 <b>${esc(ct.remain)}건</b></div>
+       <div class="line">${esc(ct.detail)}</div>
+       <div class="line"><span class="tag o">후기</span>${esc(ct.todo)}</div>`,
+      {href:"index.html", text:"부수익"}),
+    blkHTML("5. 리뷰 · 포인트", rv.basis || "",
+      (rv.items || []).map(r => `<div class="li"><span class="lk">${esc(r.n)}</span><span class="lv"><b>${esc(r.v)}</b><span class="d">${esc(r.d)}</span></span></div>`).join("")),
+    blkHTML("6. 공모주 · ISA", isa.basis || "",
+      `<div class="line"><b>${esc(isa.total)}</b></div>
+       ${(isa.rows || []).map(r => `<div class="li"><span class="lk">${esc(r.n.split(" ")[0])}</span><span class="lv"><b>${esc(r.n)}</b> ${esc(r.p)} <span class="tag ${r.ch.indexOf("-") === 0 ? "r" : "g"}">${esc(r.ch)}</span><span class="d">${esc(r.q)} · 평가 ${esc(r.val)} · ${esc(r.pl)}</span></span></div>`).join("")}
+       <div class="line" style="margin-top:6px"><span class="tag o">판단</span>${esc(isa.signal)}</div>
+       <div class="line muted">${esc(isa.stocks)}</div>`,
+      {href:"index.html", text:"공모주·ISA"}),
+    blkHTML("7. 공고", jb.basis || "",
+      (jb.soon || []).map(j => `<div class="li"><span class="lk"><span class="tag ${j.tag === "D-1" ? "r" : "o"}">${esc(j.tag)}</span></span><span class="lv"><b>${esc(j.n)}</b><span class="d">${esc(j.d)}</span></span></div>`).join("") +
+      `<div class="line muted" style="margin-top:4px">${esc(jb.detail)}</div>`,
+      {href:"jobs.html", text:"공고 보드"}),
+    blkHTML("8. 항공권", fl.basis || "",
+      `<div class="line"><b>${esc(fl.best)}</b></div>
+       <div class="line">${esc(fl.detail)}</div>
+       <div class="line muted">${esc(fl.others)}</div>`,
+      {href:"flights.html", text:"항공권 보드"})
+  ].join("");
+}
+
+document.getElementById("briefView").innerHTML = briefHTML(BRIEF);
+
+/* 테마 */
+const root = document.documentElement;
+const themeBtn = document.getElementById("themeBtn");
+function setTheme(t){
+  root.setAttribute("data-theme", t);
+  themeBtn.textContent = t === "dark" ? "☀" : "◐";
+  themeBtn.setAttribute("aria-label", t === "dark" ? "라이트 모드 전환" : "다크 모드 전환");
+  try{ localStorage.setItem("apply-board-theme", t); }catch(e){}
+}
+let saved = "light";
+try{ saved = localStorage.getItem("apply-board-theme") || "light"; }catch(e){}
+setTheme(saved);
+themeBtn.addEventListener("click", () => {
+  setTheme(root.getAttribute("data-theme") === "dark" ? "light" : "dark");
+});
+
+/* ── 과거 기록 ─────────────────────────────────────────── */
+const ARCH_BOX   = document.getElementById("archiveView");
+const archSel    = document.getElementById("dateSel");
+const pastBanner = document.getElementById("pastBanner");
+const pastText   = document.getElementById("pastText");
+const ARCH_CACHE = {};
+let ARCH_LATEST  = null;
+
+function archToggle(on){
+  ARCH_BOX.classList.toggle("hidden", !on);
+  pastBanner.classList.toggle("hidden", !on);
+}
+function archPaint(date, d){
+  const b = d.today || {};
+  archSel.value = date;
+  archToggle(true);
+  pastText.innerHTML = `과거 기록 열람 중 · <b>${date} (${d.dw || ""})</b>`;
+  ARCH_BOX.innerHTML = `
+    <div class="arch-date">🕘 그날 기준 · ${esc(b.basis || date)}</div>
+    <div class="arch-sum">${esc(d.summary || "")}</div>
+    <div style="height:12px"></div>
+    ${(b && Object.keys(b).length) ? briefHTML(b) : `<div class="blk"><div class="line muted">이 날은 브리핑 기록이 없습니다. 다음 기록부터 남습니다.</div></div>`}`;
+  window.scrollTo({top: 0});
+}
+function archGo(date){
+  if(!date) return;
+  if(ARCH_CACHE[date]){ archPaint(date, ARCH_CACHE[date]); return; }
+  ARCH_BOX.innerHTML = `<div class="loadnote">${date} 기록을 불러오는 중…</div>`;
+  fetch("history/" + date + ".json", {cache: "no-store"})
+    .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(j => { ARCH_CACHE[date] = j; archPaint(date, j); })
+    .catch(() => {
+      archToggle(false);
+      if(ARCH_LATEST) archSel.value = ARCH_LATEST;
+    });
+}
+function archShowLatest(){
+  archToggle(false);
+  ARCH_BOX.innerHTML = "";
+  if(ARCH_LATEST) archSel.value = ARCH_LATEST;
+  if(location.search) history.replaceState(null, "", location.pathname);
+}
+document.getElementById("toLatest").addEventListener("click", archShowLatest);
+archSel.addEventListener("change", () => {
+  const v = archSel.value;
+  if(!v || v === ARCH_LATEST){ archShowLatest(); return; }
+  history.replaceState(null, "", "?d=" + v);
+  archGo(v);
+});
+(function archInit(){
+  fetch("history/index.json", {cache: "no-store"})
+    .then(r => { if(!r.ok) throw new Error(r.status); return r.json(); })
+    .then(idx => {
+      const dates = (idx && idx.dates) || [];
+      if(!dates.length) throw new Error("empty");
+      ARCH_LATEST = dates[0].date;
+      archSel.innerHTML = dates.map((x, i) => `<option value="${x.date}">${x.date} (${x.dw})${i === 0 ? " · 최신" : ""}</option>`).join("");
+      archSel.value = ARCH_LATEST;
+      const want = new URLSearchParams(location.search).get("d");
+      if(want && want !== ARCH_LATEST && dates.some(x => x.date === want)) archGo(want);
+    })
+    .catch(() => {
+      archSel.innerHTML = `<option value="2026-11-25">2026-11-25 (수) · 최신</option>`;
+      archSel.disabled = true;
+    });
+})();
+</script>
+</body>
+</html>

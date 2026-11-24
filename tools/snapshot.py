@@ -222,6 +222,48 @@ def parse_bonus(html):
     }
 
 
+def parse_flights(html):
+    """flights.html — 추적 조건·KPI·노선별 실측(FLIGHTS)·유의"""
+    clean = strip_scripts(html)
+    flights = js_var(html, "FLIGHTS") or []
+    basis = re.search(r'class="basis">(.*?)</div>', clean, re.S)
+    kpi = {}
+    for key, id_ in [("best", "vBest"), ("merit", "vMerit"), ("routes", "vRoutes"), ("diff", "vDiff")]:
+        h = inner(clean, id_)
+        if h:
+            kpi[key] = text(h)
+    cond = [text(c) for c in re.findall(r'<span class="chip[^"]*">(.*?)</span>', clean, re.S)]
+    infos = info_blocks(clean)
+    return {
+        "basis": text(basis.group(1)) if basis else "",
+        "conditions": cond,
+        "kpi": kpi,
+        "count": len(flights),
+        "routesList": flights,
+        "notes": infos[-1]["items"] if infos else [],
+    }
+
+
+def parse_today(html):
+    """today.html — 8대 항목 브리핑(BRIEF) + KPI"""
+    clean = strip_scripts(html)
+    brief = js_var(html, "BRIEF") or {}
+    basis = re.search(r'class="basis">(.*?)</div>', clean, re.S)
+    kpi = {}
+    for key, id_ in [("weather", "vTodayWeather"), ("schedule", "vTodaySched"),
+                     ("air", "vTodayAir"), ("remain", "vTodayRemain")]:
+        h = inner(clean, id_)
+        if h:
+            kpi[key] = text(h)
+    infos = info_blocks(clean)
+    return {
+        "basis": text(basis.group(1)) if basis else "",
+        "kpi": kpi,
+        "brief": brief,
+        "notes": infos[-1]["items"] if infos else [],
+    }
+
+
 def parse_jobs(html):
     clean = strip_scripts(html)
     jobs = js_var(html, "JOBS") or []
@@ -266,6 +308,14 @@ def weekday_kr(date):
     return "월화수목금토일"[datetime.date.fromisoformat(date).weekday()]
 
 
+def today_file_name(src_dir):
+    """오늘 브리핑 페이지는 today.html(또는 briefing.html) 중 있는 것을 쓴다."""
+    for name in ("today.html", "briefing.html"):
+        if os.path.exists(os.path.join(src_dir, name)):
+            return name
+    return "today.html"
+
+
 def strip_scripts(html):
     return re.sub(r"<script>.*?</script>", "", html, flags=re.S)
 
@@ -274,6 +324,10 @@ def build(date, src_dir):
     idx = read(os.path.join(src_dir, "index.html"))
     jbs = read(os.path.join(src_dir, "jobs.html"))
     mls = read(os.path.join(src_dir, "meals.html"))
+    flg_path = os.path.join(src_dir, "flights.html")
+    tdy_path = os.path.join(today_file_name(src_dir))
+    flg = read(flg_path) if os.path.exists(flg_path) else ""
+    tdy = read(tdy_path) if os.path.exists(tdy_path) else ""
     snap = {
         "date": date,
         "dw": weekday_kr(date),
@@ -283,6 +337,10 @@ def build(date, src_dir):
         "summary": "",
         "isLatest": False,
     }
+    if flg:
+        snap["flights"] = parse_flights(flg)
+    if tdy:
+        snap["today"] = parse_today(tdy)
     k = snap["bonus"]["kpi"]
     parts = []
     if k.get("total") is not None:
@@ -355,6 +413,8 @@ def sync_index():
             "hasBonus": bool(s.get("bonus", {}).get("channels")),
             "hasJobs": bool(s.get("jobs", {}).get("jobs")),
             "hasMeals": bool(s.get("meals", {}).get("weekCur")),
+            "hasFlights": bool(s.get("flights", {}).get("routesList")),
+            "hasToday": bool(s.get("today", {}).get("brief")),
         })
     rows.sort(key=lambda r: r["date"], reverse=True)
     if rows:
