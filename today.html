@@ -53,6 +53,20 @@
   .blk-h .bt{font-size:14px;font-weight:800;letter-spacing:-.4px}
   .blk-h .bs{font-size:10.5px;color:var(--sub);font-weight:700;letter-spacing:-.15px}
   .blk-h a{margin-left:auto;flex:0 0 auto;font-size:11px;font-weight:800;color:var(--blue);text-decoration:none;letter-spacing:-.2px}
+  .blk.acc{padding:0;overflow:hidden}
+  .blk.acc summary{list-style:none;cursor:pointer;padding:11px 14px;display:block}
+  .blk.acc summary::-webkit-details-marker{display:none}
+  .blk.acc .bh{display:flex;align-items:center;gap:6px}
+  .blk.acc .bt{font-size:13.5px;font-weight:800;letter-spacing:-.4px}
+  .blk.acc .bgo{margin-left:auto;flex:0 0 auto;font-size:10.5px;font-weight:800;color:var(--blue);
+    text-decoration:none;letter-spacing:-.2px;border:1px solid var(--line);background:var(--chip-bg);
+    border-radius:999px;padding:2px 7px}
+  .blk.acc .bsum{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+    font-size:11.5px;color:var(--sub2);margin-top:3px;line-height:1.4;letter-spacing:-.2px}
+  .blk.acc[open] .bsum{display:none}
+  .blk.acc .bdy{padding:0 14px 13px;border-top:1px solid var(--line);margin-top:2px;padding-top:10px}
+  .allbtn{margin-left:auto;border:1px solid var(--line);background:var(--card);color:var(--sub2);
+    border-radius:999px;padding:4px 9px;font-size:10.5px;font-weight:800;font-family:inherit;cursor:pointer;letter-spacing:-.2px}
   .line{font-size:13px;letter-spacing:-.25px;line-height:1.55;color:var(--text)}
   .line + .line{margin-top:5px}
   .line b{font-weight:800}
@@ -135,10 +149,10 @@
       <div class="card"><div class="k">남은 신청</div><div class="v c-green" id="vTodayRemain">134<small>건</small></div><div class="s">웹 134 · 무신사 제외 · 총 제출 1,712</div></div>
     </div>
 
-    <div class="sec-label">8대 항목 <span>· 일정·날씨부터 항공권까지</span></div>
+    <div class="sec-label">8대 항목 <span>· 일정·날씨부터 항공권까지</span><button class="allbtn" type="button" id="allToggle">모두 펼치기</button></div>
     <div id="briefView"></div>
 
-    <div class="sum-note">※ 값마다 기준 시각이 다릅니다(카드 안에 표기). 08:00·18:00 브리핑이 이 화면을 갱신하고, 새 스캔 전 항목은 <b>직전 실측값</b>을 그대로 보여줍니다.</div>
+    <div class="sum-note">※ 값마다 기준 시각이 다릅니다(카드 안에 표기). 08:00·18:00 브리핑이 이 화면을 갱신하고, 새 확인 전 항목은 <b>직전 실측값</b>을 그대로 보여줍니다.</div>
 
     <div class="info">
       <b>이 화면의 규칙</b>
@@ -151,7 +165,7 @@
     </div>
   </div>
 
-  <footer>콩떡 · 인절미 · 찰떡 합산 · 2026-11-25 07:35 기준 · 08:00 브리핑 반영<br>부수익 · 공고 · 식단 · 항공권 4개 보드 합산 · 검색 비공개 페이지</footer>
+  <footer>자동 · PC · 직접 합산 · 2026-11-25 07:35 기준 · 08:00 브리핑 반영<br>부수익 · 공고 · 식단 · 항공권 4개 보드 합산 · 검색 비공개 페이지</footer>
 </div>
 
 <script>
@@ -174,26 +188,26 @@ const BRIEF = {
     ]
   },
   news: {
-    basis:"2026-11-25 07:30~07:55 스캔 · 공개 정보만",
+    basis:"2026-11-25 07:30~07:55 확인 · 공개 정보만",
     items:[
-      {cat:"정치", t:"젠슨 황 엔비디아 CEO 복귀에 트럼프 직접 개입 시인 — 여야 동시 반발", d:"민주당은 의회 고강도 조사를 예고했고, 황 CEO는 12/3 미 상원 공개 청문회에 출석한다.", src:"SBS", url:"https://news.sbs.co.kr/news/endPage.do?news_id=N1008861921"},
-      {cat:"사회", t:"서울교통공사 노사 02:40 극적 타결 — 1~8호선 총파업 철회·첫차부터 정상 운행", d:"신규채용 500명·임금 3.5% 인상에 합의했다.", src:"JTBC", url:"https://news-api.jtbc.co.kr/v1/get/article/new-by-article?articleIdx=NB12230687"},
-      {cat:"경제", t:"USTR '과잉생산 관세' 결과 이르면 오늘 발표 — 한국은 15% 상한 유지 전망", d:"무역법 301조·16개 경제주체 대상. 강제노동 관세 12.5%까지 붙으면 최대 2.5%p 추가, 디지털 규제 별도 조사 착수가 변수다.", src:"아주경제", url:"https://www.ajunews.com/view/20261125063123823"},
-      {cat:"IT", t:"간밤 미장 AI 랠리 하루 만에 되돌림 — SOX -7.88%·엔비디아 -5.86%", d:"앤스로픽 주가 81.91달러(-6.5%)로 공모가(83달러)를 처음 밑돌았다. 나스닥100 -1.99%, AI 밸류에이션 우려가 다시 붙었다.", src:"CNBC", url:"https://www.cnbc.com/2026/11/24/anthropic-stock-ipo-price.html"},
-      {cat:"생활", t:"아침 전국 영하권·빙판길 주의 — 독감 의사환자 4주 연속 증가", d:"서울 -4.2℃·대구 -0.5℃·구미권 -5℃ 내외, 낮부터 누그러져 대구 10℃. 독감 의사환자는 46주 1,000명당 37.0명.", src:"연합뉴스", url:"https://www.yna.co.kr/view/AKR20261123082000530"},
-      {cat:"구미", t:"급행버스 2개 노선 11/23 개통 — 공단↔KTX김천구미역 13~14분 단축", d:"수소전기버스 20대. 급행1번(5공단~공단본부~구미역~김천구미역)·1-1·1-2·급행2번(봉곡~구미역~인동 43회), 요금은 좌석버스와 같다.", src:"경북일보", url:"https://www.kyongbuk.co.kr/news/articleView.html?idxno=4091589"},
-      {cat:"구미", t:"근로자문화센터 12월 GX 접수 오늘(11/25) 개시 — 25일~말일 선착순", d:"12월 밸런스요가 월·수·금 18:50 유지(11/19 공지). 접수는 센터 홈페이지에서 직접 한다.", src:"구미시", url:"http://www.gumi.go.kr/gumigx/notice/notice_list.asp"}
+      {short:"젠슨 황 청문회", cat:"정치", t:"젠슨 황 엔비디아 CEO 복귀에 트럼프 직접 개입 시인 — 여야 동시 반발", d:"민주당은 의회 고강도 조사를 예고했고, 황 CEO는 12/3 미 상원 공개 청문회에 출석한다.", src:"SBS", url:"https://news.sbs.co.kr/news/endPage.do?news_id=N1008861921"},
+      {short:"지하철 파업 철회", cat:"사회", t:"서울교통공사 노사 02:40 극적 타결 — 1~8호선 총파업 철회·첫차부터 정상 운행", d:"신규채용 500명·임금 3.5% 인상에 합의했다.", src:"JTBC", url:"https://news-api.jtbc.co.kr/v1/get/article/new-by-article?articleIdx=NB12230687"},
+      {short:"관세 발표 임박", cat:"경제", t:"USTR '과잉생산 관세' 결과 이르면 오늘 발표 — 한국은 15% 상한 유지 전망", d:"무역법 301조·16개 경제주체 대상. 강제노동 관세 12.5%까지 붙으면 최대 2.5%p 추가, 디지털 규제 별도 조사 착수가 변수다.", src:"아주경제", url:"https://www.ajunews.com/view/20261125063123823"},
+      {short:"AI 반도체 급락", cat:"IT", t:"간밤 미장 AI 랠리 하루 만에 되돌림 — SOX -7.88%·엔비디아 -5.86%", d:"앤스로픽 주가 81.91달러(-6.5%)로 공모가(83달러)를 처음 밑돌았다. 나스닥100 -1.99%, AI 밸류에이션 우려가 다시 붙었다.", src:"CNBC", url:"https://www.cnbc.com/2026/11/24/anthropic-stock-ipo-price.html"},
+      {short:"영하권·빙판길", cat:"생활", t:"아침 전국 영하권·빙판길 주의 — 독감 의사환자 4주 연속 증가", d:"서울 -4.2℃·대구 -0.5℃·구미권 -5℃ 내외, 낮부터 누그러져 대구 10℃. 독감 의사환자는 46주 1,000명당 37.0명.", src:"연합뉴스", url:"https://www.yna.co.kr/view/AKR20261123082000530"},
+      {short:"급행버스 개통", cat:"구미", t:"급행버스 2개 노선 11/23 개통 — 공단↔KTX김천구미역 13~14분 단축", d:"수소전기버스 20대. 급행1번(5공단~공단본부~구미역~김천구미역)·1-1·1-2·급행2번(봉곡~구미역~인동 43회), 요금은 좌석버스와 같다.", src:"경북일보", url:"https://www.kyongbuk.co.kr/news/articleView.html?idxno=4091589"},
+      {short:"GX 접수 시작", cat:"구미", t:"근로자문화센터 12월 GX 접수 오늘(11/25) 개시 — 25일~말일 선착순", d:"12월 밸런스요가 월·수·금 18:50 유지(11/19 공지). 접수는 센터 홈페이지에서 직접 한다.", src:"구미시", url:"http://www.gumi.go.kr/gumigx/notice/notice_list.asp"}
     ]
   },
   meals: {
     basis:"기기 '희욱' 캘린더 확정 식단 · 11/25 확인",
     dinner:"오늘 저녁 18:00 소고기 샤브샤브 (한우 1+ 샤브샤브용 300g·모둠채소·모둠버섯 재료 보유, 육수는 주문에 없음)",
-    lunch:"회사 점심(오늘) 식단표 미확인 — 다음 스캔에서 반영",
+    lunch:"회사 점심(오늘) 식단표 미확인 — 다음 확인에서 반영",
     todo:"15:00 전 바지락 로켓프레시 주문 — 내일(목) 바지락술찜용. 15:00을 넘기면 다음 날 새벽 도착으로 밀리고, 화이트와인은 집에 있어 술은 사지 않는다.",
     tomorrow:"내일(11/26 목) 저녁 : 바지락술찜"
   },
   contests: {
-    basis:"2026-11-25 07:25 기준 · 콩떡·인절미·찰떡 합산(무신사 제외)",
+    basis:"2026-11-25 07:25 기준 · 자동·PC·직접 합산(무신사 제외)",
     total:"1,712", today:"+128", done:"160", win:"3", rate:"1.9%", remain:"134",
     detail:"새벽 06:12~07:23에 19개 채널에서 128건을 새로 신청했다(지그재그 +37·레뷰 +28·리뷰노트 +18·클라우드리뷰 +15·스타일씨 +11·택배의여왕 +8·링블 +4·클립뷰 +4·아싸뷰 +2·리뷰플레이스 +1). 남은 신청은 웹 134건(클라우드리뷰 129·11번가 3·네이버+ 2)뿐이고 주요 웹 채널 적격분은 사실상 전수 완료했다. 무신사 앱 전용 138건은 지시로 제외, 지그재그·택배의여왕·레뷰는 잔여 0건이다.",
     todo:"당첨 3건 중 2건 미제출 — 체험뷰 유다의 어머니 도서 리뷰 마감 12/04, 무신사 퍼퓸 스틱 후기 11/28~12/12. 오늘 확인: 네이버+ 뷰티시스 2건 10:00 발표 · 택배의여왕 발표중 27건 · 서울오빠 일렉트로룩스 배터리교체 오늘 마감."
@@ -205,7 +219,7 @@ const BRIEF = {
       {n:"올리브영(CJ ONE)", v:"1,331P", d:"최근 +900P · 미작성 0건 · 일리윤 100P 추가 적립 예정"},
       {n:"네이버페이", v:"잔액 9,988원", d:"포인트 8,708 + 머니 1,280 · 11월 누적 혜택 38,899원(잔액 아님)"},
       {n:"다이소몰", v:"606P", d:"누적 59건 작성 · 상시 출석 없음(출첵 대상 제외)"},
-      {n:"출석 3곳", v:"서울오빠 150P · 링블 60P · 스타일씨 61C", d:"매일 08:35 네이버페이 출석은 단독 진행 · 오늘 09:00 서울오빠·링블 출석은 콩떡이 크레딧 소진으로 11/26 04:00 이후 재개"},
+      {n:"출석 3곳", v:"서울오빠 150P · 링블 60P · 스타일씨 61C", d:"매일 08:35 네이버페이 출석은 단독 진행 · 오늘 09:00 서울오빠·링블 출석은 자동 실행 한도로 11/26 04:00 이후 재개"},
       {n:"체험단 후기", v:"1건 등록 · 2건 미제출", d:"오르골 무드등 완료(마감 12/8) · 도서·퍼퓸 스틱 미제출"}
     ]
   },
@@ -238,57 +252,91 @@ const BRIEF = {
 
 function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
-function blkHTML(title, sub, body, link){
-  return `<div class="blk"><div class="blk-h"><span class="bt">${title}</span>${sub ? `<span class="bs">${sub}</span>` : ""}${link ? `<a href="${link.href}">${link.text} →</a>` : ""}</div>${body}</div>`;
+function blkHTML(title, sumline, body, link, open){
+  return `<details class="blk acc"${open ? " open" : ""}>
+    <summary>
+      <span class="bh"><span class="bt">${title}</span>${link ? `<a class="bgo" href="${link.href}" onclick="event.stopPropagation()">${link.text} →</a>` : ""}</span>
+      <span class="bsum">${sumline}</span>
+    </summary>
+    <div class="bdy">${body}</div>
+  </details>`;
 }
+function pick(re, s){ const m = String(s == null ? "" : s).match(re); return m ? m[0] : ""; }
 
 function briefHTML(b){
   const w = b.weather || {}, sc = b.schedule || {}, nw = b.news || {}, ml = b.meals || {}, ct = b.contests || {},
         rv = b.reviews || {}, isa = b.isa || {}, jb = b.jobs || {}, fl = b.flights || {};
+  const news = nw.items || [];
+  const newsSum = (news.slice(0, 3).map(n => n.short).filter(Boolean).join(" · ") || news.slice(0, 3).map(n => n.cat).join(" · "))
+    + (news.length ? ` 외 ${news.length}건` : "");
+  const dinner = (ml.dinner || "").split("(")[0].replace("오늘 저녁 ", "").replace(/^\d{2}:\d{2}\s*/, "").trim();
+  const mealTodo = (ml.todo || "").split("—")[0].trim();
+  const revSum = (rv.items || []).slice(0, 3).map(r => `${r.n.split("(")[0]} ${r.v}`).join(" · ");
+  const isaSum = [ (isa.total || "").split("·")[0].trim(), (isa.signal || "").includes("보류") ? "물타기 보류" : "" ].filter(Boolean).join(" · ");
+  const jobSum = (jb.soon || []).map(j => `${j.n.replace("(주)", "")} ${j.tag}`).join(" · ");
   return [
-    blkHTML("1. 일정 · 날씨", w.basisText || "",
+    blkHTML("1. 일정 · 날씨",
+      `${esc(w.range || "")} ${esc(w.cond || "")} · 미세먼지 <b>${esc(w.air || "")}</b> · 일정 ${esc(sc.count)}건`,
       `<div class="line"><b>${esc(w.range || "")}</b> · ${esc(w.cond || "")} · 강수 ${esc(w.precip || "")} · 현재 체감 ${esc(w.feel || "")}</div>
        <div class="line muted">미세먼지 <b>${esc(w.air || "")}</b> — ${esc(w.airDetail || "")}</div>
        <div class="line">${w.note || ""}</div>
        <div class="line" style="margin-top:8px">일정 <b>${esc(sc.count)}건</b> — ${esc(sc.detail || "")}</div>
        ${(sc.reminders || []).map(r => `<div class="li"><span class="lk">${esc(r.t)}</span><span class="lv">${r.d}</span></div>`).join("")}
        <div class="attr" style="margin-top:8px">날씨 <a href="https://developer.apple.com/weatherkit/data-source-attribution/">&#xF8FF; Weather</a> · <a href="https://www.airkorea.or.kr/">AirKorea · 한국환경공단</a></div>`,
-      null),
-    blkHTML("2. 오늘 뉴스", nw.basis || "",
-      (nw.items || []).map(n => `<div class="li"><span class="lk"><span class="tag b">${esc(n.cat)}</span></span><span class="lv"><b>${esc(n.t)}</b><span class="d">${esc(n.d)} <a href="${n.url}" target="_blank" rel="noopener noreferrer">${esc(n.src)}</a></span></span></div>`).join("")),
-    blkHTML("3. 식단", ml.basis || "",
+      null, true),
+    blkHTML("2. 오늘 뉴스", newsSum,
+      news.map(n => `<div class="li"><span class="lk"><span class="tag b">${esc(n.cat)}</span></span><span class="lv"><b>${esc(n.t)}</b><span class="d">${esc(n.d)} <a href="${n.url}" target="_blank" rel="noopener noreferrer">${esc(n.src)}</a></span></span></div>`).join(""),
+      null, false),
+    blkHTML("3. 식단",
+      `${esc(dinner)}${mealTodo ? ` · <span style="color:var(--orange);font-weight:800">${esc(mealTodo)}</span>` : ""}`,
       `<div class="line"><b>오늘 저녁</b> — ${esc(ml.dinner)}</div>
        <div class="line muted">${esc(ml.lunch)}</div>
        <div class="line" style="margin-top:6px"><span class="tag o">남은 일</span>${esc(ml.todo)}</div>
        <div class="line muted">${esc(ml.tomorrow)}</div>`,
-      {href:"meals.html", text:"식단 보드"}),
-    blkHTML("4. 체험단", ct.basis || "",
+      {href:"meals.html", text:"식단 보드"}, false),
+    blkHTML("4. 체험단",
+      `총 ${esc(ct.total)}건 · 당첨 ${esc(ct.win)} · 남은 신청 ${esc(ct.remain)}건`,
       `<div class="line">총 제출 <b>${esc(ct.total)}건</b>(오늘 ${esc(ct.today)}) · 발표 완료 <b>${esc(ct.done)}</b> · 당첨 <b>${esc(ct.win)}건</b>(${esc(ct.rate)}) · 남은 신청 <b>${esc(ct.remain)}건</b></div>
        <div class="line">${esc(ct.detail)}</div>
        <div class="line"><span class="tag o">후기</span>${esc(ct.todo)}</div>`,
-      {href:"index.html", text:"부수익"}),
-    blkHTML("5. 리뷰 · 포인트", rv.basis || "",
-      (rv.items || []).map(r => `<div class="li"><span class="lk">${esc(r.n)}</span><span class="lv"><b>${esc(r.v)}</b><span class="d">${esc(r.d)}</span></span></div>`).join("")),
-    blkHTML("6. 공모주 · ISA", isa.basis || "",
+      {href:"index.html", text:"부수익"}, false),
+    blkHTML("5. 리뷰 · 포인트", revSum,
+      (rv.items || []).map(r => `<div class="li"><span class="lk">${esc(r.n)}</span><span class="lv"><b>${esc(r.v)}</b><span class="d">${esc(r.d)}</span></span></div>`).join(""),
+      null, false),
+    blkHTML("6. 공모주 · ISA", isaSum,
       `${(isa.rows || []).map(r => `<div class="li"><span class="lk">${esc(r.n.split(" ")[0])}</span><span class="lv"><b>${esc(r.n)}</b> ${esc(r.p)} <span class="tag ${r.ch.indexOf("-") === 0 ? "r" : "g"}">${esc(r.ch)}</span><span class="d">${esc(r.q)} · 평가 ${esc(r.val)} · ${esc(r.pl)}</span></span></div>`).join("")}
        <div class="line" style="margin-top:6px"><b>${esc(isa.total)}</b></div>
        ${isa.outlook ? `<div class="line" style="margin-top:6px"><span class="tag b">오늘 전망</span>${esc(isa.outlook)}</div>` : ""}
        <div class="line" style="margin-top:6px"><span class="tag o">판단</span>${esc(isa.signal)}</div>
        <div class="line muted">${esc(isa.stocks)}</div>`,
-      {href:"index.html", text:"공모주·ISA"}),
-    blkHTML("7. 공고", jb.basis || "",
+      {href:"index.html", text:"공모주·ISA"}, false),
+    blkHTML("7. 공고", jobSum,
       (jb.soon || []).map(j => `<div class="li"><span class="lk"><span class="tag ${j.tag === "D-1" ? "r" : "o"}">${esc(j.tag)}</span></span><span class="lv"><b>${esc(j.n)}</b><span class="d">${esc(j.d)}</span></span></div>`).join("") +
       `<div class="line muted" style="margin-top:4px">${esc(jb.detail)}</div>`,
-      {href:"jobs.html", text:"공고 보드"}),
-    blkHTML("8. 항공권", fl.basis || "",
+      {href:"jobs.html", text:"공고 보드"}, false),
+    blkHTML("8. 항공권",
+      `${esc((fl.best || "").split("—")[0].trim())}`,
       `<div class="line"><b>${esc(fl.best)}</b></div>
        <div class="line">${esc(fl.detail)}</div>
        <div class="line muted">${esc(fl.others)}</div>`,
-      {href:"flights.html", text:"항공권 보드"})
+      {href:"flights.html", text:"항공권 보드"}, false)
   ].join("");
 }
 
 document.getElementById("briefView").innerHTML = briefHTML(BRIEF);
+
+/* 8대 항목 모두 펼치기/접기 */
+(function(){
+  const btn = document.getElementById("allToggle");
+  if(!btn) return;
+  btn.addEventListener("click", () => {
+    const all = document.querySelectorAll("#briefView details.acc");
+    const opened = [...all].filter(d => d.open).length;
+    const open = opened < all.length;
+    all.forEach(d => { d.open = open; });
+    btn.textContent = open ? "모두 접기" : "모두 펼치기";
+  });
+})();
 
 /* 테마 */
 const root = document.documentElement;

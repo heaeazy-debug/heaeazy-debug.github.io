@@ -38,7 +38,15 @@
   nav.boards a{flex:0 0 auto;font-size:11px;font-weight:700;text-decoration:none;color:var(--sub2);
     background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 9px;letter-spacing:-.2px}
   nav.boards a.here{background:var(--pill);color:var(--pill-text);border-color:var(--pill)}
-  .cond{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 14px}
+  .condbar{background:var(--card);border:1px solid var(--line);border-radius:12px;margin:0 0 10px;box-shadow:var(--shadow)}
+  .condbar summary{list-style:none;display:flex;align-items:center;gap:7px;padding:8px 11px;cursor:pointer}
+  .condbar summary::-webkit-details-marker{display:none}
+  .condbar .cb-l{flex:0 0 auto;font-size:10.5px;font-weight:900;color:var(--blue);letter-spacing:-.2px}
+  .condbar .cb-t{min-width:0;font-size:10.5px;font-weight:700;color:var(--sub2);letter-spacing:-.25px;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .condbar .cb-x{margin-left:auto;flex:0 0 auto;font-size:10px;color:var(--sub);transition:transform .15s}
+  .condbar[open] .cb-x{transform:rotate(180deg)}
+  .cond{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0 11px 11px;border-top:1px solid var(--line);padding-top:9px}
   .chip{font-size:11.5px;font-weight:700;letter-spacing:-.2px;border-radius:8px;padding:5px 8px;
     background:var(--chip-bg);border:1px solid var(--line);color:var(--sub2)}
   .chip.no{color:var(--sub);background:transparent;border-style:dashed}
@@ -137,13 +145,20 @@
 
   <div id="archiveView" class="hidden"></div>
 
-  <div class="cond">
-    <span class="chip">2027년 주말 (금~일 2박 3일)</span>
-    <span class="chip">성인 2인 왕복</span>
-    <span class="chip">김해(PUS)·대구(TAE) 출발</span>
-    <span class="chip">후쿠오카 · 도쿄 · 오사카 · 제주</span>
-    <span class="chip no">특가·큰 변동만 보고</span>
-  </div>
+  <details class="condbar">
+    <summary>
+      <span class="cb-l">조건</span>
+      <span class="cb-t">2027 주말 · 2인 왕복 · 김해/대구 출발 · 특가만</span>
+      <span class="cb-x">▾</span>
+    </summary>
+    <div class="cond">
+      <span class="chip">2027년 주말 (금~일 2박 3일)</span>
+      <span class="chip">성인 2인 왕복</span>
+      <span class="chip">김해(PUS)·대구(TAE) 출발</span>
+      <span class="chip">후쿠오카 · 도쿄 · 오사카 · 제주</span>
+      <span class="chip no">특가·큰 변동만 보고</span>
+    </div>
+  </details>
 
   <div class="grid">
     <div class="card"><div class="k">최저 2인 왕복</div><div class="v c-orange" id="vBest">373,000<small>원</small></div><div class="s">대구→제주 · 진에어 · 정상 주말가</div></div>
@@ -162,14 +177,14 @@
       <li><b>이번 실측은 4노선 전부 특가 메리트 0/4</b>다. 어제 유일한 특가였던 김해→후쿠오카(에어부산 563,200원)가 579,200원으로 오르며 Google 특가 표시도 사라졌다.</li>
       <li>김해→후쿠오카는 카드 표시가 579,200원, 최저가 탭 578,132원이다(1,068원 차이는 판매처·탭 기준 차이).</li>
       <li>대구→제주 373,000원은 정상 주말가다 — 평일 대비 주말 프리미엄이 붙은 값이라 특가로 보지 않는다.</li>
-      <li>이번 스캔은 노선별 <b>최저가 1건</b>만 기록했다. 차순위 편·소요시간·수하물은 다음 실측에서 채운다.</li>
-      <li>도쿄행 가는편 시간은 스캔 기록(10:45→12:55)이 후쿠오카행과 같은 값이라 화면에서 한 번 더 확인한다.</li>
+      <li>이번 확인은 노선별 <b>최저가 1건</b>만 기록했다. 차순위 편·소요시간·수하물은 다음 실측에서 채운다.</li>
+      <li>도쿄행 가는편 시간은 확인 기록(10:45→12:55)이 후쿠오카행과 같은 값이라 화면에서 한 번 더 확인한다.</li>
       <li>요금은 실시간 변동·좌석 마감에 따라 달라진다. 예매 직전에 한 번 더 확인한다.</li>
       <li>개인정보(이름·연락처·이메일)는 페이지에 넣지 않는다.</li>
     </ul>
   </div>
 
-  <footer>콩떡 · 인절미 · 찰떡 합산 · 2026-11-25 07:35 실측<br>다음 실측 11/25 18:00 퇴근 브리핑 · 예약·결제는 하지 않음 · 검색 비공개 페이지</footer>
+  <footer>자동 · PC · 직접 합산 · 2026-11-25 07:35 실측<br>다음 실측 11/25 18:00 퇴근 브리핑 · 예약·결제는 하지 않음 · 검색 비공개 페이지</footer>
 </div>
 
 <script>
@@ -187,7 +202,7 @@ const FLIGHTS = [
    prev:"11/24 373,000원 → 11/25 373,000원 (동일)",
    link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDVEFFcgcIARIDQ0pVGh4SCjIwMjctMDMtMDdqBwgBEgNDSlVyBwgBEgNUQUVAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
   {route:"김해(PUS) → 도쿄 나리타(NRT)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:713924, carrier:"제주항공", merit:"특가 아님",
-   out:"금 10:45 부산발 (스캔 기록 도착 12:55 · 재확인 필요)", back:"—",
+   out:"금 10:45 부산발 (확인 기록 도착 12:55 · 재확인 필요)", back:"—",
    sub:"이번 실측에서 처음 넣은 노선 · 최저가 1건만 기록",
    verdict:"특가 아님 — 김해→후쿠오카(579,200원)의 1.23배다. 12월 중순까지 공부 집중 모드라 큰 특가가 아니면 움직이지 않는다.",
    prev:"—",

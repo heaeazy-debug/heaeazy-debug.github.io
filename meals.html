@@ -64,16 +64,19 @@
     margin:4px 1px 0;display:flex;align-items:center;gap:5px}
   .wlab::after{content:"";flex:1;height:1px;background:var(--line)}
   .wlab.cur{color:var(--green)}
-  .cell{appearance:none;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:3px 1px;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-width:0;font-family:inherit;
-    color:var(--text);cursor:pointer;line-height:1.15;transition:background .15s ease}
+  .cell{appearance:none;border:1px solid var(--line);background:var(--bg);border-radius:9px;padding:5px 1px 4px;
+    display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:1px;min-width:0;font-family:inherit;
+    color:var(--text);cursor:pointer;line-height:1.15;transition:background .15s ease;min-height:58px}
   .cell .crow{display:flex;align-items:center;justify-content:center;gap:1px;line-height:1.25}
   .cell .cd{font-size:9px;font-weight:800;color:var(--sub);font-variant-numeric:tabular-nums;letter-spacing:-.3px}
   .cell .cs{font-size:8.5px;font-weight:900;color:var(--green)}
-  .cell .cm{font-size:9.5px;font-weight:800;letter-spacing:-.35px;text-align:center;
-    line-height:1.18;height:23px;overflow:hidden;display:flex;flex-direction:column;align-items:center;
-    justify-content:center;padding:0 1px}
-  .cell .cm span{display:block;max-width:100%;overflow:hidden}
+  .cell .cm{font-size:10.5px;font-weight:800;letter-spacing:-.4px;text-align:center;
+    line-height:1.15;max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;padding:0 1px}
+  .cell .dots{display:flex;align-items:center;justify-content:center;gap:2px;height:5px;margin-top:2px}
+  .cell .dt{display:block;width:4px;height:4px;border-radius:50%}
+  .cell .dt.l{background:var(--blue)}
+  .cell .dt.u{background:var(--purple)}
+  .cell.sel .dt{background:var(--pill-text)}
   .cell .cl{font-size:8.5px;font-weight:800;color:var(--purple);letter-spacing:-.45px;line-height:1.15;
     white-space:nowrap;max-width:100%;overflow:hidden}
   .cell .cl.my{color:var(--blue)}
@@ -84,6 +87,13 @@
   .cell.sel{background:var(--pill);border-color:var(--pill)}
   .cell.sel .cd,.cell.sel .cm{color:var(--pill-text)}
   .cell.sel .cs{color:var(--pill-text)}
+  .cal-legend{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:6px 2px 0;
+    font-size:10px;font-weight:700;color:var(--sub);letter-spacing:-.2px}
+  .cal-legend span{display:inline-flex;align-items:center;gap:3px}
+  .cal-legend .dt{display:block;width:5px;height:5px;border-radius:50%}
+  .cal-legend .dt.l{background:var(--blue)}
+  .cal-legend .dt.u{background:var(--purple)}
+  .cal-legend .lg-t{margin-left:auto;font-weight:600;color:var(--sub)}
 
   /* 상세 카드 */
   .detail{margin-top:7px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 11px 11px;
@@ -291,6 +301,8 @@
     </div>
 
     <div class="cal" id="cal" role="grid" aria-label="2주 식단 달력"></div>
+
+    <div class="cal-legend"><span><i class="dt l"></i> 내 점심</span><span><i class="dt u"></i> 우기 점심</span><span class="lg-t">칸에는 <b>저녁 메뉴</b>만 — 점심 상세는 아래 날짜 카드</span></div>
 
     <div class="detail" id="detail"></div>
   </section>
@@ -515,12 +527,14 @@ function cellHTML(d){
   if(d.key === TODAY) cls.push("today");
   if(d.key === selKey) cls.push("sel");
   if(eaten) cls.push("eaten");
+  /* 달력 칸에는 저녁 메인 메뉴 한 단어만, 점심 유무는 작은 점으로 */
+  const dish = (d.kw || d.menu || "—").split("·")[0].trim();
+  const dots = `${d.mMain ? `<i class="dt l" title="내 점심"></i>` : ""}${d.woogi ? `<i class="dt u" title="우기 점심"></i>` : ""}`;
   return `<button type="button" class="${cls.join(" ")}" data-key="${d.key}" role="gridcell"
       aria-selected="${d.key === selKey}" aria-label="${d.dn} ${d.dw} 저녁 ${d.menu}${d.mMain ? ", 내 점심 " + d.mMain : ""}${d.woogi ? ", 우기 점심 " + d.woogi : ""}${eaten ? ", 먹음" : ""}">
     <span class="crow"><span class="cd">${d.dn}</span>${eaten ? `<span class="cs">✓</span>` : ""}</span>
-    ${d.mShort ? `<span class="cl my">내 ${d.mShort}</span>` : ""}
-    ${d.woogi ? `<span class="cl">우 ${d.wshort}</span>` : ""}
-    <span class="cm">${(d.kw || d.menu || "—").split("·").map(l => `<span>${l}</span>`).join("")}</span>
+    <span class="cm">${dish}</span>
+    <span class="dots">${dots}</span>
   </button>`;
 }
 
