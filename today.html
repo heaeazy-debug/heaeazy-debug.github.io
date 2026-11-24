@@ -268,7 +268,7 @@ function briefHTML(b){
         rv = b.reviews || {}, isa = b.isa || {}, jb = b.jobs || {}, fl = b.flights || {};
   const news = nw.items || [];
   const newsSum = (news.slice(0, 3).map(n => n.short).filter(Boolean).join(" · ") || news.slice(0, 3).map(n => n.cat).join(" · "))
-    + (news.length ? ` 외 ${news.length}건` : "");
+    + (news.length > 3 ? ` 외 ${news.length - 3}건` : "");
   const dinner = (ml.dinner || "").split("(")[0].replace("오늘 저녁 ", "").replace(/^\d{2}:\d{2}\s*/, "").trim();
   const mealTodo = (ml.todo || "").split("—")[0].trim();
   const revSum = (rv.items || []).slice(0, 3).map(r => `${r.n.split("(")[0]} ${r.v}`).join(" · ");
@@ -289,7 +289,7 @@ function briefHTML(b){
       null, false),
     blkHTML("3. 식단",
       `${esc(dinner)}${mealTodo ? ` · <span style="color:var(--orange);font-weight:800">${esc(mealTodo)}</span>` : ""}`,
-      `<div class="line"><b>오늘 저녁</b> — ${esc(ml.dinner)}</div>
+      `<div class="line"><b>오늘 저녁</b> — ${esc((ml.dinner || "").replace("오늘 저녁 ", ""))}</div>
        <div class="line muted">${esc(ml.lunch)}</div>
        <div class="line" style="margin-top:6px"><span class="tag o">남은 일</span>${esc(ml.todo)}</div>
        <div class="line muted">${esc(ml.tomorrow)}</div>`,
