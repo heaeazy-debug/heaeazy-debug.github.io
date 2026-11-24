@@ -365,6 +365,8 @@ let ARCH_LATEST  = null;
 function archToggle(on){
   ARCH_BOX.classList.toggle("hidden", !on);
   pastBanner.classList.toggle("hidden", !on);
+  const live = document.getElementById("liveView");
+  if(live) live.classList.toggle("hidden", on);
 }
 function archPaint(date, d){
   const b = d.today || {};

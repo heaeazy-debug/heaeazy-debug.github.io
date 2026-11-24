@@ -1232,7 +1232,7 @@ let ARCH_LATEST = "2026-11-25";
 let archCur = null, archStockSel = null;
 
 function archToggle(on){
-  [".mtabs", ".notice", "#viewContest", "#viewMoney", "#viewStock"].forEach(s => {
+  [".mtabs", ".now", "#viewContest", "#viewMoney", "#viewStock"].forEach(s => {
     const el = document.querySelector(s);
     if(el) el.classList.toggle("hidden", on);
   });
