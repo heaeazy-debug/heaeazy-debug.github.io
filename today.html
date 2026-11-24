@@ -283,7 +283,7 @@ function briefHTML(b){
        <div class="line" style="margin-top:8px">일정 <b>${esc(sc.count)}건</b> — ${esc(sc.detail || "")}</div>
        ${(sc.reminders || []).map(r => `<div class="li"><span class="lk">${esc(r.t)}</span><span class="lv">${r.d}</span></div>`).join("")}
        <div class="attr" style="margin-top:8px">날씨 <a href="https://developer.apple.com/weatherkit/data-source-attribution/">&#xF8FF; Weather</a> · <a href="https://www.airkorea.or.kr/">AirKorea · 한국환경공단</a></div>`,
-      null, true),
+      null, false),
     blkHTML("2. 오늘 뉴스", newsSum,
       news.map(n => `<div class="li"><span class="lk"><span class="tag b">${esc(n.cat)}</span></span><span class="lv"><b>${esc(n.t)}</b><span class="d">${esc(n.d)} <a href="${n.url}" target="_blank" rel="noopener noreferrer">${esc(n.src)}</a></span></span></div>`).join(""),
       null, false),
