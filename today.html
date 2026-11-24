@@ -267,8 +267,8 @@ function briefHTML(b){
     blkHTML("5. 리뷰 · 포인트", rv.basis || "",
       (rv.items || []).map(r => `<div class="li"><span class="lk">${esc(r.n)}</span><span class="lv"><b>${esc(r.v)}</b><span class="d">${esc(r.d)}</span></span></div>`).join("")),
     blkHTML("6. 공모주 · ISA", isa.basis || "",
-      `<div class="line"><b>${esc(isa.total)}</b></div>
-       ${(isa.rows || []).map(r => `<div class="li"><span class="lk">${esc(r.n.split(" ")[0])}</span><span class="lv"><b>${esc(r.n)}</b> ${esc(r.p)} <span class="tag ${r.ch.indexOf("-") === 0 ? "r" : "g"}">${esc(r.ch)}</span><span class="d">${esc(r.q)} · 평가 ${esc(r.val)} · ${esc(r.pl)}</span></span></div>`).join("")}
+      `${(isa.rows || []).map(r => `<div class="li"><span class="lk">${esc(r.n.split(" ")[0])}</span><span class="lv"><b>${esc(r.n)}</b> ${esc(r.p)} <span class="tag ${r.ch.indexOf("-") === 0 ? "r" : "g"}">${esc(r.ch)}</span><span class="d">${esc(r.q)} · 평가 ${esc(r.val)} · ${esc(r.pl)}</span></span></div>`).join("")}
+       <div class="line" style="margin-top:6px"><b>${esc(isa.total)}</b></div>
        <div class="line" style="margin-top:6px"><span class="tag o">판단</span>${esc(isa.signal)}</div>
        <div class="line muted">${esc(isa.stocks)}</div>`,
       {href:"index.html", text:"공모주·ISA"}),

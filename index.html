@@ -431,7 +431,7 @@
       <div class="rk-bar" aria-hidden="true"><span class="rb-web" id="rBarWeb"></span><span class="rb-app" id="rBarApp"></span></div>
       <div class="rk-split">
         <span class="rs rs-web">웹 신청 가능 <b id="rWeb">151</b></span>
-        <span class="rs rs-app" id="rAppChip">앱 전용 <b id="rApp">0</b></span>
+        <span class="rs rs-app hidden" id="rAppChip">앱 전용 <b id="rApp">0</b></span>
       </div>
     </div>
     <div class="rk-list" id="rList"></div>
@@ -893,10 +893,8 @@ document.getElementById("rApp").textContent = fmt(rApp);
 document.getElementById("rBarWeb").style.width = (rTotal ? rWeb / rTotal * 100 : 0).toFixed(2) + "%";
 document.getElementById("rBarApp").style.width = (rTotal ? rApp / rTotal * 100 : 0).toFixed(2) + "%";
 /* 앱 전용 0건(무신사 제외)이면 앱 칩·막대를 숨겨 웹 151건만 보이게 */
-if(rApp === 0){
-  document.getElementById("rAppChip").classList.add("hidden");
-  document.getElementById("rBarApp").style.display = "none";
-}
+document.getElementById("rAppChip").classList.toggle("hidden", rApp === 0);
+document.getElementById("rBarApp").style.display = rApp === 0 ? "none" : "block";
 document.getElementById("rList").innerHTML = REMAIN.map(r => `
     <div class="rk-row">
       <div class="rk-name">${r.name}</div>

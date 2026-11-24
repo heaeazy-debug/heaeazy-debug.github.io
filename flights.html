@@ -61,10 +61,11 @@
   .merit.best{color:#fff;background:var(--green);border-color:var(--green)}
   .merit.low{color:#8a5a00;background:#fff5e0;border-color:#ffe2ad}
   [data-theme="dark"] .merit.low{color:#ffd08a;background:#3a2c12;border-color:#5a4419}
-  .price{display:flex;align-items:baseline;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+  .price{display:flex;align-items:baseline;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);flex-wrap:wrap}
   .price .pv{font-size:24px;font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums}
   .price .pa{font-size:11.5px;color:var(--sub);font-weight:700;letter-spacing:-.2px}
-  .price .pp{margin-left:auto;font-size:11px;color:var(--sub);font-weight:700;white-space:nowrap}
+  .price .pp{flex:0 0 100%;margin-top:4px;font-size:11px;color:var(--sub);font-weight:700;line-height:1.4;letter-spacing:-.15px}
+  [data-theme="dark"] .price .pp{color:var(--sub)}
   .rows{margin-top:9px;display:flex;flex-direction:column;gap:6px}
   .row{display:grid;grid-template-columns:52px 1fr;gap:8px;font-size:12.5px;letter-spacing:-.2px}
   .row .rk{color:var(--sub);font-weight:600}
