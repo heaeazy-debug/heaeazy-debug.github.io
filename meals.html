@@ -93,7 +93,7 @@
   .cal-legend .dt{display:block;width:5px;height:5px;border-radius:50%}
   .cal-legend .dt.l{background:var(--blue)}
   .cal-legend .dt.u{background:var(--purple)}
-  .cal-legend .lg-t{margin-left:auto;font-weight:600;color:var(--sub)}
+  .cal-legend .lg-t{margin-left:0;flex:1 1 100%;font-weight:600;color:var(--sub)}
 
   /* 상세 카드 */
   .detail{margin-top:7px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 11px 11px;
@@ -302,7 +302,7 @@
 
     <div class="cal" id="cal" role="grid" aria-label="2주 식단 달력"></div>
 
-    <div class="cal-legend"><span><i class="dt l"></i> 내 점심</span><span><i class="dt u"></i> 우기 점심</span><span class="lg-t">칸에는 <b>저녁 메뉴</b>만 — 점심 상세는 아래 날짜 카드</span></div>
+    <div class="cal-legend"><span><i class="dt l"></i> 내 점심</span><span><i class="dt u"></i> 우기 점심</span><span class="lg-t">칸은 <b>저녁 메뉴</b>만 · 점심 상세는 아래 날짜 카드</span></div>
 
     <div class="detail" id="detail"></div>
   </section>
