@@ -112,7 +112,7 @@
   <header class="top">
     <div>
       <h1>항공권 특가 추적</h1>
-      <div class="basis">2026-11-24 17:45~58 실측 · Google 항공편 · 성인 2인 왕복 · 세금·수수료 포함</div>
+      <div class="basis">2026-11-25 07:35 실측 · Google Flights · 성인 2인 왕복 · 세금·수수료 포함</div>
     </div>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="다크 모드 전환">◐</button>
   </header>
@@ -141,15 +141,15 @@
     <span class="chip">2027년 주말 (금~일 2박 3일)</span>
     <span class="chip">성인 2인 왕복</span>
     <span class="chip">김해(PUS)·대구(TAE) 출발</span>
-    <span class="chip">후쿠오카 · 도쿄 · 오사카</span>
+    <span class="chip">후쿠오카 · 도쿄 · 오사카 · 제주</span>
     <span class="chip no">특가·큰 변동만 보고</span>
   </div>
 
   <div class="grid">
-    <div class="card"><div class="k">최저 2인 왕복</div><div class="v c-green" id="vBest">563,200<small>원</small></div><div class="s">김해→후쿠오카 · 에어부산 · 특가 메리트 있음</div></div>
-    <div class="card"><div class="k">특가 메리트</div><div class="v c-green" id="vMerit">1<small>/5</small></div><div class="s">나머지 4노선은 정상 주말가·메리트 없음</div></div>
-    <div class="card"><div class="k">실측 노선</div><div class="v c-blue" id="vRoutes">5<small>개</small></div><div class="s">2027-03-05(금)~07(일) · 도쿄는 이번 실측 없음</div></div>
-    <div class="card"><div class="k">어제 대비</div><div class="v c-orange" id="vDiff">+9,800<small>원</small></div><div class="s">김해→후쿠오카 553,400(11/23) → 563,200(11/24)</div></div>
+    <div class="card"><div class="k">최저 2인 왕복</div><div class="v c-orange" id="vBest">373,000<small>원</small></div><div class="s">대구→제주 · 진에어 · 정상 주말가</div></div>
+    <div class="card"><div class="k">특가 메리트</div><div class="v c-orange" id="vMerit">0<small>/4</small></div><div class="s">4노선 전부 특가 없음 · 이번 주말은 잡지 않음</div></div>
+    <div class="card"><div class="k">실측 노선</div><div class="v c-blue" id="vRoutes">4<small>개</small></div><div class="s">2027-03-05(금)~07(일) · 도쿄 이번 실측에 포함</div></div>
+    <div class="card"><div class="k">어제 대비</div><div class="v c-orange" id="vDiff">+16,000<small>원</small></div><div class="s">김해→후쿠오카 563,200(11/24) → 579,200(11/25)</div></div>
   </div>
 
   <div class="sec-label">노선별 실측 <span>· 2027년 3월 첫째 주말 기준</span></div>
@@ -158,51 +158,46 @@
   <div class="info">
     <b>기준 · 유의</b>
     <ul>
-      <li>모두 <b>Google 항공편</b>에서 승객 성인 2명·왕복·이코노미·KRW로 직접 조회했고, 표시가에 <b>세금·수수료가 포함</b>된 금액이다(수하물·좌석지정 별도). 예약·결제는 하지 않았다.</li>
-      <li><b>김해→후쿠오카만 특가</b>다. Google이 "이 검색에서 평소보다 92,400원 저렴"으로 표시했고, 같은 노선 2027-04-16~18 주말(1인 382,900원·2인 765,800원)보다 2인 기준 20만 원 이상 싸다.</li>
-      <li>대구→제주는 Google 자체 표시가 <b>"가격이 현재 비쌉니다"</b>이고, 같은 검색의 3/6(토)~3/9(화) 2인 187,200원 대비 주말이 정확히 2배다 — 정상 주말 프리미엄이다.</li>
-      <li><b>2027년 4월 이후 LCC 운임은 아직 미판매</b>(대구-제주 4/16~18은 LCC 0편·대한항공 2인 576,400원뿐). 판매가 열리면 재실측한다.</li>
-      <li><b>Trinity Airways</b>는 실운항사(대개 타 항공사 위탁)와 수하물 규정이 화면에 없어 미확인이다. 대구 출발 국제선은 이 점을 감안한다.</li>
-      <li>요금은 실시간 변동·좌석 마감에 따라 달라진다. 예매 직전에 한 번 더 확인한다. <b>도쿄(나리타·하네다)는 이번 실측에 없어서 넣지 않았다</b> — 다음 스캔에서 추가한다.</li>
+      <li>모두 <b>Google Flights</b>에서 승객 성인 2명·왕복·이코노미·KRW로 직접 조회했고, 표시가에 <b>세금·수수료가 포함</b>된 금액이다(수하물·좌석지정 별도). 예약·결제는 하지 않았다.</li>
+      <li><b>이번 실측은 4노선 전부 특가 메리트 0/4</b>다. 어제 유일한 특가였던 김해→후쿠오카(에어부산 563,200원)가 579,200원으로 오르며 Google 특가 표시도 사라졌다.</li>
+      <li>김해→후쿠오카는 카드 표시가 579,200원, 최저가 탭 578,132원이다(1,068원 차이는 판매처·탭 기준 차이).</li>
+      <li>대구→제주 373,000원은 정상 주말가다 — 평일 대비 주말 프리미엄이 붙은 값이라 특가로 보지 않는다.</li>
+      <li>이번 스캔은 노선별 <b>최저가 1건</b>만 기록했다. 차순위 편·소요시간·수하물은 다음 실측에서 채운다.</li>
+      <li>도쿄행 가는편 시간은 스캔 기록(10:45→12:55)이 후쿠오카행과 같은 값이라 화면에서 한 번 더 확인한다.</li>
+      <li>요금은 실시간 변동·좌석 마감에 따라 달라진다. 예매 직전에 한 번 더 확인한다.</li>
       <li>개인정보(이름·연락처·이메일)는 페이지에 넣지 않는다.</li>
     </ul>
   </div>
 
-  <footer>콩떡 · 인절미 · 찰떡 합산 · 2026-11-24 17:45~58 실측 · 2026-11-25 06:55 갱신<br>다음 실측 11/25 08:00 아침 브리핑 · 예약·결제는 하지 않음 · 검색 비공개 페이지</footer>
+  <footer>콩떡 · 인절미 · 찰떡 합산 · 2026-11-25 07:35 실측<br>다음 실측 11/25 18:00 퇴근 브리핑 · 예약·결제는 하지 않음 · 검색 비공개 페이지</footer>
 </div>
 
 <script>
 const FLIGHTS = [
-  {route:"김해(PUS) → 후쿠오카(FUK)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:563200, carrier:"에어부산", merit:"특가", rank:"best",
-   out:"금 14:00 부산 → 15:00 후쿠오카 (BX509)", back:"일 09:25 후쿠오카 → 10:25 부산",
-   sub:"1인 281,600원 · 차순위 제주항공 577,200(금 13:10) / 에어부산 583,200(금 18:00) / 에어부산 643,200(07:30) / 제주항공 657,200(07:00) / 진에어 766,600 / Trinity 801,800 / 이스타 921,200·941,200 · 다른 판매처 557,657원도 있음",
-   verdict:"<b>특가 메리트 있음 ★</b> — Google 표시 \"이 검색에서 평소보다 92,400원 저렴\". 같은 노선 4/16~18 주말은 1인 382,900원(2인 765,800원)이라 3/5 주말이 2인 20만 원 이상 싸다.",
-   prev:"11/23 스카이스캐너 553,400원 → 11/24 구글 563,200원 (+9,800원·+1.8%)",
-   link:"https://www.google.com/travel/flights?hl=ko&curr=KRW&q=Flights%20from%20PUS%20to%20FUK%20on%202027-03-05%20through%202027-03-07"},
+  {route:"김해(PUS) → 후쿠오카(FUK)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:579200, carrier:"제주항공", merit:"메리트 없음",
+   out:"금 10:45 부산 → 12:55 후쿠오카 (직항)", back:"—",
+   sub:"최저가 탭 578,132원 · 이번 실측은 노선별 최저가 1건만 기록(차순위 미확인)",
+   verdict:"메리트 없음 — 어제 에어부산 563,200원보다 16,000원(+2.8%) 올랐고 Google 특가 표시도 사라졌다.",
+   prev:"11/24 에어부산 563,200원 → 11/25 제주항공 579,200원 (+16,000원)",
+   link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDUFVTcgcIARIDRlVLGh4SCjIwMjctMDMtMDdqBwgBEgNGVUtyBwgBEgNQVVNAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
   {route:"대구(TAE) → 제주(CJU)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:373000, carrier:"진에어", merit:"메리트 없음",
-   out:"금 19:30 대구 → 20:35 제주 (직항 1시간 5분)", back:"일 07:10 제주 → 08:15 대구",
-   sub:"진에어 18:15 376,800 / 제주항공 16:25 403,000 / 진에어 12:35 424,800 / 제주항공 08:05 447,000 / 진에어 08:55 457,200 / 대한항공 576,400 · 복귀편을 일 10:50·16:30·17:40로 바꾸면 393,000",
-   verdict:"<b>메리트 없음</b> — Google 표시 \"가격이 현재 비쌉니다\". 같은 검색의 3/6(토)~3/9(화) 2인 187,200원 대비 주말이 2배로 정상 주말 프리미엄이다. 4월은 LCC 미판매(4/16~18은 대한항공 576,400원뿐).",
-   prev:"11/23 373,000원 → 11/24 373,000원 (동일)",
-   link:"https://www.google.com/travel/flights?hl=ko&curr=KRW&q=Flights%20from%20TAE%20to%20CJU%20on%202027-03-05%20through%202027-03-07"},
-  {route:"김해(PUS) → 오사카 간사이(KIX)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:785400, carrier:"진에어", merit:"보통", rank:"low",
-   out:"금 14:05 부산발", back:"—",
-   sub:"에어부산 802,000(16:30) / 에어부산 822,000(11:25) / 진에어 845,400(08:35) / 제주항공 861,000(17:00) · 1인 393,000원",
-   verdict:"<b>메리트 보통</b> — 같은 날 후쿠오카(563,200원)보다 2인 22만 원 비싸다. 특가 아님.",
+   out:"금 19:30 대구 → 20:35 제주 (직항 1시간 5분)", back:"—",
+   sub:"이번 실측은 최저가 1건만 기록 · 주말 제주 2인 37만 원대",
+   verdict:"메리트 없음 — 주말 제주 2인 373,000원은 정상 주말가다. 특가 표시가 없다.",
+   prev:"11/24 373,000원 → 11/25 373,000원 (동일)",
+   link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDVEFFcgcIARIDQ0pVGh4SCjIwMjctMDMtMDdqBwgBEgNDSlVyBwgBEgNUQUVAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
+  {route:"김해(PUS) → 도쿄 나리타(NRT)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:713924, carrier:"제주항공", merit:"특가 아님",
+   out:"금 10:45 부산발 (스캔 기록 도착 12:55 · 재확인 필요)", back:"—",
+   sub:"이번 실측에서 처음 넣은 노선 · 최저가 1건만 기록",
+   verdict:"특가 아님 — 김해→후쿠오카(579,200원)의 1.23배다. 12월 중순까지 공부 집중 모드라 큰 특가가 아니면 움직이지 않는다.",
    prev:"—",
-   link:"https://www.google.com/travel/flights?hl=ko&curr=KRW&q=Flights%20from%20PUS%20to%20KIX%20on%202027-03-05%20through%202027-03-07"},
-  {route:"대구(TAE) → 후쿠오카(FUK)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:885800, carrier:"Trinity Airways", merit:"메리트 없음",
-   out:"금 17:50 대구 → 19:00 후쿠오카 (직항)", back:"—",
-   sub:"925,800(금 08:20) / 대한항공 경유 1,170,200·1,350,200 · 어제 보이던 티웨이 대구-후쿠오카편은 오늘 목록에 없음(판매 마감 추정)",
-   verdict:"<b>메리트 없음</b> — 같은 날 김해 출발(563,200원)보다 2인 32만 원 비싸다.",
-   prev:"—",
-   link:"https://www.google.com/travel/flights?hl=ko&curr=KRW&q=Flights%20from%20TAE%20to%20FUK%20on%202027-03-05%20through%202027-03-07"},
-  {route:"대구(TAE) → 오사카 간사이(KIX)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:914600, carrier:"Trinity Airways", merit:"낮음", rank:"low",
-   out:"금 16:55 대구 → 18:15 간사이 (직항)", back:"—",
-   sub:"다른 판매처 884,793 / 08:00편 1,004,600 / 대한항공 경유 1,100,600·1,250,600",
-   verdict:"<b>메리트 낮음</b> — 같은 날 김해 출발(785,400원)보다 2인 13만 원 비싸다.",
-   prev:"—",
-   link:"https://www.google.com/travel/flights?hl=ko&curr=KRW&q=Flights%20from%20TAE%20to%20KIX%20on%202027-03-05%20through%202027-03-07"}
+   link:"https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI3LTAzLTA1agcIARIDUFVTcgwIAhIIL20vMDdkZmsaIxIKMjAyNy0wMy0wN2oMCAISCC9tLzA3ZGZrcgcIARIDUFVTQAFAAUgBcAGCAQsI____________AZgBAQ&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
+  {route:"김해(PUS) → 오사카 간사이(KIX)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:784400, carrier:"진에어", merit:"특가 아님",
+   out:"금 14:05 부산발 → 15:25 간사이", back:"—",
+   sub:"이번 실측은 최저가 1건만 기록",
+   verdict:"특가 아님 — 같은 날 후쿠오카(579,200원)보다 2인 205,200원 비싸다.",
+   prev:"11/24 785,400원 → 11/25 784,400원 (-1,000원)",
+   link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDUFVTcgcIARIDS0lYGh4SCjIwMjctMDMtMDdqBwgBEgNLSVhyBwgBEgNQVVNAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"}
 ];
 
 function fmt(n){ return typeof n === "number" ? n.toLocaleString("ko-KR") : n; }
