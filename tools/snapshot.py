@@ -258,7 +258,7 @@ def parse_meals(html):
         "sumline": text(sumline.group(1)) if sumline else "",
         "paid": text(paid.group(1)) if paid else "",
         "remainTask": {"t": text(remain.group(1)), "d": text(remain.group(2))} if remain else None,
-        "notes": info_blocks(html),
+        "notes": info_blocks(clean),
     }
 
 

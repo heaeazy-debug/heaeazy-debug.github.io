@@ -74,8 +74,10 @@
     line-height:1.18;height:23px;overflow:hidden;display:flex;flex-direction:column;align-items:center;
     justify-content:center;padding:0 1px}
   .cell .cm span{display:block;max-width:100%;overflow:hidden}
-  .cell .cl{font-size:8.5px;font-weight:800;color:var(--purple);letter-spacing:-.35px;line-height:1.15;
+  .cell .cl{font-size:8.5px;font-weight:800;color:var(--purple);letter-spacing:-.45px;line-height:1.15;
     white-space:nowrap;max-width:100%;overflow:hidden}
+  .cell .cl.my{color:var(--blue)}
+  .cell.sel .cl{color:var(--pill-text)}
   .cell.off{opacity:.55}
   .cell.off .cm{font-weight:700;color:var(--sub)}
   .cell.today{box-shadow:inset 0 0 0 1.5px var(--blue)}
@@ -105,7 +107,7 @@
   .mrow:first-of-type{border-top:0;padding-top:0}
   .mk{flex:0 0 30px;font-size:10px;font-weight:800;letter-spacing:-.2px;border-radius:6px;padding:2px 0;text-align:center;
     background:var(--chip-bg);color:var(--sub2);border:1px solid var(--line);margin-top:2px}
-  .mk.l{color:#1d4ed8;background:#eef4ff;border-color:#d8e5ff}
+  .mk.l{color:#1d4ed8;background:#eef4ff;border-color:#d8e5ff;flex:0 0 40px;white-space:nowrap}
   [data-theme="dark"] .mk.l{color:#a8c6ff;background:#1b2a45;border-color:#2b4470}
   .mk.u{color:#6d28d9;background:#f4ecff;border-color:#e4d3ff}
   [data-theme="dark"] .mk.u{color:#c9b2ff;background:#2d2340;border-color:#463563}
@@ -245,7 +247,7 @@
   <header class="top">
     <div>
       <h1>주간 식단·장보기</h1>
-      <div class="basis">기준 2026-11-24 07:55 · 이번 주 11/23(월)~29(일) · 지난주 11/16~22 · 기기 '희욱' 캘린더 실측 일치</div>
+      <div class="basis">기준 2026-11-24 12:55 · 이번 주 11/23(월)~29(일) · 지난주 11/16~22 · 기기 '희욱' 캘린더 실측 일치</div>
     </div>
     <button class="theme-btn" id="themeBtn" aria-label="다크 모드 전환">◐</button>
   </header>
@@ -281,7 +283,7 @@
     <div class="sumline" id="sumline">
       <span>확정 <b>6끼</b></span><span class="dot"></span>
       <span>먹음 <b id="sumEat">0/6</b></span><span class="dot"></span>
-      <span>우기 점심 <b>5일</b></span><span class="dot"></span>
+      <span>점심 <b>내·우 5일</b></span><span class="dot"></span>
       <span class="ok">결제 완료 <b class="ok">87,650원</b></span><span class="dot"></span>
       <span class="todo">바지락 11/25</span>
     </div>
@@ -340,7 +342,7 @@
         <li>로켓프레시 생물은 <b>15:00 결제 마감</b>을 넘기면 다음 날 새벽 도착으로 밀린다.</li>
         <li>금요일 원팬 에그인헬은 <b>12:00 → 18:00 저녁으로 이동 확정</b>(11/23).</li>
         <li>결제·주문은 직접 하는 원칙이라 이 보드는 <b>체크·메모만</b> 기억한다(카드·계정 정보 없음). 품목별 영수증은 확인하지 않았다.</li>
-        <li>우기 점심은 11/24 07:55 기준 이번 주 회사 점심 식단표 사진으로 월~금 5일을 확인해 넣었다. 보드에는 <b>‘우기 점심’으로만</b> 표기하고 소속·회사명은 적지 않는다.</li>
+        <li>점심은 11/24 회사 주간 점심 식단표 사진(내 것·우기 것)으로 월~금 5일을 확인해 넣었다. 보드에는 <b>‘내 점심’·‘우기 점심’으로만</b> 표기하고 소속·회사명·실명은 적지 않는다.</li>
       </ul>
     </div>
   </section>
@@ -382,7 +384,7 @@
 
   <div id="archiveFoot" class="hidden"></div>
 
-  <footer>2026-11-24 07:55 기준 · 기기 '희욱' 캘린더 실측 일치 · 우기 점심 11/24 사진 확인<br>개인정보 표기 0건 · 검색 비공개 페이지</footer>
+  <footer>2026-11-24 12:55 기준 · 기기 '희욱' 캘린더 실측 일치 · 내·우기 점심 11/24 사진 확인<br>개인정보 표기 0건 · 검색 비공개 페이지</footer>
 </div>
 
 <script>
@@ -410,23 +412,28 @@ let WEEK_PREV = [
 /* 이번 주 11/23~29 (기기 캘린더 최종본) */
 let WEEK_CUR = [
   {key:"2026-11-23", dw:"월", dn:"11/23", kw:"미역국·수육", woogi:"삼겹야채찜 · 들기름막국수 · 아욱된장국", wshort:"삼겹찜", menu:"소고기 미역국 + 수육 + 쌈채소", time:"18:00",
-   lunch:"회사 구내식당", lunchNote:"회사 주간 식단표 11:20 캡처 예정", today:true,
+   my:"쌀밥 · 순두부찌개 · 안동찜닭 · 어묵볶이 · 블루베리무피클 · 무맛김치 · 현미밥 · 그린샐러드·드레싱",
+   mMain:"안동찜닭", mShort:"안동찜", today:true,
    note:"수육용 <b>한돈 목심 500g·모둠쌈</b>과 미역국 재료까지 이번 주 식단 재료로 결제 완료. 국물 간은 약하게, 밥은 반 공기.",
    tags:["한식","단백질"], warn:["미역국 재료 추가분"]},
   {key:"2026-11-24", dw:"화", dn:"11/24", kw:"연어구이", woogi:"우거지해장국 · 파채돼지불고기 · 김치전", wshort:"해장국", menu:"연어구이 + 샐러드", time:"18:00",
-   lunch:"회사 구내식당", lunchNote:"회사 주간 식단표 11:20 캡처 예정",
+   my:"봄동비빔밥·고추장 · 계란프라이 · 냉이된장국 · 너비아니·파채무침 · 양장피 · 무맛김치 · 현미밥 · 그린샐러드·드레싱",
+   mMain:"봄동비빔밥·고추장", mShort:"봄동비",
    note:"<b>노르웨이 생연어 200g · 유러피안 샐러드 300g</b> 결제 완료 — 생연어는 받은 날 바로 냉장(0~2℃).",
    tags:["생선","저탄수"]},
   {key:"2026-11-25", dw:"수", dn:"11/25", kw:"샤브샤브", woogi:"고추잡채&꽃빵 · 난자완스 · 짬뽕국", wshort:"고추잡채", menu:"소고기 샤브샤브", time:"18:00",
-   lunch:"회사 구내식당", lunchNote:"회사 주간 식단표 11:20 캡처 예정",
+   my:"돼지순대국밥·소면·다대기 · 쌀밥 · 부추전·초간장 · 풋고추양파무침 · 깍두기 · 현미밥 · 요구르트",
+   mMain:"돼지순대국밥·소면·다대기", mShort:"순대국",
    note:"<b>한우 1+ 300g · 모둠채소 · 버섯 · 육수</b> 결제 완료. 오늘 <b>15:00 전 바지락 주문</b>이 남은 일.",
    tags:["한식","국물"], warn:["15:00 전 바지락 주문"]},
   {key:"2026-11-26", dw:"목", dn:"11/26", kw:"바지락찜", woogi:"능성어구이 · 숙주매운떡갈비조림 · 맑은버섯국", wshort:"능성어", menu:"바지락술찜", time:"18:00",
-   lunch:"회사 구내식당", lunchNote:"회사 주간 식단표 11:20 캡처 예정",
+   my:"쌀밥 · 버섯야채탕 · 돈까스·남산돈까스소스 · 브로콜리흑임자무침 · 그린샐러드·드레싱 · 포기김치 · 현미밥 · 미숫가루",
+   mMain:"돈까스·남산돈까스소스", mShort:"돈까스",
    note:"바지락은 냉장 2~3일 한계 — <b>수요일 주문 → 목요일 사용</b>. 해감은 소금물 1시간. <b>화이트와인은 집에 있어 술은 사지 않는다</b> — 바지락만 주문하면 된다.",
    tags:["해물"], warn:["11/25 주문분"]},
   {key:"2026-11-27", dw:"금", dn:"11/27", kw:"에그인헬", woogi:"베테랑칼국수 · 오징어초무침 · 보리밥", wshort:"칼국수", menu:"원팬 에그인헬", time:"18:00",
-   lunch:"회사 구내식당", lunchNote:"회사 주간 식단표 11:20 캡처 예정",
+   my:"마파두부덮밥 · 계란파국 · 치킨너겟·머스타드드레싱 · 콩가루모닝빵 · 오복지무침 · 무맛김치 · 현미밥 · 그린샐러드·드레싱",
+   mMain:"마파두부덮밥", mShort:"마파두부",
    note:"<b>디벨라 홀토마토 · 유정란 15구 · 모짜렐라</b> 결제 완료. 11/23 확정으로 <b>12:00 → 18:00 저녁</b>으로 이동.",
    tags:["양식","저녁"]},
   {key:"2026-11-28", dw:"토", dn:"11/28", kw:"비움", menu:"비움 (울산행)", time:"—", off:true, lunch:null,
@@ -507,9 +514,10 @@ function cellHTML(d){
   if(d.key === selKey) cls.push("sel");
   if(eaten) cls.push("eaten");
   return `<button type="button" class="${cls.join(" ")}" data-key="${d.key}" role="gridcell"
-      aria-selected="${d.key === selKey}" aria-label="${d.dn} ${d.dw} ${d.menu}${eaten ? " 먹음" : ""}">
+      aria-selected="${d.key === selKey}" aria-label="${d.dn} ${d.dw} 저녁 ${d.menu}${d.mMain ? ", 내 점심 " + d.mMain : ""}${d.woogi ? ", 우기 점심 " + d.woogi : ""}${eaten ? ", 먹음" : ""}">
     <span class="crow"><span class="cd">${d.dn}</span>${eaten ? `<span class="cs">✓</span>` : ""}</span>
     <span class="cm">${(d.kw || d.menu || "—").split("·").map(l => `<span>${l}</span>`).join("")}</span>
+    ${d.mShort ? `<span class="cl my">내 ${d.mShort}</span>` : ""}
     ${d.woogi ? `<span class="cl">우 ${d.wshort}</span>` : ""}
   </button>`;
 }
@@ -545,7 +553,15 @@ function renderDetail(){
     .concat((d.wait || []).map(t => `<span class="chip now">${t}</span>`))
     .join("");
 
-  const lunchRow = d.lunch
+  const myFull = d.my || "";
+  const myMain = d.mMain || "";
+  const myRest = myFull ? myFull.split(" · ").filter(x => x !== myMain).join(" · ") : "";
+  const lunchRow = (myMain || myFull)
+    ? `<div class="mrow">
+         <span class="mk l">내 점심</span>
+         <span class="mv">${myMain || myFull}${myRest ? `<span class="sm">${myRest}</span>` : ""}</span>
+       </div>`
+    : d.lunch
     ? `<div class="mrow">
          <span class="mk l">점심</span>
          <span class="mv">${d.lunch}<span class="sm">${d.lunchNote || ""}</span></span>
