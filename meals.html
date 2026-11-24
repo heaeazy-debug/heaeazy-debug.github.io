@@ -516,9 +516,9 @@ function cellHTML(d){
   return `<button type="button" class="${cls.join(" ")}" data-key="${d.key}" role="gridcell"
       aria-selected="${d.key === selKey}" aria-label="${d.dn} ${d.dw} 저녁 ${d.menu}${d.mMain ? ", 내 점심 " + d.mMain : ""}${d.woogi ? ", 우기 점심 " + d.woogi : ""}${eaten ? ", 먹음" : ""}">
     <span class="crow"><span class="cd">${d.dn}</span>${eaten ? `<span class="cs">✓</span>` : ""}</span>
-    <span class="cm">${(d.kw || d.menu || "—").split("·").map(l => `<span>${l}</span>`).join("")}</span>
     ${d.mShort ? `<span class="cl my">내 ${d.mShort}</span>` : ""}
     ${d.woogi ? `<span class="cl">우 ${d.wshort}</span>` : ""}
+    <span class="cm">${(d.kw || d.menu || "—").split("·").map(l => `<span>${l}</span>`).join("")}</span>
   </button>`;
 }
 
