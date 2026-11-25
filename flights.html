@@ -229,6 +229,7 @@
     <button type="button" data-f="김해" role="tab">김해</button>
   </div>
 
+  <div class="sec-label" style="margin-top:4px">노선 <span>· 최저가순 · 2027-03-05(금)~07(일) 주말</span></div>
   <div class="list" id="flList"></div>
 
   <div class="info">
@@ -250,6 +251,10 @@
 </div>
 
 <script>
+/* FLIGHTS 갱신 규칙 — 브리핑은 각 노선의 price·carrier·out만 최신 실측으로 바꾸면 된다.
+   id는 data/flights_history.json의 키다(바꾸면 추이가 끊긴다).
+   cut=특가 컷(2인 목표가), hi=비쌈 기준, state:"ok"=실측됨 / "wait"=18시 실측 예정.
+   실측이 끝난 대기 노선은 state를 "ok"로 바꾸고 price·cut·hi·link를 채운다. */
 const FLIGHTS = [
   {id:"TAE-CJU", from:"대구", to:"제주", state:"ok", price:373000, carrier:"진에어",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
