@@ -117,6 +117,29 @@
     background:var(--chip-bg);border:1px solid var(--line);color:var(--sub2);margin-top:1px}
   .tl3-row.c .tl3-k{color:#b3261e;background:#fdecec;border-color:#f6cfcd}
   [data-theme="dark"] .tl3-row.c .tl3-k{color:#ffb3b3;background:#3a1c1c;border-color:#5c2b29}
+  /* ── 오늘 마감 · 결정 필요 박스 ─────────────────────── */
+  .dc{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:13px 14px 11px;
+    box-shadow:var(--shadow);margin:0 0 12px}
+  .dc-h{display:flex;align-items:baseline;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+  .dc-h b{font-size:14px;font-weight:800;letter-spacing:-.35px}
+  .dc-h span{font-size:10.5px;color:var(--sub);font-weight:700;letter-spacing:-.15px}
+  .dc-h .dc-n{margin-left:auto;font-size:10px;font-weight:900;letter-spacing:-.2px;color:var(--sub2);
+    background:var(--chip-bg);border:1px solid var(--line);border-radius:999px;padding:2px 7px;white-space:nowrap}
+  .dc-i{display:flex;gap:9px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)}
+  .dc-i:first-of-type{border-top:0;padding-top:0}
+  .dc-s{flex:0 0 auto;font-size:9.5px;font-weight:900;letter-spacing:-.2px;border-radius:5px;padding:2px 5px;margin-top:1px;
+    background:var(--chip-bg);border:1px solid var(--line);color:var(--sub2);white-space:nowrap}
+  .dc-i.done .dc-s{color:#12805a;background:#e8f8f1;border-color:#c6eedd}
+  .dc-i.wait .dc-s{color:#8a5a00;background:#fff5e0;border-color:#ffe2ad}
+  [data-theme="dark"] .dc-i.done .dc-s{color:#9ff0cd;background:#12302a;border-color:#1e4d41}
+  [data-theme="dark"] .dc-i.wait .dc-s{color:#ffd08a;background:#3a2c12;border-color:#5a4419}
+  .dc-b{min-width:0;flex:1}
+  .dc-t{font-size:13px;font-weight:800;letter-spacing:-.3px;line-height:1.35}
+  .dc-i.done .dc-t{color:var(--sub2)}
+  .dc-d{font-size:11.5px;color:var(--sub);margin-top:2px;letter-spacing:-.15px;line-height:1.4}
+  .dc-d b{color:var(--sub2);font-weight:800}
+  .dc-d a{color:var(--blue);font-weight:800;text-decoration:none}
+  .dc-f{font-size:10.5px;color:var(--sub);margin-top:8px;letter-spacing:-.15px;line-height:1.45}
   /* 8대 항목 강조 배지 */
   .hb{font-size:9.5px;font-weight:900;letter-spacing:-.2px;border-radius:5px;padding:2px 5px;white-space:nowrap;
     background:var(--chip-bg);border:1px solid var(--line);color:var(--sub2)}
@@ -149,7 +172,7 @@
   <header class="top">
     <div>
       <h1>오늘 브리핑</h1>
-      <div class="basis">2026-11-26 (목) 07:50 기준 · 아침 브리핑 반영 · 8대 항목 한 화면 · 목·금 저녁 스왑(11/26) 반영</div>
+      <div class="basis">2026-11-26 (목) 08:30 기준 · 아침 브리핑 반영 · 8대 항목 한 화면 · 오전 결정 5건 반영(11/26)</div>
     </div>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="다크 모드 전환">◐</button>
   </header>
@@ -175,6 +198,7 @@
   <div id="archiveView" class="hidden"></div>
 
   <div id="liveView">
+    <div id="decide"></div>
     <div id="tl3"></div>
 
     <div class="grid">
@@ -200,13 +224,24 @@
     </div>
   </div>
 
-  <footer>자동 · PC · 직접 합산 · 2026-11-26 07:15 체험단 스캔 반영(+33건·총 1,749건)<br>부수익 · 공고 · 식단 · 항공권 4개 보드 합산 · 검색 비공개 페이지</footer>
+  <footer>자동 · PC · 직접 합산 · 2026-11-26 07:15 체험단 스캔 반영(+33건·총 1,749건) · 오전 결정 5건 반영<br>부수익 · 공고 · 식단 · 항공권 4개 보드 합산 · 검색 비공개 페이지</footer>
 </div>
 
 <script>
 const BRIEF = {
   date: "2026-11-26 (목)",
-  basis: "2026-11-26 07:50 기준 · 아침 브리핑 반영 · 목·금 저녁 스왑 반영",
+  basis: "2026-11-26 08:30 기준 · 아침 브리핑 반영 · 오전 결정 5건 반영",
+  decide: {
+    basis: "11/26 확정 · 5건",
+    items: [
+      {s:"done", t:"일지테크 경력 사무직 (오늘 마감)", d:"<b>지원 패스 확정</b> — 신입 수시(~12/04)는 별건으로 남김 · <a href=\"jobs.html\">공고 보드</a>"},
+      {s:"done", t:"네이버 새 비밀번호 저장", d:"<b>저장 완료</b> — 3조·잔여 채널 이어서 진행"},
+      {s:"wait", t:"에이엔에이치스트럭쳐 (내일 11/27 청약)", d:"<b>청약 참여 확정</b> · 장중 <b>확정공모가·경쟁률 공시 확인 대기</b> (청약 11/27~30 · NH 단독)"},
+      {s:"done", t:"11/27(금) 12:00 공단동 근로자종합복지회관 12월 접수", d:"<b>11:55 알림 등록 완료</b> — 오픈 5분 전 알림"},
+      {s:"done", t:"어제 낮 Windows 로그인 보안 알림", d:"<b>본인 접속 확인 완료</b>"}
+    ],
+    foot: "5건 중 4건 처리 완료 · 남은 1건은 오늘 장중 에이엔에이치스트럭쳐 확정공시 확인입니다."
+  },
   weather: {
     range:"0~13℃", cond:"대체로 흐림", precip:"0%", feel:"0℃(07:32)",
     air:"좋음", airDetail:"PM10 29㎍/㎥ 좋음 · PM2.5 20㎍/㎥ 보통 · 공단동 측정소 07:00 관측",
@@ -243,7 +278,7 @@ const BRIEF = {
   contests: {
     basis:"2026-11-26 07:15 체험단 스캔 확정치 기준",
     total:"1,749", today:"+33", done:"171", win:"3", rate:"1.8%", remain:"134",
-    detail:"11/26 07:15 체험단 스캔이 확정됐다 — 오늘 +33건(리뷰노트 +8 · 링블 +6 · 리뷰플레이스 +6 · 11번가 +4 · 티블 +3 · 아싸뷰 +3 · 지그재그 +2 · 서울오빠 +1)으로 누적 1,749건(체험단 1,698 · 웹 경품 51)이고 신규 당첨은 0건이다. 레뷰 마감 미선정 5건·11번가 미당첨 6건이 확정돼 발표 완료 171건·당첨률 1.8%다. 3조·일부 잔여 채널은 네이버 새 비밀번호 저장 후 이어서 진행하고, 남은 신청은 웹 134건(클라우드리뷰 129·11번가 3·네이버+ 2)이다. 무신사 앱 전용 138건은 제외 유지.",
+    detail:"11/26 07:15 체험단 스캔이 확정됐다 — 오늘 +33건(리뷰노트 +8 · 링블 +6 · 리뷰플레이스 +6 · 11번가 +4 · 티블 +3 · 아싸뷰 +3 · 지그재그 +2 · 서울오빠 +1)으로 누적 1,749건(체험단 1,698 · 웹 경품 51)이고 신규 당첨은 0건이다. 레뷰 마감 미선정 5건·11번가 미당첨 6건이 확정돼 발표 완료 171건·당첨률 1.8%다. 3조·일부 잔여 채널은 네이버 새 비밀번호 저장을 마쳐(11/26) 이어서 진행 중이고, 남은 신청은 웹 134건(클라우드리뷰 129·11번가 3·네이버+ 2)이다. 무신사 앱 전용 138건은 제외 유지.",
     todo:"오늘 네이버+ 무료체험 발표 3건 — 후르디아 립밤 트리오 09:00 · 센시비오 클렌징 오일 10:00 · 앰플엔 시카 PDRN 앰플 18:00. 후기는 당첨 3건 중 2건 미제출(체험뷰 도서 배송 대기·마감 12/04, 무신사 퍼퓸 스틱 11/26 발송·후기 11/28~12/12)이다."
   },
   reviews: {
@@ -269,13 +304,12 @@ const BRIEF = {
     stocks:"공모주: 에이엔에이치스트럭쳐 확정공고 오늘(07:35 현재 미공시·장중 공시 예정, 청약 11/27~30·NH 단독·보유 11곳) · 엔키화이트햇 수요예측 오늘 마감(확정 11/30·청약 12/1~2·신영 단독) · 이노보테라퓨틱스 수요예측 오늘 개시(~12/2)"
   },
   jobs: {
-    basis:"2026-11-26 07:50 기준 · 추적 8건 · 기준 초봉 4,000만↑·대졸 4년↑",
+    basis:"2026-11-26 08:30 기준 · 추적 8건(패스 1) · 기준 초봉 4,000만↑·대졸 4년↑",
     soon:[
-      {n:"(주)일지테크", d:"경력 사무직 오늘(11/26) 마감 · 신입 수시 ~12/04 · 경산 진량", tag:"오늘"},
       {n:"도레이첨단소재", d:"생산간접(생산관리·공정관리) · 구미 · ~11/29(일) · 신입 초봉 4,000만", tag:"D-3"},
       {n:"(주)대주기계", d:"자재관리 · 대구 달성 · ~11/30(월) · 대졸 초임 4,700만 명시", tag:"D-4"}
     ],
-    detail:"그 외 평화홀딩스(★최우선, 연봉 5,476만 명시·~12/13)·쿠어스텍코리아(12/11)·쏠리드윈텍(12/24)·아데나(12/24)·ASM코리아(상시). 일지테크는 경력 사무직이 오늘 마감이고 신입 수시는 12/04라, 어느 쪽으로 낼지가 먼저다."
+    detail:"그 외 평화홀딩스(★최우선, 연봉 5,476만 명시·~12/13)·쿠어스텍코리아(12/11)·쏠리드윈텍(12/24)·아데나(12/24)·ASM코리아(상시). 일지테크 경력 사무직(11/26 마감)은 <b>지원 패스 확정</b> — 신입 수시(~12/04)만 남겼다."
   },
   flights: {
     basis:"2026-11-26 07:31~07:34 실측 · Google Flights · 성인 2인 왕복 · 세금·수수료 포함 · 2027-03-05(금)~07(일) 2박 3일",
@@ -297,6 +331,22 @@ function blkHTML(title, sumline, body, link, open, badge){
   </details>`;
 }
 function pick(re, s){ const m = String(s == null ? "" : s).match(re); return m ? m[0] : ""; }
+
+/* ── 오늘 마감 · 결정 필요 (맨 위 고정 박스) ───────────── */
+function decideHTML(d){
+  const items = (d && d.items) || [];
+  if(!items.length) return "";
+  const wait = items.filter(x => x.s !== "done").length;
+  return `<div class="dc" role="region" aria-label="오늘 마감·결정 필요">
+    <div class="dc-h"><b>오늘 마감 · 결정 필요</b><span>${esc(d.basis || "")}</span>
+      <span class="dc-n">${wait ? wait + "건 대기" : "전부 처리"}</span></div>
+    ${items.map(x => `<div class="dc-i ${x.s === "done" ? "done" : "wait"}">
+      <span class="dc-s">${x.s === "done" ? "완료" : "대기"}</span>
+      <div class="dc-b"><div class="dc-t">${esc(x.t)}</div><div class="dc-d">${x.d || ""}</div></div>
+    </div>`).join("")}
+    ${d.foot ? `<div class="dc-f">${esc(d.foot)}</div>` : ""}
+  </div>`;
+}
 
 function briefHTML(b){
   const w = b.weather || {}, sc = b.schedule || {}, nw = b.news || {}, ml = b.meals || {}, ct = b.contests || {},
@@ -377,15 +427,13 @@ function timelineHTML(b){
   const bold = (String(r0.d || "").match(/<b>(.*?)<\/b>/) || [])[1] || "";
   const isaTxt = isa.stocks || "";
   const hasBaji = /15:00/.test(ml.todo || ""), hasShin = /신영 계좌/.test(isaTxt) && /마감/.test(isaTxt);
-  const hasJobToday = (jb.soon || []).some(j => j.tag === "오늘" || j.tag === "D-1");
   const dl = [];
   if(hasBaji) dl.push({t:"15:00", v:"바지락 주문"});
   if(hasShin) dl.push({t:"오늘", v:"신영 계좌 개설"});
-  if(hasJobToday) dl.push({t:"오늘", v:"공고 1건 마감"});
   const dlNote = [];
   if(hasBaji) dlNote.push("15:00을 넘기면 다음 날 새벽 도착");
   if(hasShin) dlNote.push("신영은 오늘까지 열어야 12/1 청약");
-  if(hasJobToday) dlNote.push("일지테크 경력 사무직 — 지원 여부 결정");
+  const waitN = ((b.decide || {}).items || []).filter(x => x.s !== "done").length;
   const rows = [
     { cls:"w", k:"날씨",
       t:`<em>${esc(w.range || "–")}</em>${esc(w.cond || "")}`,
@@ -395,7 +443,7 @@ function timelineHTML(b){
       s: bold ? `핵심 <b>${esc(bold)}</b>` : `알림 ${rem.length}건 · 순서대로 처리` },
     { cls:"c", k:"오늘 마감",
       t: dl.length ? dl.map(x => `<em>${esc(x.t)}</em>${esc(x.v)}`).join("<span style=\"color:var(--sub);font-weight:700\"> · </span>") : "오늘 마감 없음",
-      s: dlNote.length ? dlNote.join(" · ") : "마감이 걸린 항목 없음" }
+      s: dlNote.length ? dlNote.join(" · ") : (waitN ? `마감 없음 · 남은 결정 ${waitN}건은 맨 위 박스` : "마감이 걸린 항목 없음") }
   ];
   return `<div class="tl3" role="region" aria-label="오늘 핵심 3줄">
     <div class="tl3-h"><b>오늘 핵심 3줄</b><span>① 날씨 ② 다음 일정 ③ 오늘 마감</span></div>
@@ -407,6 +455,7 @@ function timelineHTML(b){
   </div>`;
 }
 
+document.getElementById("decide").innerHTML = decideHTML(BRIEF.decide);
 document.getElementById("tl3").innerHTML = timelineHTML(BRIEF);
 document.getElementById("briefView").innerHTML = briefHTML(BRIEF);
 
@@ -454,7 +503,7 @@ function archToggle(on){
   if(live) live.classList.toggle("hidden", on);
 }
 function archPaint(date, d){
-  const b = d.today || {};
+  const b = (d.today && d.today.brief) || d.today || {};
   archSel.value = date;
   archToggle(true);
   pastText.innerHTML = `과거 기록 열람 중 · <b>${date} (${d.dw || ""})</b>`;
@@ -462,6 +511,7 @@ function archPaint(date, d){
     <div class="arch-date">🕘 그날 기준 · ${esc(b.basis || date)}</div>
     <div class="arch-sum">${esc(d.summary || "")}</div>
     <div style="height:12px"></div>
+    ${decideHTML(b.decide)}
     ${(b && Object.keys(b).length) ? briefHTML(b) : `<div class="blk"><div class="line muted">이 날은 브리핑 기록이 없습니다. 다음 기록부터 남습니다.</div></div>`}`;
   window.scrollTo({top: 0});
 }
