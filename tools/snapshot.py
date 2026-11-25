@@ -16,6 +16,8 @@ import json, os, re, sys, datetime
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HIST = os.path.join(ROOT, "history")
+DATA = os.path.join(ROOT, "data")
+FLIGHT_HIST = os.path.join(DATA, "flights_history.json")
 
 # ── 아주 작은 JS 리터럴 파서 (const NAME = [ ... ]; 를 읽는다) ──────────
 class JS:
@@ -244,6 +246,67 @@ def parse_flights(html):
     }
 
 
+def flight_id(f):
+    """노선 id — FLIGHTS의 id를 우선 쓰고, 없으면 '김해(PUS) → 후쿠오카(FUK)'에서 만든다."""
+    if isinstance(f, dict) and f.get("id"):
+        return str(f["id"])
+    route = (f or {}).get("route", "") if isinstance(f, dict) else ""
+    m = re.search(r"\(([A-Z]{3})\)\s*→\s*[^()]*\(([A-Z]{3})\)", route)
+    return f"{m.group(1)}-{m.group(2)}" if m else None
+
+
+def append_flights_history(flights, stamp):
+    """flights.html의 FLIGHTS에서 실측 노선만 골라 data/flights_history.json에 시각별로 쌓는다.
+
+    같은 날 같은 값이면 새 줄을 만들지 않고 시각만 갱신한다(하루 두 번 브리핑 대응).
+    """
+    data = {"updated": "", "basis": {}, "note": "", "routes": {}}
+    if os.path.exists(FLIGHT_HIST):
+        try:
+            with open(FLIGHT_HIST, encoding="utf-8") as f:
+                data = json.load(f)
+        except Exception:
+            pass
+    routes = data.setdefault("routes", {})
+    added = 0
+    for f in flights or []:
+        if not isinstance(f, dict) or f.get("state") == "wait":
+            continue
+        p = f.get("price")
+        rid = flight_id(f)
+        if not rid or not isinstance(p, int):
+            continue
+        entry = routes.setdefault(rid, {
+            "label": f.get("label") or f.get("route") or rid,
+            "origin": f.get("from", ""),
+            "dest": f.get("to", ""),
+            "points": [],
+        })
+        pts = entry.setdefault("points", [])
+        day = stamp[:10]
+        last = pts[-1] if pts else None
+        if last and last.get("p") == p and str(last.get("t", ""))[:10] == day:
+            last["t"] = stamp
+            if f.get("carrier") and f.get("carrier") != "—":
+                last["c"] = f["carrier"]
+            continue
+        rec = {"t": stamp, "p": p}
+        if f.get("carrier") and f.get("carrier") != "—":
+            rec["c"] = f["carrier"]
+        pts.append(rec)
+        added += 1
+    for entry in routes.values():
+        pts = entry.get("points") or []
+        pts.sort(key=lambda x: str(x.get("t", "")))
+        if len(pts) > 240:
+            entry["points"] = pts[-240:]
+    data["updated"] = stamp
+    os.makedirs(DATA, exist_ok=True)
+    with open(FLIGHT_HIST, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=1)
+    print(f"flights_history: +{added} → {os.path.relpath(FLIGHT_HIST, ROOT)}")
+
+
 def parse_today(html):
     """today.html — 8대 항목 브리핑(BRIEF) + KPI"""
     clean = strip_scripts(html)
@@ -368,6 +431,11 @@ def main():
     date = args[0] if args else today
 
     snap = build(date, src_dir)
+    if snap.get("flights", {}).get("routesList") and src_dir == ROOT:
+        stamp = datetime.datetime.now(
+            datetime.timezone(datetime.timedelta(hours=9))
+        ).replace(microsecond=0).isoformat()
+        append_flights_history(snap["flights"]["routesList"], stamp)
     os.makedirs(HIST, exist_ok=True)
     path = os.path.join(HIST, f"{date}.json")
     if os.path.exists(path):

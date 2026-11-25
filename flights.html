@@ -12,12 +12,14 @@
     --green:#12a150;--orange:#c2740b;--blue:#2563eb;--purple:#7c3aed;--red:#d32f2f;
     --chip-bg:#f2f3f6;--shadow:0 1px 2px rgba(20,24,32,.04),0 6px 18px rgba(20,24,32,.045);
     --pill:#1c1f26;--pill-text:#fff;
+    --z-lo:#bfe8ce;--z-mid:#ffe0ad;--z-hi:#f7c6c6;
   }
   [data-theme="dark"]{
     --bg:#0f1115;--card:#191c22;--line:#262a33;--text:#ecedf1;--sub:#8b919d;--sub2:#b3b8c2;
     --green:#3ddc84;--orange:#f0a44a;--blue:#6ea8ff;--purple:#b79cff;--red:#ff6b6b;
     --chip-bg:#22262e;--shadow:0 1px 2px rgba(0,0,0,.4),0 6px 18px rgba(0,0,0,.35);
     --pill:#ecedf1;--pill-text:#14171c;
+    --z-lo:#1e4030;--z-mid:#4a3818;--z-hi:#4b2427;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;padding:0}
@@ -60,34 +62,62 @@
   .sec-label{font-size:12px;font-weight:700;color:var(--sub);letter-spacing:.2px;margin:20px 2px 8px;display:flex;align-items:center;gap:6px}
   .sec-label span{font-weight:500}
   .list{display:flex;flex-direction:column;gap:10px}
-  .fl{padding:15px 14px 13px}
-  .fl-head{display:flex;align-items:flex-start;gap:8px}
-  .fl-name{font-size:15.5px;font-weight:800;letter-spacing:-.4px;line-height:1.3;min-width:0}
-  .fl-date{font-size:11.5px;color:var(--sub);margin-top:3px;letter-spacing:-.15px;font-weight:600}
-  .merit{flex:0 0 auto;text-align:center;border-radius:10px;padding:5px 8px;font-size:11.5px;font-weight:800;letter-spacing:-.3px;
-    background:var(--chip-bg);color:var(--sub2);border:1px solid var(--line);white-space:nowrap}
-  .merit.best{color:#fff;background:var(--green);border-color:var(--green)}
-  .merit.low{color:#8a5a00;background:#fff5e0;border-color:#ffe2ad}
-  [data-theme="dark"] .merit.low{color:#ffd08a;background:#3a2c12;border-color:#5a4419}
-  .price{display:flex;align-items:baseline;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line);flex-wrap:wrap}
-  .price .pv{font-size:24px;font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums}
-  .price .pa{font-size:11.5px;color:var(--sub);font-weight:700;letter-spacing:-.2px}
-  .price .pp{flex:0 0 100%;margin-top:4px;font-size:11px;color:var(--sub);font-weight:700;line-height:1.4;letter-spacing:-.15px}
-  [data-theme="dark"] .price .pp{color:var(--sub)}
-  .rows{margin-top:9px;display:flex;flex-direction:column;gap:6px}
-  .row{display:grid;grid-template-columns:52px 1fr;gap:8px;font-size:12.5px;letter-spacing:-.2px}
-  .row .rk{color:var(--sub);font-weight:600}
-  .row .rv{color:var(--text);min-width:0}
-  .row .rv b{font-weight:700}
-  .row .rv .muted{color:var(--sub)}
-  .note{font-size:12px;color:var(--sub2);background:var(--chip-bg);border-radius:10px;padding:9px 10px;margin-top:10px;
-    letter-spacing:-.2px;line-height:1.45}
-  .note b{color:var(--text)}
-  .fl-foot{display:flex;gap:8px;margin-top:11px;align-items:center}
+  /* ── 빠른 필터 칩 ─────────────────────────────────── */
+  .filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:10px 0 12px;padding-bottom:2px}
+  .filters::-webkit-scrollbar{display:none}
+  .filters button{flex:0 0 auto;font-family:inherit;font-size:12.5px;font-weight:800;letter-spacing:-.2px;
+    background:var(--card);border:1px solid var(--line);color:var(--sub2);border-radius:999px;
+    padding:8px 14px;cursor:pointer;box-shadow:var(--shadow)}
+  .filters button.on{background:var(--pill);color:var(--pill-text);border-color:var(--pill)}
+  /* ── 노선 카드 ───────────────────────────────────── */
+  .rc{padding:14px 14px 13px}
+  .rc-top{display:flex;align-items:flex-start;gap:8px}
+  .rc-route{font-size:15.5px;font-weight:800;letter-spacing:-.4px;line-height:1.3;min-width:0}
+  .rc-sub{font-size:11.5px;color:var(--sub);margin-top:3px;letter-spacing:-.15px;font-weight:600}
+  .badge{margin-left:auto;flex:0 0 auto;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800;
+    letter-spacing:-.3px;white-space:nowrap;border:1px solid var(--line);background:var(--chip-bg);color:var(--sub2)}
+  .badge.hot{background:var(--green);border-color:var(--green);color:#fff}
+  .badge.near{background:#fff5e0;border-color:#ffe2ad;color:#8a5a00}
+  [data-theme="dark"] .badge.near{background:#3a2c12;border-color:#5a4419;color:#ffd08a}
+  .badge.wait{background:#fdeeee;border-color:#f7d0d0;color:#a23b3b}
+  [data-theme="dark"] .badge.wait{background:#3a1f22;border-color:#5a2a2e;color:#ffb3b3}
+  .badge.pend{background:transparent;border-style:dashed;color:var(--sub)}
+  .rc-price{display:flex;align-items:baseline;gap:6px;margin-top:10px;flex-wrap:wrap}
+  .rc-price b{font-size:23px;font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+  .rc-price b small{font-size:12px;font-weight:700;color:var(--sub);margin-left:1px}
+  .rc-price .pa{font-size:11.5px;color:var(--sub);font-weight:700;letter-spacing:-.2px}
+  .pos{margin-top:11px}
+  .pos-track{position:relative;display:flex;align-items:center;height:11px}
+  .pos-bar{display:flex;flex:1;height:7px;border-radius:999px;overflow:hidden;background:var(--chip-bg)}
+  .pos-bar i{display:block;height:100%}
+  .pos-bar .z1{width:33.33%;background:var(--z-lo)}
+  .pos-bar .z2{width:33.33%;background:var(--z-mid)}
+  .pos-bar .z3{width:33.34%;background:var(--z-hi)}
+  .pos-pin{position:absolute;top:50%;width:11px;height:11px;border-radius:50%;background:var(--card);
+    border:2.5px solid var(--text);transform:translate(-50%,-50%);box-shadow:0 0 0 2px var(--card)}
+  .pos-lg{display:flex;justify-content:space-between;font-size:10px;font-weight:700;color:var(--sub);
+    letter-spacing:-.2px;margin-top:5px}
+  .pos-t{font-size:11px;font-weight:700;color:var(--sub2);letter-spacing:-.2px;margin-top:6px;
+    font-variant-numeric:tabular-nums}
+  .trend{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:11px;font-weight:700;
+    color:var(--sub2);letter-spacing:-.2px;font-variant-numeric:tabular-nums}
+  .trend .spark{flex:0 0 auto;color:var(--sub)}
+  .trend .spark.up{color:var(--orange)}
+  .trend .spark.down{color:var(--green)}
+  .trend .up{color:var(--orange)}
+  .trend .down{color:var(--green)}
+  .trend .flat{color:var(--sub)}
+  .trend .n{margin-left:auto;color:var(--sub);font-weight:600}
+  .rc-out{font-size:12px;color:var(--sub2);letter-spacing:-.2px;margin-top:8px;line-height:1.4}
+  .rc-out b{font-weight:700;color:var(--text)}
+  .rc-foot{display:flex;margin-top:11px}
   .go{flex:1;display:flex;align-items:center;justify-content:center;gap:5px;text-decoration:none;background:var(--blue);
-    color:#fff;border-radius:11px;padding:11px 12px;font-size:13px;font-weight:800;letter-spacing:-.3px}
+    color:#fff;border-radius:11px;padding:10px 12px;font-size:12.5px;font-weight:800;letter-spacing:-.3px}
   [data-theme="dark"] .go{color:#0b1220}
   .go:active{opacity:.85}
+  .rc.wait{padding:13px 14px}
+  .rc.wait .rc-route{font-size:14.5px;color:var(--sub2);font-weight:700}
+  .rc.wait .rc-sub{margin-top:2px}
   .info{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;
     font-size:11.5px;color:var(--sub);letter-spacing:-.15px;line-height:1.55}
   .info b{color:var(--sub2);display:block;margin-bottom:4px;font-size:12px}
@@ -112,6 +142,28 @@
   .arch-sum{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;
     box-shadow:var(--shadow);font-size:13px;letter-spacing:-.2px;line-height:1.5}
   .loadnote{font-size:12px;color:var(--sub);padding:10px 2px;line-height:1.5}
+  /* 과거 기록 카드(그날 기록 그대로) */
+  .fl{padding:14px 14px 12px}
+  .fl-head{display:flex;align-items:flex-start;gap:8px}
+  .fl-name{font-size:15px;font-weight:800;letter-spacing:-.4px;line-height:1.3;min-width:0}
+  .fl-date{font-size:11.5px;color:var(--sub);margin-top:3px;letter-spacing:-.15px;font-weight:600}
+  .merit{flex:0 0 auto;text-align:center;border-radius:10px;padding:5px 8px;font-size:11px;font-weight:800;letter-spacing:-.3px;
+    background:var(--chip-bg);color:var(--sub2);border:1px solid var(--line);white-space:nowrap}
+  .merit.best{color:#fff;background:var(--green);border-color:var(--green)}
+  .merit.low{color:#8a5a00;background:#fff5e0;border-color:#ffe2ad}
+  [data-theme="dark"] .merit.low{color:#ffd08a;background:#3a2c12;border-color:#5a4419}
+  .price{display:flex;align-items:baseline;gap:6px;margin-top:9px;flex-wrap:wrap}
+  .price .pv{font-size:22px;font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+  .price .pa{font-size:11.5px;color:var(--sub);font-weight:700;letter-spacing:-.2px}
+  .price .pp{flex:0 0 100%;margin-top:4px;font-size:11px;color:var(--sub);font-weight:700;line-height:1.4;letter-spacing:-.15px}
+  .rows{margin-top:9px;display:flex;flex-direction:column;gap:6px}
+  .row{display:grid;grid-template-columns:52px 1fr;gap:8px;font-size:12.5px;letter-spacing:-.2px}
+  .row .rk{color:var(--sub);font-weight:600}
+  .row .rv{color:var(--text);min-width:0}
+  .row .rv .muted{color:var(--sub)}
+  .note{font-size:12px;color:var(--sub2);background:var(--chip-bg);border-radius:10px;padding:9px 10px;margin-top:10px;
+    letter-spacing:-.2px;line-height:1.45}
+  .note b{color:var(--text)}
 </style>
 </head>
 <body>
@@ -146,42 +198,48 @@
   <div id="archiveView" class="hidden"></div>
 
   <div id="liveView">
-<details class="condbar">
+  <details class="condbar">
     <summary>
       <span class="cb-l">조건</span>
-      <span class="cb-t">2027 주말 · 2인 왕복 · 김해/대구 출발 · 특가만</span>
+      <span class="cb-t">출발 청주·대구·김해 · 도착 대마도·후쿠오카·제주 · 주말 2인 왕복</span>
       <span class="cb-x">▾</span>
     </summary>
     <div class="cond">
-      <span class="chip">2027년 주말 (금~일 2박 3일)</span>
-      <span class="chip">성인 2인 왕복</span>
-      <span class="chip">김해(PUS)·대구(TAE) 출발</span>
-      <span class="chip">후쿠오카 · 도쿄 · 오사카 · 제주</span>
-      <span class="chip no">특가·큰 변동만 보고</span>
+      <span class="chip">출발 청주(CJJ)·대구(TAE)·김해(PUS)</span>
+      <span class="chip">도착 대마도·후쿠오카(FUK)·제주(CJU)</span>
+      <span class="chip">2027-03-05(금)~03-07(일) · 2박 3일</span>
+      <span class="chip">성인 2인 왕복 · 세금 포함</span>
+      <span class="chip no">노선별 최저가 1건만</span>
     </div>
   </details>
 
   <div class="grid">
     <div class="card"><div class="k">최저 2인 왕복</div><div class="v c-orange" id="vBest">373,000<small>원</small></div><div class="s">대구→제주 · 진에어 · 정상 주말가</div></div>
-    <div class="card"><div class="k">특가 메리트</div><div class="v c-orange" id="vMerit">0<small>/4</small></div><div class="s">4노선 전부 특가 없음 · 이번 주말은 잡지 않음</div></div>
-    <div class="card"><div class="k">실측 노선</div><div class="v c-blue" id="vRoutes">4<small>개</small></div><div class="s">2027-03-05(금)~07(일) · 도쿄 이번 실측에 포함</div></div>
+    <div class="card"><div class="k">특가 컷 진입</div><div class="v c-orange" id="vMerit">0<small>/3</small></div><div class="s">특가 근접 1 · 대기 권장 2 · 3노선 모두 컷 위</div></div>
+    <div class="card"><div class="k">실측 노선</div><div class="v c-blue" id="vRoutes">3<small>/7</small></div><div class="s">청주 2 · 김해→제주 · 대마도(선박) 18시 예정</div></div>
     <div class="card"><div class="k">어제 대비</div><div class="v c-orange" id="vDiff">+16,000<small>원</small></div><div class="s">김해→후쿠오카 563,200(11/24) → 579,200(11/25)</div></div>
   </div>
 
-  <div class="sec-label">노선별 실측 <span>· 2027년 3월 첫째 주말 기준</span></div>
+  <div class="filters" id="filters" role="tablist" aria-label="출발지 필터">
+    <button type="button" data-f="전체" class="on" role="tab">전체</button>
+    <button type="button" data-f="청주" role="tab">청주</button>
+    <button type="button" data-f="대구" role="tab">대구</button>
+    <button type="button" data-f="김해" role="tab">김해</button>
+  </div>
+
   <div class="list" id="flList"></div>
 
   <div class="info">
     <b>기준 · 유의</b>
     <ul>
-      <li>모두 <b>Google Flights</b>에서 승객 성인 2명·왕복·이코노미·KRW로 직접 조회했고, 표시가에 <b>세금·수수료가 포함</b>된 금액이다(수하물·좌석지정 별도). 예약·결제는 하지 않았다.</li>
-      <li><b>이번 실측은 4노선 전부 특가 메리트 0/4</b>다. 어제 유일한 특가였던 김해→후쿠오카(에어부산 563,200원)가 579,200원으로 오르며 Google 특가 표시도 사라졌다.</li>
-      <li>김해→후쿠오카는 카드 표시가 579,200원, 최저가 탭 578,132원이다(1,068원 차이는 판매처·탭 기준 차이).</li>
-      <li>대구→제주 373,000원은 정상 주말가다 — 평일 대비 주말 프리미엄이 붙은 값이라 특가로 보지 않는다.</li>
-      <li>이번 확인은 노선별 <b>최저가 1건</b>만 기록했다. 차순위 편·소요시간·수하물은 다음 실측에서 채운다.</li>
-      <li>도쿄행 가는편 시간은 확인 기록(10:45→12:55)이 후쿠오카행과 같은 값이라 화면에서 한 번 더 확인한다.</li>
-      <li>요금은 실시간 변동·좌석 마감에 따라 달라진다. 예매 직전에 한 번 더 확인한다.</li>
-      <li>개인정보(이름·연락처·이메일)는 페이지에 넣지 않는다.</li>
+      <li>모두 <b>Google Flights</b>에서 성인 2명·왕복·이코노미·KRW로 조회했고 표시가에 <b>세금·수수료가 포함</b>된 금액이다(수하물·좌석지정 별도). 2027-03-05(금)~03-07(일) 2박 3일 기준이고 예약·결제는 하지 않았다.</li>
+      <li>노선마다 <b>최저가 1건만</b> 적는다 — 같은 노선의 다른 편·시간대·수하물 조건은 다음 실측에서 채운다.</li>
+      <li><b>가격 위치 바</b>: 왼쪽 끝 = 특가 컷(목표가 — 후쿠오카 1인 22만·제주 1인 8만 ×2인), 오른쪽 끝 = 비쌈 기준(후쿠오카는 카약 대구→후쿠오카 금요일 왕복 평균 36.3만 ×2 ≈ 72.5만, 제주는 11월 주말 운임 상한 16.2만 ×2 ≈ 32.4만). 그 사이를 3등분해 낮음·보통·높음으로 본다.</li>
+      <li><b>배지</b>는 바의 구간 그대로다 — 낮음=지금 예매, 보통=특가 근접, 높음=대기 권장.</li>
+      <li><b>추이 그래프</b>는 <code>data/flights_history.json</code>에 08:00·18:00 브리핑마다 쌓이는 실측가다. 지금은 11/24~11/25 두 점뿐이라 선이 짧다.</li>
+      <li>대구→후쿠오카 642,000원은 07:35 실측 목록에 없던 값이다 — 화면에서 확인된 값으로 넣었고 18시 실측에서 다시 확인한다.</li>
+      <li>대마도는 항공 노선이 없어 <b>부산항 선박</b>(팬스타 쓰시마링크·대아 씨플라워) 기준이다. 정상운임은 이즈하라 편도 11만(주말 13만)·히타카츠 9만(주말 11만)이고, 실제 결제에는 유류할증료·터미널비·일본 출국세가 더 붙는다.</li>
+      <li>요금은 실시간 변동·좌석 마감에 따라 달라진다 — 예매 직전에 한 번 더 확인한다. 개인정보(이름·연락처·이메일)는 페이지에 넣지 않는다.</li>
     </ul>
   </div>
   </div>
@@ -191,61 +249,148 @@
 
 <script>
 const FLIGHTS = [
-  {route:"김해(PUS) → 후쿠오카(FUK)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:579200, carrier:"제주항공", merit:"메리트 없음",
-   out:"금 10:45 부산 → 12:55 후쿠오카 (직항)", back:"—",
-   sub:"최저가 탭 578,132원 · 이번 실측은 노선별 최저가 1건만 기록(차순위 미확인)",
-   verdict:"메리트 없음 — 어제 에어부산 563,200원보다 16,000원(+2.8%) 올랐고 Google 특가 표시도 사라졌다.",
-   prev:"11/24 에어부산 563,200원 → 11/25 제주항공 579,200원 (+16,000원)",
-   link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDUFVTcgcIARIDRlVLGh4SCjIwMjctMDMtMDdqBwgBEgNGVUtyBwgBEgNQVVNAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
-  {route:"대구(TAE) → 제주(CJU)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:373000, carrier:"진에어", merit:"메리트 없음",
-   out:"금 19:30 대구 → 20:35 제주 (직항 1시간 5분)", back:"—",
-   sub:"이번 실측은 최저가 1건만 기록 · 주말 제주 2인 37만 원대",
-   verdict:"메리트 없음 — 주말 제주 2인 373,000원은 정상 주말가다. 특가 표시가 없다.",
-   prev:"11/24 373,000원 → 11/25 373,000원 (동일)",
+  {id:"TAE-CJU", from:"대구", to:"제주", state:"ok", price:373000, carrier:"진에어",
+   dates:"2027-03-05(금)~03-07(일) · 2박 3일",
+   out:"금 19:30 대구 → 20:35 제주 · 직항 1h05",
+   cut:160000, hi:324000,
    link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDVEFFcgcIARIDQ0pVGh4SCjIwMjctMDMtMDdqBwgBEgNDSlVyBwgBEgNUQUVAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
-  {route:"김해(PUS) → 도쿄 나리타(NRT)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:713924, carrier:"제주항공", merit:"특가 아님",
-   out:"금 10:45 부산발 (확인 기록 도착 12:55 · 재확인 필요)", back:"—",
-   sub:"이번 실측에서 처음 넣은 노선 · 최저가 1건만 기록",
-   verdict:"특가 아님 — 김해→후쿠오카(579,200원)의 1.23배다. 12월 중순까지 공부 집중 모드라 큰 특가가 아니면 움직이지 않는다.",
-   prev:"—",
-   link:"https://www.google.com/travel/flights/search?tfs=CBwQAhojEgoyMDI3LTAzLTA1agcIARIDUFVTcgwIAhIIL20vMDdkZmsaIxIKMjAyNy0wMy0wN2oMCAISCC9tLzA3ZGZrcgcIARIDUFVTQAFAAUgBcAGCAQsI____________AZgBAQ&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
-  {route:"김해(PUS) → 오사카 간사이(KIX)", dates:"2027-03-05(금)~03-07(일) · 2박 3일", price:784400, carrier:"진에어", merit:"특가 아님",
-   out:"금 14:05 부산발 → 15:25 간사이", back:"—",
-   sub:"이번 실측은 최저가 1건만 기록",
-   verdict:"특가 아님 — 같은 날 후쿠오카(579,200원)보다 2인 205,200원 비싸다.",
-   prev:"11/24 785,400원 → 11/25 784,400원 (-1,000원)",
-   link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDUFVTcgcIARIDS0lYGh4SCjIwMjctMDMtMDdqBwgBEgNLSVhyBwgBEgNQVVNAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"}
+
+  {id:"PUS-FUK", from:"김해", to:"후쿠오카", state:"ok", price:579200, carrier:"제주항공",
+   dates:"2027-03-05(금)~03-07(일) · 2박 3일",
+   out:"금 10:45 부산 → 12:55 후쿠오카 · 직항",
+   cut:440000, hi:725000,
+   link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDUFVTcgcIARIDRlVLGh4SCjIwMjctMDMtMDdqBwgBEgNGVUtyBwgBEgNQVVNAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
+
+  {id:"TAE-FUK", from:"대구", to:"후쿠오카", state:"ok", price:642000, carrier:"—",
+   dates:"2027-03-05(금)~03-07(일) · 2박 3일",
+   out:"출발편 시간 미기록 · 18시 실측에서 채움",
+   cut:440000, hi:725000,
+   link:"https://www.google.com/travel/flights?hl=ko&gl=KR&curr=KRW&q=Flights%20from%20TAE%20to%20FUK%20on%202027-03-05%20through%202027-03-07%20for%202%20adults"},
+
+  {id:"CJJ-FUK", from:"청주", to:"후쿠오카", state:"wait", note:"18시 실측 예정"},
+  {id:"CJJ-CJU", from:"청주", to:"제주", state:"wait", note:"18시 실측 예정"},
+  {id:"PUS-CJU", from:"김해", to:"제주", state:"wait", note:"18시 실측 예정"},
+  {id:"BUS-TSJ", from:"부산", to:"대마도", state:"wait", note:"18시 실측 예정 · 항공 없음 · 부산항 선박(이즈하라·히타카츠)"}
 ];
+
+/* ── 가격 이력(data/flights_history.json) ─────────────── */
+let HIST = {};
+function loadHist(){
+  fetch("data/flights_history.json", {cache:"no-store"})
+    .then(r => r.ok ? r.json() : null)
+    .then(j => {
+      if(!j || !j.routes) return;
+      const h = {};
+      for(const k in j.routes){
+        const pts = (j.routes[k] || {}).points;
+        if(Array.isArray(pts) && pts.length) h[k] = pts.filter(p => typeof p.p === "number");
+      }
+      HIST = h;
+      paint();
+    })
+    .catch(() => {});
+}
 
 function fmt(n){ return typeof n === "number" ? n.toLocaleString("ko-KR") : n; }
 function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
-function flHTML(f){
-  return `
-  <article class="card fl">
-    <div class="fl-head">
-      <div>
-        <div class="fl-name">${f.route}</div>
-        <div class="fl-date">${f.dates}</div>
+function level(p){ return p <= 0.34 ? "낮음" : p <= 0.67 ? "보통" : "높음"; }
+const BADGE = {"낮음":["지금 예매","hot"], "보통":["특가 근접","near"], "높음":["대기 권장","wait"]};
+
+function spark(points){
+  if(!points || !points.length) return "";
+  const ps = points.slice(-8), w = 54, h = 20, pad = 3;
+  const vals = ps.map(p => p.p), mn = Math.min(...vals), mx = Math.max(...vals), span = mx - mn;
+  const X = i => ps.length === 1 ? w/2 : pad + i * (w - 2*pad) / (ps.length - 1);
+  const Y = v => span === 0 ? h/2 : h - pad - ((v - mn) / span) * (h - 2*pad);
+  const line = ps.map((p,i) => X(i).toFixed(1) + "," + Y(p.p).toFixed(1)).join(" ");
+  const last = ps[ps.length-1];
+  const cls = ps.length > 1 ? (last.p > ps[0].p ? "up" : last.p < ps[0].p ? "down" : "") : "";
+  return `<svg class="spark ${cls}" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true">
+    <polyline points="${line}" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+    <circle cx="${X(ps.length-1).toFixed(1)}" cy="${Y(last.p).toFixed(1)}" r="2.1" fill="currentColor"/>
+  </svg>`;
+}
+
+function trendHTML(points){
+  if(!points || points.length < 2){
+    return `<div class="trend">${points && points.length ? spark(points) : ""}<span class="flat">추이 대기</span><span class="n">이력 ${points ? points.length : 0}회</span></div>`;
+  }
+  const a = points[points.length-2], b = points[points.length-1];
+  const d = b.p - a.p, rate = a.p ? (d / a.p * 100) : 0;
+  const cls = d > 0 ? "up" : d < 0 ? "down" : "flat";
+  const arrow = d > 0 ? "▲" : d < 0 ? "▼" : "—";
+  const txt = d === 0 ? "변동 없음" : `${arrow} ${fmt(Math.abs(d))}원 (${d > 0 ? "+" : "-"}${Math.abs(rate).toFixed(1)}%)`;
+  return `<div class="trend">${spark(points)}<span class="${cls}">${txt}</span><span class="n">이력 ${points.length}회</span></div>`;
+}
+
+function cardHTML(f){
+  const label = f.from + " → " + f.to;
+  if(f.state === "wait"){
+    return `<article class="card rc wait" data-from="${f.from}">
+      <div class="rc-top">
+        <div><div class="rc-route">${label}</div><div class="rc-sub">${esc(f.note || "18시 실측 예정")}</div></div>
+        <span class="badge pend">대기</span>
       </div>
-      <span class="merit${f.rank ? " " + f.rank : ""}">${f.merit}</span>
+    </article>`;
+  }
+  const cut = f.cut, hi = Math.max(f.hi || 0, f.price);
+  const ratio = (f.price - cut) / ((hi - cut) || 1);
+  const pct = Math.max(0, Math.min(1, ratio));
+  const lv = level(pct), bd = BADGE[lv];
+  const pin = Math.min(97.5, Math.max(2.5, pct * 100)).toFixed(1);
+  const gap = f.price - cut;
+  const gapTxt = gap === 0 ? "특가 컷과 동일" : `${gap > 0 ? "+" : "-"}${fmt(Math.abs(gap))}원`;
+  const pts = HIST[f.id] || [];
+  return `<article class="card rc" data-from="${f.from}">
+    <div class="rc-top">
+      <div>
+        <div class="rc-route">${label}</div>
+        <div class="rc-sub">${esc(f.dates)}</div>
+      </div>
+      <span class="badge ${bd[1]}">${bd[0]}</span>
     </div>
-    <div class="price">
-      <span class="pv">${fmt(f.price)}<small style="font-size:12px;font-weight:700;color:var(--sub)">원</small></span>
-      <span class="pa">2인 왕복 · ${esc(f.carrier)}</span>
-      ${f.prev && f.prev !== "—" ? `<span class="pp">${esc(f.prev)}</span>` : ""}
+    <div class="rc-price">
+      <b>${fmt(f.price)}<small>원</small></b>
+      <span class="pa">2인 왕복${f.carrier && f.carrier !== "—" ? " · " + esc(f.carrier) : ""}</span>
     </div>
-    <div class="rows">
-      <div class="row"><span class="rk">가는편</span><span class="rv">${f.out}</span></div>
-      <div class="row"><span class="rk">오는편</span><span class="rv">${f.back && f.back !== "—" ? f.back : '<span class="muted">목록에 미표시 — 예약 단계에서 확인</span>'}</span></div>
-      <div class="row"><span class="rk">차순위</span><span class="rv">${f.sub}</span></div>
+    <div class="pos">
+      <div class="pos-track">
+        <div class="pos-bar"><i class="z1"></i><i class="z2"></i><i class="z3"></i></div>
+        <span class="pos-pin" style="left:${pin}%"></span>
+      </div>
+      <div class="pos-lg"><span>낮음</span><span>보통</span><span>높음</span></div>
+      <div class="pos-t">특가 컷 ${fmt(cut)}원 · 지금 ${gapTxt}</div>
     </div>
-    <div class="note">${f.verdict}</div>
-    <div class="fl-foot"><a class="go" href="${f.link}" target="_blank" rel="noopener noreferrer">Google 항공편에서 다시 보기 ↗</a></div>
+    ${trendHTML(pts)}
+    <div class="rc-out">${esc(f.out)}</div>
+    <div class="rc-foot"><a class="go" href="${f.link}" target="_blank" rel="noopener noreferrer">Google 항공권에서 보기 ↗</a></div>
   </article>`;
 }
 
-document.getElementById("flList").innerHTML = FLIGHTS.map(flHTML).join("");
+/* ── 필터 · 정렬(최저가순) ─────────────────────────────── */
+let FILTER = "전체";
+function ordered(){
+  const measured = FLIGHTS.filter(f => f.state === "ok").slice().sort((a,b) => a.price - b.price);
+  const pend = FLIGHTS.filter(f => f.state !== "ok");
+  return measured.concat(pend);
+}
+function paint(){
+  const list = ordered().filter(f => FILTER === "전체" || f.from === FILTER);
+  const box = document.getElementById("flList");
+  box.innerHTML = list.length
+    ? list.map(cardHTML).join("")
+    : `<div class="card"><div class="note" style="margin:0">이 출발지의 노선은 18시 실측 뒤 채워진다.</div></div>`;
+  document.querySelectorAll("#filters button").forEach(b => b.classList.toggle("on", b.dataset.f === FILTER));
+}
+document.getElementById("filters").addEventListener("click", e => {
+  const b = e.target.closest("button[data-f]");
+  if(!b) return;
+  FILTER = b.dataset.f;
+  paint();
+});
+paint();
+loadHist();
 
 /* 테마 */
 const root = document.documentElement;
@@ -281,13 +426,36 @@ function archKpiHTML(k){
   if(!k) return "";
   return `<div class="arch-sum"><b>최저 2인 왕복 ${esc(k.best || "—")} · 특가 ${esc(k.merit || "—")} · 실측 ${esc(k.routes || "—")}</b></div>`;
 }
+function flHTML(f){
+  const priceTxt = typeof f.price === "number" ? fmt(f.price) : esc(f.price || "—");
+  return `
+  <article class="card fl">
+    <div class="fl-head">
+      <div>
+        <div class="fl-name">${esc(f.route || ((f.from || "") + " → " + (f.to || "")))}</div>
+        <div class="fl-date">${esc(f.dates || "")}</div>
+      </div>
+      <span class="merit${f.rank ? " " + f.rank : ""}">${esc(f.merit || "기록")}</span>
+    </div>
+    <div class="price">
+      <span class="pv">${priceTxt}<small style="font-size:12px;font-weight:700;color:var(--sub)">원</small></span>
+      <span class="pa">2인 왕복${f.carrier && f.carrier !== "—" ? " · " + esc(f.carrier) : ""}</span>
+      ${f.prev && f.prev !== "—" ? `<span class="pp">${esc(f.prev)}</span>` : ""}
+    </div>
+    <div class="rows">
+      <div class="row"><span class="rk">가는편</span><span class="rv">${esc(f.out || "—")}</span></div>
+      ${f.back && f.back !== "—" ? `<div class="row"><span class="rk">오는편</span><span class="rv">${esc(f.back)}</span></div>` : ""}
+    </div>
+    ${f.verdict ? `<div class="note">${f.verdict}</div>` : ""}
+  </article>`;
+}
 function archPaint(date, d){
   const f = d.flights || {};
   archSel.value = date;
   archToggle(true);
   pastText.innerHTML = `과거 기록 열람 중 · <b>${date} (${d.dw || ""})</b>`;
   ARCH_BOX.innerHTML = `
-    <div class="arch-date">🕘 그날 기준 · ${f.basis || date}</div>
+    <div class="arch-date">🕘 그날 기준 · ${esc(f.basis || date)}</div>
     ${archKpiHTML(f.kpi)}
     <div class="sec-label" style="margin-top:12px">노선별 실측 <span>· 그날 기록</span></div>
     <div class="list">${(f.routesList || []).length ? f.routesList.map(flHTML).join("") : `<div class="card"><div class="note" style="margin:0">이 날은 항공권 실측 기록이 없습니다. 다음 기록부터 남습니다.</div></div>`}</div>
