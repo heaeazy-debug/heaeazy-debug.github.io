@@ -6,14 +6,16 @@
 <style>html,body{margin:0;padding:0;background:#f4f5f7}iframe{display:block;width:390px;border:0}</style>
 </head>
 <body>
-<iframe id="f" src="flights.html"></iframe>
+<iframe id="f"></iframe>
 <script>
-document.getElementById("f").addEventListener("load", function(){
+var f = document.getElementById("f");
+f.addEventListener("load", function(){
   try{
-    var d = this.contentWindow.document;
-    this.style.height = Math.max(d.documentElement.scrollHeight, d.body.scrollHeight) + "px";
+    var d = f.contentWindow.document;
+    f.style.height = Math.max(d.documentElement.scrollHeight, d.body.scrollHeight) + "px";
   }catch(e){}
 });
+f.src = "flights.html?t=" + Date.now();
 </script>
 </body>
 </html>
