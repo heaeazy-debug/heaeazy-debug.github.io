@@ -225,7 +225,7 @@
 
   .info{margin-top:12px;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:11px 12px;
     font-size:10.5px;color:var(--sub);letter-spacing:-.15px;line-height:1.55}
-  .info b{color:var(--sub2);display:block;margin-bottom:4px;font-size:11px}
+  .info > b{color:var(--sub2);display:block;margin-bottom:4px;font-size:11px}
   .info ul{margin:0;padding-left:14px}
   .info li{margin:2px 0}
   footer{text-align:center;font-size:10.5px;color:var(--sub);margin-top:12px;line-height:1.6;letter-spacing:-.1px}
@@ -283,6 +283,8 @@
   .mcell .mdots i.l{background:var(--blue)}
   .mcell .mdots i.u{background:var(--purple)}
   .mcell.sel .mdots i{background:var(--pill-text)}
+  .mempty{grid-column:1 / -1;font-size:9.5px;font-weight:800;color:var(--sub);letter-spacing:-.2px;
+    padding:4px 3px;text-align:left;opacity:.8}
 
   /* ── 결제·보유 완료 접기 ─────────────────────────────── */
   .donebox{background:var(--card);border:1px solid #c6eedd;border-radius:14px;box-shadow:var(--shadow);overflow:hidden;margin-top:8px}
@@ -400,20 +402,11 @@
       <summary>
         <span class="db-i">✓</span>
         <span class="db-t">결제·보유 완료</span>
-        <span class="db-s">10종 · 쿠팡 11/23 도착</span>
+        <span class="db-s">10종 · 11/22 주문 → 11/23 도착</span>
         <span class="db-v">73,300원</span>
         <span class="db-x">▾</span>
       </summary>
       <div class="db-body">
-
-        <div class="paid">
-          <div class="pi">✓</div>
-          <div>
-            <div class="pt">이번 주 식단 재료 결제 완료</div>
-            <div class="pd">쿠팡 10종 · 11/22 주문 → 11/23 도착 · 바지락 제외 · 남은 결제 0원</div>
-          </div>
-          <div class="pv">73,300<small style="font-size:10.5px;font-weight:700">원</small></div>
-        </div>
 
         <div class="sec-label">
           받은 품목 체크
@@ -624,7 +617,7 @@ function heroHTML(){
     <div class="hero-day">
       <div class="hero-dw">${label}<em>${d.dn} ${d.dw}</em></div>
       <div class="hero-meals">
-        <div class="hrow"><span class="hlabel l">내 점심</span><span class="hval${d.mMain ? "" : " mut"}">${d.mMain || (d.off ? "회사 식단 없음" : "식단표 미확인")}${d.mMain ? `<em>${(d.my || "").split(" · ").length > 1 ? "외 " + ((d.my || "").split(" · ").length - 1) + "찬" : ""}</em>` : ""}</span></div>
+        <div class="hrow"><span class="hlabel l">내 점심</span><span class="hval${d.mMain ? "" : " mut"}">${d.mMain || (d.off ? "회사 식단 없음" : "식단표 미확인")}${d.mMain && (d.my || "").split(" · ").length > 2 ? `<em>외 ${(d.my || "").split(" · ").length - 1}</em>` : ""}</span></div>
         <div class="hrow"><span class="hlabel u">우기 점심</span><span class="hval${d.woogi ? "" : " mut"}">${d.woogi || "회사 식단 없음"}</span></div>
         <div class="hrow"><span class="hlabel d">집 저녁</span><span class="hval">${d.menu || "—"}${d.time && d.time !== "—" ? `<em>${d.time}</em>` : ""}</span></div>
       </div>
@@ -673,21 +666,21 @@ function renderCal(){
     + `<div class="wlab cur">${weekName(WEEK_CUR)} ${weekRange(WEEK_CUR)}</div>` + WEEK_CUR.map(cellHTML).join("");
 }
 
-/* 월간 보기 — 기록이 있는 날만 누를 수 있다 */
+/* 월간 보기 — 기록이 있는 날만 누르고, 기록 없는 주는 한 줄로 접어 모바일에서 짧게 */
 function renderMonth(){
   const anchor = ALL.find(x => x.key === TODAY) || ALL[0];
   const base = (anchor && anchor.key) || "2026-11-24";
   const [y, m] = base.split("-").map(Number);
   const lead = (new Date(Date.UTC(y, m - 1, 1)).getUTCDay() + 6) % 7;
   const last = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  const pad = n => String(n).padStart(2, "0");
+  const keyOf = day => `${y}-${pad(m)}-${pad(day)}`;
   const map = {};
   ALL.forEach(d => { map[d.key] = d; });
-  let cells = "";
-  for(let i = 0; i < lead; i++) cells += `<span class="mcell nod" aria-hidden="true"></span>`;
-  for(let day = 1; day <= last; day++){
-    const key = `${y}-${String(m).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-    const d = map[key];
-    if(!d){ cells += `<span class="mcell nod"><span class="md">${day}</span></span>`; continue; }
+
+  const cellOf = day => {
+    const key = keyOf(day), d = map[key];
+    if(!d) return `<span class="mcell nod"><span class="md">${day}</span></span>`;
     const eaten = !!(log[key] && log[key].eaten);
     const dish = d.off ? "—" : (d.kw || d.menu || "—").split("·")[0].trim();
     const dots = `${d.mMain ? `<i class="l" title="내 점심"></i>` : ""}${d.woogi ? `<i class="u" title="우기 점심"></i>` : ""}`;
@@ -695,14 +688,36 @@ function renderMonth(){
     if(d.off) cls.push("off");
     if(key === TODAY) cls.push("today");
     if(key === selKey) cls.push("sel");
-    cells += `<button type="button" class="${cls.join(" ")}" data-key="${key}" role="gridcell" aria-selected="${key === selKey}"
+    return `<button type="button" class="${cls.join(" ")}" data-key="${key}" role="gridcell" aria-selected="${key === selKey}"
       aria-label="${d.dn} ${d.dw} 저녁 ${d.menu}${eaten ? ", 먹음" : ""}">
       <span class="md">${day}${eaten ? " ✓" : ""}</span><span class="mm">${dish}</span><span class="mdots">${dots}</span></button>`;
+  };
+
+  let day = 1;
+  const rows = [];
+  let cur = [];
+  for(let i = 0; i < lead; i++) cur.push(null);
+  while(day <= last){
+    cur.push(day);
+    if(cur.length === 7){ rows.push(cur); cur = []; }
+    day++;
   }
+  if(cur.length){ while(cur.length < 7) cur.push(null); rows.push(cur); }
+
+  const body = rows.map(r => {
+    const nums = r.filter(x => x !== null);
+    const hasData = nums.some(n => map[keyOf(n)]);
+    if(!hasData){
+      const a = nums[0], b = nums[nums.length - 1];
+      return `<div class="mempty">${m}/${a}${a === b ? "" : "~" + b} · 기록 없음</div>`;
+    }
+    return r.map(n => n === null ? `<span class="mcell nod" aria-hidden="true"></span>` : cellOf(n)).join("");
+  }).join("");
+
   const head = DOW.map(d => `<div class="wd${d === "토" || d === "일" ? " we" : ""}">${d}</div>`).join("");
   calEl.className = "mcal";
   calEl.setAttribute("aria-label", `${y}년 ${m}월 식단 달력`);
-  calEl.innerHTML = `<div class="wlab">${y}년 ${m}월 <span style="font-weight:600">· 기록이 있는 날만 열립니다</span></div>` + head + cells;
+  calEl.innerHTML = `<div class="wlab">${y}년 ${m}월 <span style="font-weight:600">· 기록이 있는 날만 열립니다</span></div>` + head + body;
 }
 
 document.querySelectorAll(".vt button").forEach(btn => {

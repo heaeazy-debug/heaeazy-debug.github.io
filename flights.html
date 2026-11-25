@@ -298,6 +298,16 @@ function loadHist(){
     .catch(() => {});
 }
 
+const CITY = {PUS:"김해", TAE:"대구", CJJ:"청주", FUK:"후쿠오카", CJU:"제주", TSJ:"대마도"};
+function norm(f){
+  if(!f.from && f.route){
+    const m = String(f.route).match(/\(([A-Z]{3})\)\s*→.*?\(([A-Z]{3})\)/);
+    if(m){ f.from = CITY[m[1]] || m[1]; f.to = CITY[m[2]] || m[2]; }
+  }
+  return f;
+}
+FLIGHTS.forEach(norm);
+
 function fmt(n){ return typeof n === "number" ? n.toLocaleString("ko-KR") : n; }
 function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
@@ -336,8 +346,8 @@ function trendHTML(points){
 }
 
 function cardHTML(f){
-  const label = f.from + " → " + f.to;
-  if(f.state === "wait"){
+  const label = f.route || ((f.from || "") + " → " + (f.to || ""));
+  if(typeof f.price !== "number"){
     return `<article class="card rc wait" data-from="${f.from}">
       <div class="rc-top">
         <div><div class="rc-route">${label}</div><div class="rc-sub">${esc(f.note || "18시 실측 예정")}</div></div>
@@ -345,10 +355,11 @@ function cardHTML(f){
       </div>
     </article>`;
   }
-  const cut = f.cut, hi = Math.max(f.hi || 0, f.price);
+  const hasBar = typeof f.cut === "number" && f.cut > 0;
+  const cut = hasBar ? f.cut : 0, hi = Math.max(f.hi || 0, f.price);
   const ratio = (f.price - cut) / ((hi - cut) || 1);
   const pct = Math.max(0, Math.min(1, ratio));
-  const bd = badgeOf(f.price, cut);
+  const bd = hasBar ? badgeOf(f.price, cut) : null;
   const pin = Math.min(97.5, Math.max(2.5, pct * 100)).toFixed(1);
   const gap = f.price - cut;
   const gapTxt = gap === 0 ? "특가 컷과 동일" : `${gap > 0 ? "+" : "-"}${fmt(Math.abs(gap))}원`;
@@ -359,20 +370,20 @@ function cardHTML(f){
         <div class="rc-route">${label}</div>
         <div class="rc-sub">${esc(f.dates)}</div>
       </div>
-      <span class="badge ${bd[1]}">${bd[0]}</span>
+      ${bd ? `<span class="badge ${bd[1]}">${bd[0]}</span>` : ""}
     </div>
     <div class="rc-price">
       <b>${fmt(f.price)}<small>원</small></b>
       <span class="pa">2인 왕복${f.carrier && f.carrier !== "—" ? " · " + esc(f.carrier) : ""}</span>
     </div>
-    <div class="pos">
+    ${hasBar ? `<div class="pos">
       <div class="pos-track">
         <div class="pos-bar"><i class="z1"></i><i class="z2"></i><i class="z3"></i></div>
         <span class="pos-pin" style="left:${pin}%"></span>
       </div>
       <div class="pos-lg"><span>낮음</span><span>보통</span><span>높음</span></div>
       <div class="pos-t">특가 컷 ${fmt(cut)}원 · 지금 ${gapTxt}</div>
-    </div>
+    </div>` : ""}
     ${trendHTML(pts)}
     <div class="rc-out">${esc(f.out)}</div>
     <div class="rc-foot"><a class="go" href="${f.link}" target="_blank" rel="noopener noreferrer">Google 항공권에서 보기 ↗</a></div>
@@ -382,8 +393,9 @@ function cardHTML(f){
 /* ── 필터 · 정렬(최저가순) ─────────────────────────────── */
 let FILTER = "전체";
 function ordered(){
-  const measured = FLIGHTS.filter(f => f.state === "ok").slice().sort((a,b) => a.price - b.price);
-  const pend = FLIGHTS.filter(f => f.state !== "ok");
+  const has = f => typeof f.price === "number";
+  const measured = FLIGHTS.filter(has).slice().sort((a,b) => a.price - b.price);
+  const pend = FLIGHTS.filter(f => !has(f));
   return measured.concat(pend);
 }
 function paint(){

@@ -86,7 +86,7 @@
   .sum-note{font-size:11.5px;color:var(--sub);margin-top:10px;letter-spacing:-.15px;line-height:1.5}
   .info{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;
     font-size:11.5px;color:var(--sub);letter-spacing:-.15px;line-height:1.55}
-  .info b{color:var(--sub2);display:block;margin-bottom:4px;font-size:12px}
+  .info > b{color:var(--sub2);display:block;margin-bottom:4px;font-size:12px}
   .info ul{margin:0;padding-left:15px}
   .info li{margin:2px 0}
   footer{text-align:center;font-size:11px;color:var(--sub);margin-top:20px;line-height:1.6;letter-spacing:-.1px}
@@ -389,7 +389,7 @@ function timelineHTML(b){
       t: r0.t ? `<em>${esc(r0.t)}</em>${esc(shortClause(r0.d, 26))}` : "오늘 알림 없음",
       s: bold ? `핵심 <b>${esc(bold)}</b>` : `알림 ${rem.length}건 · 순서대로 처리` },
     { cls:"c", k:"오늘 마감",
-      t: dl.length ? dl.map(x => `<em>${esc(x.t)}</em>${esc(x.v)}`).join(" ") : "오늘 마감 없음",
+      t: dl.length ? dl.map(x => `<em>${esc(x.t)}</em>${esc(x.v)}`).join("<span style=\"color:var(--sub);font-weight:700\"> · </span>") : "오늘 마감 없음",
       s: dlNote.length ? dlNote.join(" · ") : "마감이 걸린 항목 없음" }
   ];
   return `<div class="tl3" role="region" aria-label="오늘 핵심 3줄">
