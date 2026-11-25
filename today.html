@@ -374,7 +374,7 @@ function timelineHTML(b){
   const rem = sc.reminders || [], r0 = rem[0] || {};
   const bold = (String(r0.d || "").match(/<b>(.*?)<\/b>/) || [])[1] || "";
   const isaTxt = isa.stocks || "";
-  const hasBaji = /15:00/.test(ml.todo || ""), hasShin = /신영/.test(isaTxt) && /마감/.test(isaTxt);
+  const hasBaji = /15:00/.test(ml.todo || ""), hasShin = /신영 계좌/.test(isaTxt) && /마감/.test(isaTxt);
   const dl = [];
   if(hasBaji) dl.push({t:"15:00", v:"바지락 주문"});
   if(hasShin) dl.push({t:"오늘", v:"신영 계좌 개설"});
