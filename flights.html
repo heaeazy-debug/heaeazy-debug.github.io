@@ -174,7 +174,7 @@
   <header class="top">
     <div>
       <h1>항공권 특가 추적</h1>
-      <div class="basis">2026-11-25 07:35 실측 · Google Flights · 성인 2인 왕복 · 세금·수수료 포함</div>
+      <div class="basis">2026-11-25 18:00 실측 · Google Flights · 성인 2인 왕복 · 세금·수수료 포함</div>
     </div>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="다크 모드 전환">◐</button>
   </header>
@@ -216,10 +216,10 @@
   </details>
 
   <div class="grid">
-    <div class="card"><div class="k">최저 2인 왕복</div><div class="v c-orange" id="vBest">373,000<small>원</small></div><div class="s">대구→제주 · 진에어 · 정상 주말가</div></div>
-    <div class="card"><div class="k">특가 컷 진입</div><div class="v c-orange" id="vMerit">0<small>/3</small></div><div class="s">특가 근접 0 · 대기 권장 3 · 목표가 15% 이내 없음</div></div>
-    <div class="card"><div class="k">실측 노선</div><div class="v c-blue" id="vRoutes">3<small>/7</small></div><div class="s">청주 2 · 김해→제주 · 대마도(선박) 18시 예정</div></div>
-    <div class="card"><div class="k">어제 대비</div><div class="v c-orange" id="vDiff">+16,000<small>원</small></div><div class="s">김해→후쿠오카 563,200(11/24) → 579,200(11/25)</div></div>
+    <div class="card"><div class="k">최저 2인 왕복</div><div class="v c-orange" id="vBest">262,118<small>원</small></div><div class="s">김해→제주 · 에어부산 직항 · 주말 제주 기준 낮은 편</div></div>
+    <div class="card"><div class="k">특가 컷 진입</div><div class="v c-orange" id="vMerit">0<small>/6</small></div><div class="s">특가 근접 0 · 대기 권장 6 · 목표가 15% 이내 없음</div></div>
+    <div class="card"><div class="k">실측 노선</div><div class="v c-blue" id="vRoutes">6<small>/9</small></div><div class="s">항공 6노선 실측 · 대마도 항공 2노선 없음 · 부산항 선박은 추정</div></div>
+    <div class="card"><div class="k">어제 대비</div><div class="v c-orange" id="vDiff">+16,000<small>원</small></div><div class="s">김해→후쿠오카 563,200(11/24) → 579,200(11/25 아침·저녁 동일)</div></div>
   </div>
 
   <div class="filters" id="filters" role="tablist" aria-label="출발지 필터">
@@ -239,15 +239,15 @@
       <li>노선마다 <b>최저가 1건만</b> 적는다 — 같은 노선의 다른 편·시간대·수하물 조건은 다음 실측에서 채운다.</li>
       <li><b>가격 위치 바</b>: 왼쪽 끝 = 특가 컷(목표가 — 후쿠오카 1인 22만·제주 1인 8만 ×2인), 오른쪽 끝 = 비쌈 기준(후쿠오카는 카약 대구→후쿠오카 금요일 왕복 평균 36.3만 ×2 ≈ 72.5만, 제주는 11월 주말 운임 상한 16.2만 ×2 ≈ 32.4만). 그 사이를 3등분해 낮음·보통·높음으로 본다.</li>
       <li><b>배지</b>는 목표가와의 거리로 정한다 — 목표가 이하=지금 예매, 15% 이내=특가 근접, 그 위=대기 권장. 바는 목표가~비쌈 사이에서 오늘 가격이 어디쯤인지 보여 준다.</li>
-      <li><b>추이 그래프</b>는 <code>data/flights_history.json</code>에 08:00·18:00 브리핑마다 쌓이는 실측가다. 지금은 11/24~11/25 두 점뿐이라 선이 짧다.</li>
-      <li>대구→후쿠오카 642,000원은 07:35 실측 목록에 없던 값이다 — 화면에서 확인된 값으로 넣었고 18시 실측에서 다시 확인한다.</li>
-      <li>대마도는 항공 노선이 없어 <b>부산항 선박</b>(팬스타 쓰시마링크·대아 씨플라워) 기준이다. 정상운임은 이즈하라 편도 11만(주말 13만)·히타카츠 9만(주말 11만)이고, 실제 결제에는 유류할증료·터미널비·일본 출국세가 더 붙는다.</li>
+      <li><b>추이 그래프</b>는 <code>data/flights_history.json</code>에 08:00·18:00 브리핑마다 쌓이는 실측가다. 11/24~11/25 두 번의 실측이 쌓였으니 노선에 따라 점이 2~3개다.</li>
+      <li>대구→후쿠오카는 이번 실측에서 <b>Trinity Airways 직항 800,682원</b>으로 잡혔다(인기 직항 최저 885,200원). 아침에 화면에서 확인된 642,000원은 다른 편·조건이라 18:00 실측값으로 교체했다.</li>
+      <li><b>대마도는 항공 노선이 없다</b> — 청주·대구 조회 결과 0건, 김해는 3회 경유 679만 원(10시간 50분)이라 실효성 없음. <b>부산항 배편</b>이 답이다: 팬스타 쓰시마링크(매일 08:40)·대아 씨플라워(월·수·금·일 09:40, 토 07:50·11:30)·스타라인 노바(매일 09:00 전후). 정상운임은 이즈하라 편도 11만(주말 13만)·히타카츠 9만(주말 11만)이고, 실제 결제에는 유류할증료·터미널비·일본 출국세가 더 붙어 <b>2인 금~일 왕복 추정 52~55만 원</b>이다. 2027년 3월 시간표·운임은 미공개다.</li>
       <li>요금은 실시간 변동·좌석 마감에 따라 달라진다 — 예매 직전에 한 번 더 확인한다. 개인정보(이름·연락처·이메일)는 페이지에 넣지 않는다.</li>
     </ul>
   </div>
   </div>
 
-  <footer>자동 · PC · 직접 합산 · 2026-11-25 07:35 실측<br>다음 실측 11/25 18:00 퇴근 브리핑 · 예약·결제는 하지 않음 · 검색 비공개 페이지</footer>
+  <footer>자동 · PC · 직접 합산 · 2026-11-25 18:00 실측<br>다음 실측 11/26 08:00 아침 브리핑 · 예약·결제는 하지 않음 · 검색 비공개 페이지</footer>
 </div>
 
 <script>
@@ -256,28 +256,45 @@
    cut=특가 컷(2인 목표가), hi=비쌈 기준, state:"ok"=실측됨 / "wait"=18시 실측 예정.
    실측이 끝난 대기 노선은 state를 "ok"로 바꾸고 price·cut·hi·link를 채운다. */
 const FLIGHTS = [
-  {id:"TAE-CJU", from:"대구", to:"제주", state:"ok", price:373000, carrier:"진에어",
+  {id:"PUS-CJU", label:"김해 → 제주", from:"김해", to:"제주", state:"ok", price:262118, carrier:"에어부산",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"금 19:30 대구 → 20:35 제주 · 직항 1h05",
+   out:"금 06:50 부산 → 07:55 제주 · 직항 1h05 · <b>이번 실측 전 노선 최저가</b>(인기 최저 265,200원)",
+   cut:160000, hi:324000,
+   link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDUFVTcgcIARIDQ0pVGh4SCjIwMjctMDMtMDdqBwgBEgNDSlVyBwgBEgNQVVNAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
+
+  {id:"CJJ-CJU", label:"청주 → 제주", from:"청주", to:"제주", state:"ok", price:304593, carrier:"제주항공",
+   dates:"2027-03-05(금)~03-07(일) · 2박 3일",
+   out:"금 19:15 청주 → 20:20 제주 · 직항 (인기 최저 322,800원) · <b>3/4(목)~3/6(토)로 옮기면 206,800원</b>",
+   cut:160000, hi:324000, link:"https://www.google.com/travel/flights?hl=ko&gl=KR&curr=KRW&q=Flights%20from%20CJJ%20to%20CJU%20on%202027-03-05%20through%202027-03-07%20for%202%20adults"},
+
+  {id:"TAE-CJU", label:"대구 → 제주", from:"대구", to:"제주", state:"ok", price:373000, carrier:"진에어",
+   dates:"2027-03-05(금)~03-07(일) · 2박 3일",
+   out:"금 19:30 대구 → 20:35 제주 · 직항 1h05 · 3/4~3/6 여행 시 264,400원 힌트",
    cut:160000, hi:324000,
    link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDVEFFcgcIARIDQ0pVGh4SCjIwMjctMDMtMDdqBwgBEgNDSlVyBwgBEgNUQUVAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
 
-  {id:"PUS-FUK", from:"김해", to:"후쿠오카", state:"ok", price:579200, carrier:"제주항공",
+  {id:"PUS-FUK", label:"김해 → 후쿠오카", from:"김해", to:"후쿠오카", state:"ok", price:579200, carrier:"제주항공",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"금 10:45 부산 → 12:55 후쿠오카 · 직항",
+   out:"금 13:10 부산 → 14:30 후쿠오카 · 직항 · 11/25 아침(579,200원)과 동일 — 특가 아님",
    cut:440000, hi:725000,
    link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDUFVTcgcIARIDRlVLGh4SCjIwMjctMDMtMDdqBwgBEgNGVUtyBwgBEgNQVVNAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
 
-  {id:"TAE-FUK", from:"대구", to:"후쿠오카", state:"ok", price:642000, carrier:"—",
+  {id:"TAE-FUK", label:"대구 → 후쿠오카", from:"대구", to:"후쿠오카", state:"ok", price:800682, carrier:"Trinity Airways",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"출발편 시간 미기록 · 18시 실측에서 채움",
-   cut:440000, hi:725000,
-   link:"https://www.google.com/travel/flights?hl=ko&gl=KR&curr=KRW&q=Flights%20from%20TAE%20to%20FUK%20on%202027-03-05%20through%202027-03-07%20for%202%20adults"},
+   out:"Trinity Airways 직항 (인기 직항 최저 885,200원) · 대구는 FUK 직항 편수가 적어 비쌈",
+   cut:440000, hi:725000, link:"https://www.google.com/travel/flights?hl=ko&gl=KR&curr=KRW&q=Flights%20from%20TAE%20to%20FUK%20on%202027-03-05%20through%202027-03-07%20for%202%20adults"},
 
-  {id:"CJJ-FUK", from:"청주", to:"후쿠오카", state:"wait", note:"18시 실측 예정"},
-  {id:"CJJ-CJU", from:"청주", to:"제주", state:"wait", note:"18시 실측 예정"},
-  {id:"PUS-CJU", from:"김해", to:"제주", state:"wait", note:"18시 실측 예정"},
-  {id:"BUS-TSJ", from:"부산", to:"대마도", state:"wait", note:"18시 실측 예정 · 항공 없음 · 부산항 선박(이즈하라·히타카츠)"}
+  {id:"CJJ-FUK", label:"청주 → 후쿠오카", from:"청주", to:"후쿠오카", state:"ok", price:913200, carrier:"Trinity Airways",
+   dates:"2027-03-05(금)~03-07(일) · 2박 3일",
+   out:"Trinity Airways 직항 15:35 청주 → 17:00 후쿠오카 · 3개 출발지 중 최고가",
+   cut:440000, hi:725000, link:"https://www.google.com/travel/flights?hl=ko&gl=KR&curr=KRW&q=Flights%20from%20CJJ%20to%20FUK%20on%202027-03-05%20through%202027-03-07%20for%202%20adults"},
+
+  {id:"TAE-TSJ", label:"대구 → 대마도", from:"대구", to:"대마도", state:"none",
+   note:"항공편 없음 — 2027-03-05~07 조회 결과 0건. 대마도는 부산항 배편만 있다."},
+  {id:"CJJ-TSJ", label:"청주 → 대마도", from:"청주", to:"대마도", state:"none",
+   note:"항공편 없음 — 조회 결과 0건. 청주발 대마도 노선 자체가 없다."},
+  {id:"BUS-TSJ", label:"부산 → 대마도", from:"부산", to:"대마도", state:"est",
+   note:"항공 불가(김해→대마도는 3회 경유 679만 원·10시간 50분으로 실효성 없음) → <b>부산항 여객터미널 배편</b>. 2인 금~일 왕복 추정 <b>52~55만 원</b> — 승선권 (금 90,000 + 일 110,000)×2 = 400,000원 + 유류할증료(히타카츠 부산발 16,000원/인) + 터미널 이용료 6,000원/인 + 출국납부금 1,000원/인 + 일본 출국세 3,000엔/인 + 대마도 부두세 500엔/인. 2027년 3월 시간표·운임은 미공개(현재 2026년 11~12월 기준)."}
 ];
 
 /* ── 가격 이력(data/flights_history.json) ─────────────── */
@@ -348,10 +365,11 @@ function trendHTML(points){
 function cardHTML(f){
   const label = f.route || ((f.from || "") + " → " + (f.to || ""));
   if(typeof f.price !== "number"){
+    const pendTxt = f.state === "none" ? "항공 없음" : f.state === "est" ? "추정" : "대기";
     return `<article class="card rc wait" data-from="${f.from}">
       <div class="rc-top">
-        <div><div class="rc-route">${label}</div><div class="rc-sub">${esc(f.note || "18시 실측 예정")}</div></div>
-        <span class="badge pend">대기</span>
+        <div><div class="rc-route">${label}</div><div class="rc-sub">${esc(f.note || "다음 실측 예정")}</div></div>
+        <span class="badge pend">${pendTxt}</span>
       </div>
     </article>`;
   }
