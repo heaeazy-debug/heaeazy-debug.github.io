@@ -312,7 +312,8 @@ function briefHTML(b){
   /* 변동·중요 항목에만 붙는 강조 배지 — 값에서 계산해 과거 기록도 그날 기준으로 붙는다 */
   const mealBadge = /15:00/.test(ml.todo || "") ? {t:"15:00 마감", cls:"w"} : null;
   const isaBadge  = /갭다운/.test(isa.outlook || "") ? {t:"시초 갭다운", cls:"r"}
-                  : (/마감/.test(isa.stocks || "") ? {t:"오늘 마감", cls:"w"} : null);
+                  : (/보류/.test(isa.signal || "") ? {t:"물타기 보류", cls:"w"}
+                  : (/마감/.test(isa.stocks || "") ? {t:"오늘 마감", cls:"w"} : null));
   const jobBadge  = (jb.soon || []).some(j => j.tag === "D-1") ? {t:"D-1", cls:"r"} : null;
   return [
     blkHTML("1. 일정 · 날씨",
