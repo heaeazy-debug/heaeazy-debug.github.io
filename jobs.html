@@ -179,7 +179,7 @@
   <header class="top">
     <div>
       <h1>공고 비교판</h1>
-      <div class="basis">2026-11-25 18:00 기준 · 대졸4년↑·공고·신입 초봉 4,000만↑ · 추적 8건 · 마감 D-Day 자동 계산</div>
+      <div class="basis">2026-11-26 07:50 기준 · 대졸4년↑·공고·신입 초봉 4,000만↑ · 추적 8건 · 마감 D-Day 자동 계산</div>
     </div>
     <button class="theme-btn" id="themeBtn" aria-label="다크 모드 전환">◐</button>
   </header>
@@ -223,7 +223,7 @@
 
   <div class="grid" id="kpiGrid">
     <div class="card"><div class="k">추적 공고</div><div class="v c-blue">8<small>건</small></div><div class="s">11/25 신규 평화홀딩스 · 도레이 재편입 · 상시 1건 · 제외·보류 18건은 아래</div></div>
-    <div class="card"><div class="k">마감 임박</div><div class="v c-red" id="vSoon">–</div><div class="s">D-7 이내 · 도레이 D-4 · 대주기계 D-5 (일지테크 경력분은 11/26 별도)</div></div>
+    <div class="card"><div class="k">마감 임박</div><div class="v c-red" id="vSoon">–</div><div class="s">D-7 이내 · <b>일지테크 경력분은 오늘(11/26) 마감</b> · 도레이 D-3 · 대주기계 D-4</div></div>
     <div class="card"><div class="k">내 표시</div><div class="v" id="vMine">0<small>/8</small></div><div class="s">관심·지원완료·패스 저장</div></div>
     <div class="card"><div class="k">요건 리스크</div><div class="v c-orange">4<small>건</small></div><div class="s">경력 3년↑(쏠리드) · 교대·근무일시 미기재(쿠어스텍·대주) · 초봉 경계·근무지 상이(아데나) · 어학 요건 0건</div></div>
   </div>
@@ -265,7 +265,7 @@
     </ul>
   </div>
 
-  <footer>2026-11-25 18:00 기준 · 추적 8건 D-Day 자동 계산<br>개인정보 표기 0건 · 검색 비공개 페이지</footer>
+  <footer>2026-11-26 07:50 기준 · 추적 8건 D-Day 자동 계산<br>개인정보 표기 0건 · 검색 비공개 페이지</footer>
 </div>
 
 <script>
@@ -298,7 +298,7 @@ const JOBS = [
     jp:"2.4", jpn:"210", bl:"미확인",
     rev:"연결 8,550억(2025, +12.9%) / 별도 4,436억",
     op:"연결 480억(2025) · 순이익 456억 · 부채비율 237%",
-    note:'자동차 차체부품 중견으로 생산관리·원자재관리 사무직을 상시 수시로 뽑는다. <b>신입 수시채용은 ~12/04(D-9)</b>로 늦고, <b>별도 경력 사무직은 11/26(목) D-1</b>이니 둘 중 어느 쪽으로 낼지가 먼저다. 리스크: 초임 미공개(공시 평균 6,109만은 근속 5.8년 기준 → 신입 실지급은 낮을 수 있으나 새 기준 4,000만은 넘는 것으로 추정), 잡플래닛 2.4(210건), 경산 통근 약 40분, 부채비율 237%.',
+    note:'자동차 차체부품 중견으로 생산관리·원자재관리 사무직을 상시 수시로 뽑는다. <b>경력 사무직은 오늘(11/26) 마감</b>이고 <b>신입 수시채용은 ~12/04</b>라 둘 중 어느 쪽으로 낼지가 먼저다. 리스크: 초임 미공개(공시 평균 6,109만은 근속 5.8년 기준 → 신입 실지급은 낮을 수 있으나 새 기준 4,000만은 넘는 것으로 추정), 잡플래닛 2.4(210건), 경산 통근 약 40분, 부채비율 237%.',
     url:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55659850"
   },
   {
@@ -395,21 +395,21 @@ const JOBS = [
 
 /* ── 보류·제외 (18건) ─────────────────────────────────────── */
 const ETC = [
-  {n:"(주)이수페타시스", s:"구매팀 — 원부자재 조달·설비/공사 구매 · 대구 달성 논공", d:"~11/26(목) D-1", w:"어학 필수 요건(OPIc IH 또는 HSK 5급 이상) 미보유 — 사용자 확인 후 제외 유지", u:"https://www.jobkorea.co.kr/Recruit/GI_Read/50250414"},
+  {n:"(주)이수페타시스", s:"구매팀 — 원부자재 조달·설비/공사 구매 · 대구 달성 논공", d:"~11/26(목) 오늘 마감", w:"어학 필수 요건(OPIc IH 또는 HSK 5급 이상) 미보유 — 사용자 확인 후 제외 유지", u:"https://www.jobkorea.co.kr/Recruit/GI_Read/50250414"},
   {n:"(주)솔디펜스", s:"구미사업장 생산지원팀(생산계획·납기·ERP) · 구미", d:"~11/27(금) D-2", w:"<b>신입 초봉 3,811만으로 기준(4,000만) 미달</b> — 학력·경력은 충족하나 처우가 낮음", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55128252"},
   {n:"(주)마이크로인피니티", s:"생산관리·구매 동시 모집 · 수원·대전·칠곡 석적", d:"~12/31(목) D-36", w:"대졸초임 4,200만으로 4,000만 하한은 충족하나 <b>4,400만 목표 미달 + 근무지가 수원·대전 중심</b>", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55459022"},
   {n:"(주)지아이에스", s:"(구미) 구매팀 — 가공품 견적·발주·원가분석 · 구미 5공단", d:"~12/13(일) D-18", w:"<b>신입 초봉 3,400만으로 기준(4,000만) 미달</b>(평균 5,775만) · 학력 고졸↑ · 주5일 08:30~17:30", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55640297"},
   {n:"(주)아바텍", s:"MLCC사업부 생산관리팀 신입/경력 · 구미 산동", d:"~12/18(금) D-23", w:"평균연봉 3,988만으로 기준(4,000만) 미달 소지 · 잡플래닛 2.4(33건, 추천 21%)", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55606795"},
   {n:"동원파이프(주)", s:"생산관리 계약직(신입·경력) · 대구 서구", d:"~11/30(월) D-5", w:"공고 연봉 4,500만 명시로 기준은 충족하나 <b>계약직</b> + 잡플래닛 2.4·51명 규모 → 보류", u:"https://www.saramin.co.kr/zf_user/search?searchword=%EB%8F%99%EC%9B%90%ED%8C%8C%EC%9D%B4%ED%94%84"},
   {n:"(주)유림공업", s:"사업기획실 구매(신입) · 구미", d:"확인 필요", w:"대졸4년↑·구매 신입으로 직무는 맞으나 평균 3,790만·<b>부채비율 485%</b> → 재무 리스크로 보류", u:"https://www.saramin.co.kr/zf_user/search?searchword=%EC%9C%A0%EB%A6%BC%EA%B3%B5%EC%97%85"},
-  {n:"(주)피에이치지", s:"생산관리(대졸4년↑) · 구미", d:"D-6 (11/25 기준)", w:"학력·직무는 맞으나 <b>급여·근무일시가 전부 미기재</b>라 기준 검증 불가 → 보류", u:"https://www.saramin.co.kr/zf_user/search?searchword=%ED%94%BC%EC%97%90%EC%9D%B4%EC%B9%98%EC%A7%80"},
+  {n:"(주)피에이치지", s:"생산관리(대졸4년↑) · 구미", d:"D-5 (11/26 기준)", w:"학력·직무는 맞으나 <b>급여·근무일시가 전부 미기재</b>라 기준 검증 불가 → 보류", u:"https://www.saramin.co.kr/zf_user/search?searchword=%ED%94%BC%EC%97%90%EC%9D%B4%EC%B9%98%EC%A7%80"},
   {n:"삼화양행 구미2공장", s:"생산관리·자재 · 구미", d:"~2027-01-17", w:"대졸4년↑·경력무관은 충족하나 49명 소규모로 연봉 검증 불가 → 보류", u:"https://www.saramin.co.kr/zf_user/search?searchword=%EC%82%BC%ED%99%94%EC%96%91%ED%96%89"},
   {n:"태창공업(주)", s:"생산관리 팀장급 · 구미", d:"확인 필요", w:"팀장급 경력 5년↑ 요건으로 2년차 미달", u:"https://www.saramin.co.kr/zf_user/search?searchword=%ED%83%9C%EC%B0%BD%EA%B3%B5%EC%97%85"},
   {n:"(주)화신 대구공장", s:"생산관리팀 — 대리급(경력 4~7년) / 사원급(신입) 별도 공고", d:"~12/23(수) D-28", w:"대리급은 경력 4~7년으로 2년차 미달, 사원급은 신입 전용이며 급여 미기재 → 보류", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55645756"},
   {n:"(주)성우", s:"생산관리/구매 경력직(사원~대리) · 구미", d:"~12/11(금) D-16", w:"급여·근무형태 미기재로 기준 검증 불가 → 보류", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55540851"},
-  {n:"(주)대명이엔지", s:"구미공장 구매조달 사원 · 구미", d:"D-6 (11/25 기준)", w:"급여 미기재로 기준 검증 불가 → 보류", u:"https://www.saramin.co.kr/zf_user/search?searchword=%EB%8C%80%EB%AA%85%EC%9D%B4%EC%97%94%EC%A7%80"},
+  {n:"(주)대명이엔지", s:"구미공장 구매조달 사원 · 구미", d:"D-5 (11/26 기준)", w:"급여 미기재로 기준 검증 불가 → 보류", u:"https://www.saramin.co.kr/zf_user/search?searchword=%EB%8C%80%EB%AA%85%EC%9D%B4%EC%97%94%EC%A7%80"},
   {n:"(주)동산이엔지", s:"구매·자재 담당 · 구미", d:"~12/09(수) D-14", w:"급여 미기재로 기준 검증 불가 → 보류", u:"https://www.saramin.co.kr/zf_user/search?searchword=%EB%8F%99%EC%82%B0%EC%9D%B4%EC%97%94%EC%A7%80"},
-  {n:"(주)유진이앤씨", s:"SMT 전문기업 구매팀 · 구미", d:"D-3 (11/25 기준)", w:"급여 미기재·규모 미확인으로 검증 불가 → 보류", u:"https://www.saramin.co.kr/zf_user/search?searchword=%EC%9C%A0%EC%A7%84%EC%9D%B4%EC%95%A4%EC%94%A8"},
+  {n:"(주)유진이앤씨", s:"SMT 전문기업 구매팀 · 구미", d:"D-2 (11/26 기준)", w:"급여 미기재·규모 미확인으로 검증 불가 → 보류", u:"https://www.saramin.co.kr/zf_user/search?searchword=%EC%9C%A0%EC%A7%84%EC%9D%B4%EC%95%A4%EC%94%A8"},
   {n:"경산 외국계 자재팀", s:"자재관리 · 경산", d:"확인 필요", w:"공고에 <b>교대근무 명시</b> → 배제 조건(교대 제외) 저촉", u:""},
   {n:"한화에어로스페이스(주)", s:"하반기 경력 — 생산관리·구매·사업기획 · 창원·아산·서울·분당", d:"~11/29 24:00 D-4", w:"경력 5년↑ 요건으로 2년차 미달 소지", u:"https://m.catch.co.kr/NCS/RecruitInfoDetails/581312"},
   {n:"제트에프렘페더샤시(주)", s:"Material Planner(자재관리) · 구미 4공단", d:"채용 시 마감", w:"공고에 <b>휴일근무 가능 명시</b> → 주말 출근 배제 조건 저촉", u:"https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55267745"}

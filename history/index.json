@@ -1,13 +1,25 @@
 {
- "updated": "2026-11-25",
- "count": 4,
+ "updated": "2026-11-26",
+ "count": 5,
  "dates": [
+  {
+   "date": "2026-11-26",
+   "dw": "목",
+   "label": "2026-11-26 (목)",
+   "summary": "11/26 아침 · 총 제출 1,716(오늘 집계 중) · 청주→후쿠오카 723,400 신규 최저 · 철도 준법투쟁 개시",
+   "isLatest": true,
+   "hasBonus": true,
+   "hasJobs": true,
+   "hasMeals": true,
+   "hasFlights": true,
+   "hasToday": true
+  },
   {
    "date": "2026-11-25",
    "dw": "수",
    "label": "2026-11-25 (수)",
    "summary": "총 제출 1,716건(오늘 +132·웹 경품 51) · 당첨 3 · 발표 완료 160(1.9%) · 남은 신청 134(웹 134·무신사 제외) · 공고 추적 8건 · 항공권 특가 0/6(김해→제주 262,118원)",
-   "isLatest": true,
+   "isLatest": false,
    "hasBonus": true,
    "hasJobs": true,
    "hasMeals": true,
