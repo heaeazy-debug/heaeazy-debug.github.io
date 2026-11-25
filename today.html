@@ -442,8 +442,8 @@ function timelineHTML(b){
       t: r0.t ? `<em>${esc(r0.t)}</em>${esc(shortClause(r0.d, 26))}` : "오늘 알림 없음",
       s: bold ? `핵심 <b>${esc(bold)}</b>` : `알림 ${rem.length}건 · 순서대로 처리` },
     { cls:"c", k:"오늘 마감",
-      t: dl.length ? dl.map(x => `<em>${esc(x.t)}</em>${esc(x.v)}`).join("<span style=\"color:var(--sub);font-weight:700\"> · </span>") : "오늘 마감 없음",
-      s: dlNote.length ? dlNote.join(" · ") : (waitN ? `마감 없음 · 남은 결정 ${waitN}건은 맨 위 박스` : "마감이 걸린 항목 없음") }
+      t: dl.length ? dl.map(x => `<em>${esc(x.t)}</em>${esc(x.v)}`).join("<span style=\"color:var(--sub);font-weight:700\"> · </span>") : (waitN ? "마감 없음" : "오늘 마감 없음"),
+      s: dlNote.length ? dlNote.join(" · ") : (waitN ? `남은 결정 ${waitN}건은 맨 위 박스에서` : "마감이 걸린 항목 없음") }
   ];
   return `<div class="tl3" role="region" aria-label="오늘 핵심 3줄">
     <div class="tl3-h"><b>오늘 핵심 3줄</b><span>① 날씨 ② 다음 일정 ③ 오늘 마감</span></div>
