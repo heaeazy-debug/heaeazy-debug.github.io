@@ -91,6 +91,39 @@
   .info li{margin:2px 0}
   footer{text-align:center;font-size:11px;color:var(--sub);margin-top:20px;line-height:1.6;letter-spacing:-.1px}
   .hidden{display:none!important}
+  /* ── 오늘 핵심 3줄 타임라인 ───────────────────────────── */
+  .tl3{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:13px 14px 11px;
+    box-shadow:var(--shadow);margin:0 0 12px}
+  .tl3-h{display:flex;align-items:baseline;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+  .tl3-h b{font-size:14px;font-weight:800;letter-spacing:-.35px}
+  .tl3-h span{font-size:10.5px;color:var(--sub);font-weight:700;letter-spacing:-.15px}
+  .tl3-row{display:flex;gap:9px;align-items:flex-start;padding:8px 0;border-top:1px solid var(--line)}
+  .tl3-row:first-of-type{border-top:0;padding-top:0}
+  .tl3-n{flex:0 0 17px;height:17px;border-radius:50%;display:grid;place-items:center;font-size:10px;font-weight:900;
+    background:var(--chip-bg);color:var(--sub2);margin-top:1px;font-variant-numeric:tabular-nums}
+  .tl3-row.w .tl3-n{background:#eef4ff;color:#2554b8}
+  .tl3-row.h .tl3-n{background:#fff5e0;color:#8a5a00}
+  .tl3-row.c .tl3-n{background:#fdecec;color:#b3261e}
+  [data-theme="dark"] .tl3-row.w .tl3-n{background:#1b2a45;color:#a8c6ff}
+  [data-theme="dark"] .tl3-row.h .tl3-n{background:#3a2c12;color:#ffd08a}
+  [data-theme="dark"] .tl3-row.c .tl3-n{background:#3a1c1c;color:#ffb3b3}
+  .tl3-b{min-width:0;flex:1}
+  .tl3-t{font-size:13px;font-weight:800;letter-spacing:-.3px;line-height:1.35}
+  .tl3-t em{font-style:normal;font-variant-numeric:tabular-nums;margin-right:4px}
+  .tl3-t em + em{margin-left:2px}
+  .tl3-s{font-size:11px;color:var(--sub);margin-top:2px;letter-spacing:-.15px;line-height:1.4}
+  .tl3-s b{color:var(--sub2);font-weight:800}
+  .tl3-k{flex:0 0 auto;font-size:9.5px;font-weight:900;letter-spacing:-.2px;border-radius:5px;padding:2px 5px;
+    background:var(--chip-bg);border:1px solid var(--line);color:var(--sub2);margin-top:1px}
+  .tl3-row.c .tl3-k{color:#b3261e;background:#fdecec;border-color:#f6cfcd}
+  [data-theme="dark"] .tl3-row.c .tl3-k{color:#ffb3b3;background:#3a1c1c;border-color:#5c2b29}
+  /* 8대 항목 강조 배지 */
+  .hb{font-size:9.5px;font-weight:900;letter-spacing:-.2px;border-radius:5px;padding:2px 5px;white-space:nowrap;
+    background:var(--chip-bg);border:1px solid var(--line);color:var(--sub2)}
+  .hb.w{color:#8a5a00;background:#fff5e0;border-color:#ffe2ad}
+  .hb.r{color:#b3261e;background:#fdecec;border-color:#f6cfcd}
+  [data-theme="dark"] .hb.w{color:#ffd08a;background:#3a2c12;border-color:#5a4419}
+  [data-theme="dark"] .hb.r{color:#ffb3b3;background:#3a1c1c;border-color:#5c2b29}
   /* ── 날짜 선택기 · 과거 기록 ─────────────────────────── */
   .datebar{display:flex;align-items:center;gap:8px;margin:0 0 10px}
   .datebar .dl{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--sub);letter-spacing:-.1px}
@@ -142,6 +175,8 @@
   <div id="archiveView" class="hidden"></div>
 
   <div id="liveView">
+    <div id="tl3"></div>
+
     <div class="grid">
       <div class="card"><div class="k">오늘 날씨</div><div class="v c-blue" id="vTodayWeather">-3~8<small>℃</small></div><div class="s">구미 공단동 · 맑음(구름 조금) · 강수 0%</div></div>
       <div class="card"><div class="k">일정</div><div class="v" id="vTodaySched">0<small>건</small></div><div class="s">Google·Outlook 오늘 일정 없음 · 리마인드 3건</div></div>
@@ -252,10 +287,10 @@ const BRIEF = {
 
 function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
-function blkHTML(title, sumline, body, link, open){
+function blkHTML(title, sumline, body, link, open, badge){
   return `<details class="blk acc"${open ? " open" : ""}>
     <summary>
-      <span class="bh"><span class="bt">${title}</span>${link ? `<a class="bgo" href="${link.href}" onclick="event.stopPropagation()">${link.text} →</a>` : ""}</span>
+      <span class="bh"><span class="bt">${title}</span>${badge ? `<span class="hb ${badge.cls || ""}">${esc(badge.t)}</span>` : ""}${link ? `<a class="bgo" href="${link.href}" onclick="event.stopPropagation()">${link.text} →</a>` : ""}</span>
       <span class="bsum">${sumline}</span>
     </summary>
     <div class="bdy">${body}</div>
@@ -274,6 +309,11 @@ function briefHTML(b){
   const revSum = (rv.items || []).slice(0, 3).map(r => `${r.n.split("(")[0]} ${r.v}`).join(" · ");
   const isaSum = [ (isa.total || "").split("·")[0].trim(), (isa.signal || "").includes("보류") ? "물타기 보류" : "" ].filter(Boolean).join(" · ");
   const jobSum = (jb.soon || []).map(j => `${j.n.replace("(주)", "")} ${j.tag}`).join(" · ");
+  /* 변동·중요 항목에만 붙는 강조 배지 — 값에서 계산해 과거 기록도 그날 기준으로 붙는다 */
+  const mealBadge = /15:00/.test(ml.todo || "") ? {t:"15:00 마감", cls:"w"} : null;
+  const isaBadge  = /갭다운/.test(isa.outlook || "") ? {t:"시초 갭다운", cls:"r"}
+                  : (/마감/.test(isa.stocks || "") ? {t:"오늘 마감", cls:"w"} : null);
+  const jobBadge  = (jb.soon || []).some(j => j.tag === "D-1") ? {t:"D-1", cls:"r"} : null;
   return [
     blkHTML("1. 일정 · 날씨",
       `${esc(w.range || "")} ${esc(w.cond || "")} · 미세먼지 <b>${esc(w.air || "")}</b> · 일정 ${esc(sc.count)}건`,
@@ -293,7 +333,7 @@ function briefHTML(b){
        <div class="line muted">${esc(ml.lunch)}</div>
        <div class="line" style="margin-top:6px"><span class="tag o">남은 일</span>${esc(ml.todo)}</div>
        <div class="line muted">${esc(ml.tomorrow)}</div>`,
-      {href:"meals.html", text:"식단 보드"}, false),
+      {href:"meals.html", text:"식단 보드"}, false, mealBadge),
     blkHTML("4. 체험단",
       `총 ${esc(ct.total)}건 · 당첨 ${esc(ct.win)} · 남은 신청 ${esc(ct.remain)}건`,
       `<div class="line">총 제출 <b>${esc(ct.total)}건</b>(오늘 ${esc(ct.today)}) · 발표 완료 <b>${esc(ct.done)}</b> · 당첨 <b>${esc(ct.win)}건</b>(${esc(ct.rate)}) · 남은 신청 <b>${esc(ct.remain)}건</b></div>
@@ -309,11 +349,11 @@ function briefHTML(b){
        ${isa.outlook ? `<div class="line" style="margin-top:6px"><span class="tag b">오늘 전망</span>${esc(isa.outlook)}</div>` : ""}
        <div class="line" style="margin-top:6px"><span class="tag o">판단</span>${esc(isa.signal)}</div>
        <div class="line muted">${esc(isa.stocks)}</div>`,
-      {href:"index.html", text:"공모주·ISA"}, false),
+      {href:"index.html", text:"공모주·ISA"}, false, isaBadge),
     blkHTML("7. 공고", jobSum,
       (jb.soon || []).map(j => `<div class="li"><span class="lk"><span class="tag ${j.tag === "D-1" ? "r" : "o"}">${esc(j.tag)}</span></span><span class="lv"><b>${esc(j.n)}</b><span class="d">${esc(j.d)}</span></span></div>`).join("") +
       `<div class="line muted" style="margin-top:4px">${esc(jb.detail)}</div>`,
-      {href:"jobs.html", text:"공고 보드"}, false),
+      {href:"jobs.html", text:"공고 보드"}, false, jobBadge),
     blkHTML("8. 항공권",
       `${esc((fl.best || "").split("—")[0].trim())}`,
       `<div class="line"><b>${esc(fl.best)}</b></div>
@@ -323,6 +363,46 @@ function briefHTML(b){
   ].join("");
 }
 
+/* ── 오늘 핵심 3줄 타임라인 (맨 위 고정 카드) ───────────── */
+function shortClause(s, max){
+  const t = String(s == null ? "" : s).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim()
+    .split(/—|·/)[0].trim();
+  return t.length > max ? t.slice(0, max).trim() + "…" : t;
+}
+function timelineHTML(b){
+  const w = b.weather || {}, sc = b.schedule || {}, ml = b.meals || {}, isa = b.isa || {};
+  const rem = sc.reminders || [], r0 = rem[0] || {};
+  const bold = (String(r0.d || "").match(/<b>(.*?)<\/b>/) || [])[1] || "";
+  const isaTxt = isa.stocks || "";
+  const hasBaji = /15:00/.test(ml.todo || ""), hasShin = /신영/.test(isaTxt) && /마감/.test(isaTxt);
+  const dl = [];
+  if(hasBaji) dl.push({t:"15:00", v:"바지락 주문"});
+  if(hasShin) dl.push({t:"오늘", v:"신영 계좌 개설"});
+  const dlNote = [];
+  if(hasBaji) dlNote.push("15:00을 넘기면 다음 날 새벽 도착");
+  if(hasShin) dlNote.push("신영은 오늘까지 열어야 12/1 청약");
+  const rows = [
+    { cls:"w", k:"날씨",
+      t:`<em>${esc(w.range || "–")}</em>${esc(w.cond || "")}`,
+      s:`미세먼지 <b>${esc(w.air || "–")}</b>${/빙판길/.test(w.note || "") ? " · 아침 <b>빙판길</b> 주의" : ""}` },
+    { cls:"h", k:"다음 일정",
+      t: r0.t ? `<em>${esc(r0.t)}</em>${esc(shortClause(r0.d, 26))}` : "오늘 알림 없음",
+      s: bold ? `핵심 <b>${esc(bold)}</b>` : `알림 ${rem.length}건 · 순서대로 처리` },
+    { cls:"c", k:"오늘 마감",
+      t: dl.length ? dl.map(x => `<em>${esc(x.t)}</em>${esc(x.v)}`).join(" ") : "오늘 마감 없음",
+      s: dlNote.length ? dlNote.join(" · ") : "마감이 걸린 항목 없음" }
+  ];
+  return `<div class="tl3" role="region" aria-label="오늘 핵심 3줄">
+    <div class="tl3-h"><b>오늘 핵심 3줄</b><span>① 날씨 ② 다음 일정 ③ 오늘 마감</span></div>
+    ${rows.map((x, i) => `<div class="tl3-row ${x.cls}">
+      <span class="tl3-n">${i + 1}</span>
+      <div class="tl3-b"><div class="tl3-t">${x.t}</div><div class="tl3-s">${x.s}</div></div>
+      <span class="tl3-k">${x.k}</span>
+    </div>`).join("")}
+  </div>`;
+}
+
+document.getElementById("tl3").innerHTML = timelineHTML(BRIEF);
 document.getElementById("briefView").innerHTML = briefHTML(BRIEF);
 
 /* 8대 항목 모두 펼치기/접기 */

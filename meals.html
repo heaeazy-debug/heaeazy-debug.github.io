@@ -232,6 +232,75 @@
   .reset{border:1px solid var(--line);background:var(--card);color:var(--sub2);border-radius:8px;padding:5px 9px;
     font-size:10.5px;font-weight:700;font-family:inherit;cursor:pointer;letter-spacing:-.2px}
   .hidden{display:none!important}
+  /* ── 오늘·내일 끼니 요약 ─────────────────────────────── */
+  .hero{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:11px 12px 12px;
+    box-shadow:var(--shadow);margin-bottom:7px}
+  .hero-h{display:flex;align-items:baseline;gap:6px;margin-bottom:7px;flex-wrap:wrap}
+  .hero-h b{font-size:13px;font-weight:800;letter-spacing:-.35px}
+  .hero-h span{font-size:9.5px;color:var(--sub);font-weight:700;letter-spacing:-.15px}
+  .hero-day{display:flex;gap:7px;align-items:stretch;padding:7px 0;border-top:1px dashed var(--line)}
+  .hero-day:first-of-type{border-top:0;padding-top:0}
+  .hero-dw{flex:0 0 36px;font-size:10.5px;font-weight:900;color:var(--sub2);letter-spacing:-.2px;display:flex;flex-direction:column;gap:1px}
+  .hero-dw em{font-style:normal;font-size:9px;color:var(--sub);font-weight:700;white-space:nowrap}
+  .hero-meals{min-width:0;flex:1;display:flex;flex-direction:column;gap:4px}
+  .hrow{display:flex;gap:5px;align-items:flex-start;min-width:0}
+  .hlabel{flex:0 0 46px;font-size:8.5px;font-weight:900;letter-spacing:-.3px;border-radius:5px;padding:2px 0;text-align:center;
+    border:1px solid var(--line);background:var(--chip-bg);color:var(--sub2);white-space:nowrap}
+  .hlabel.l{color:#1d4ed8;background:#eef4ff;border-color:#d8e5ff}
+  .hlabel.u{color:#6d28d9;background:#f4ecff;border-color:#e4d3ff}
+  .hlabel.d{color:#b45309;background:#fff7e8;border-color:#ffe6c2}
+  [data-theme="dark"] .hlabel.l{color:#a8c6ff;background:#1b2a45;border-color:#2b4470}
+  [data-theme="dark"] .hlabel.u{color:#c9b2ff;background:#2d2340;border-color:#463563}
+  [data-theme="dark"] .hlabel.d{color:#ffcf8a;background:#3a2c12;border-color:#5a4419}
+  .hval{min-width:0;flex:1;font-size:11.5px;font-weight:700;letter-spacing:-.25px;line-height:1.35;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .hval em{font-style:normal;font-size:9.5px;color:var(--sub);font-weight:700;margin-left:3px}
+  .hval.mut{color:var(--sub);font-weight:600}
+
+  /* ── 주간 ↔ 월간 전환 ──────────────────────────────── */
+  .cal-head{display:flex;align-items:center;gap:8px;margin:0 2px 6px}
+  .cal-head .ch-t{font-size:11.5px;font-weight:800;color:var(--sub);letter-spacing:-.2px}
+  .vt{display:flex;gap:2px;background:var(--chip-bg);border:1px solid var(--line);border-radius:9px;padding:2px;
+    margin-left:auto;width:126px}
+  .vt button{flex:1;border:0;background:transparent;color:var(--sub2);font-size:10.5px;font-weight:800;letter-spacing:-.3px;
+    padding:5px 0;border-radius:7px;font-family:inherit;cursor:pointer}
+  .vt button[aria-selected="true"]{background:var(--card);color:var(--text);box-shadow:var(--shadow)}
+  .mcal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:7px 7px 8px;box-shadow:var(--shadow)}
+  .mcell{appearance:none;border:1px solid var(--line);background:var(--bg);border-radius:8px;padding:3px 1px;min-height:44px;
+    display:flex;flex-direction:column;align-items:center;justify-content:space-between;gap:1px;min-width:0;font-family:inherit;
+    color:var(--text);cursor:pointer;line-height:1.1}
+  .mcell.nod{background:transparent;border-color:transparent;color:var(--sub);opacity:.45;cursor:default}
+  .mcell .md{font-size:8.5px;font-weight:800;color:var(--sub);font-variant-numeric:tabular-nums}
+  .mcell .mm{font-size:8.5px;font-weight:800;letter-spacing:-.4px;max-width:100%;overflow:hidden;white-space:nowrap;
+    text-overflow:ellipsis;padding:0 1px}
+  .mcell.off .mm{color:var(--sub);font-weight:700}
+  .mcell.today{box-shadow:inset 0 0 0 1.5px var(--blue)}
+  .mcell.sel{background:var(--pill);border-color:var(--pill)}
+  .mcell.sel .md,.mcell.sel .mm{color:var(--pill-text)}
+  .mcell .mdots{display:flex;align-items:center;justify-content:center;gap:1.5px;height:4px}
+  .mcell .mdots i{display:block;width:3.5px;height:3.5px;border-radius:50%}
+  .mcell .mdots i.l{background:var(--blue)}
+  .mcell .mdots i.u{background:var(--purple)}
+  .mcell.sel .mdots i{background:var(--pill-text)}
+
+  /* ── 결제·보유 완료 접기 ─────────────────────────────── */
+  .donebox{background:var(--card);border:1px solid #c6eedd;border-radius:14px;box-shadow:var(--shadow);overflow:hidden;margin-top:8px}
+  [data-theme="dark"] .donebox{border-color:#1e4d41}
+  .donebox > summary{list-style:none;display:flex;align-items:center;gap:8px;padding:11px 13px;cursor:pointer}
+  .donebox > summary::-webkit-details-marker{display:none}
+  .donebox .db-i{flex:0 0 24px;height:24px;border-radius:8px;background:#e8f8f1;color:var(--green);display:grid;place-items:center;
+    font-size:12px;font-weight:900}
+  [data-theme="dark"] .donebox .db-i{background:#12302a}
+  .donebox .db-t{font-size:12.5px;font-weight:800;letter-spacing:-.3px}
+  .donebox .db-s{margin-left:auto;font-size:10.5px;font-weight:700;color:var(--sub);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .donebox .db-v{font-size:13px;font-weight:800;color:var(--blue);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .donebox .db-x{flex:0 0 auto;font-size:10px;color:var(--sub);transition:transform .15s}
+  .donebox[open] .db-x{transform:rotate(180deg)}
+  .donebox .db-body{padding:0 13px 13px}
+  .donebox .sec-label:first-child{margin-top:2px}
+  .donebox .paid{margin-top:0}
+
   /* ── 날짜 선택기 · 과거 기록 ─────────────────────────── */
   .datebar{display:flex;align-items:center;gap:8px;margin:0 0 10px}
   .datebar .dl{flex:0 0 auto;font-size:12px;font-weight:700;color:var(--sub);letter-spacing:-.1px}
@@ -292,6 +361,8 @@
 
   <!-- ── 탭 1: 달력 식단 ───────────────────────────────── -->
   <section id="panel-cal" role="tabpanel" aria-labelledby="tab-cal">
+    <div class="hero" id="mealHero" aria-live="polite"></div>
+
     <div class="sumline" id="sumline">
       <span>확정 <b>6끼</b></span><span class="dot"></span>
       <span>먹음 <b id="sumEat">0/6</b></span><span class="dot"></span>
@@ -300,6 +371,13 @@
       <span class="todo">바지락 11/25</span>
     </div>
 
+    <div class="cal-head">
+      <span class="ch-t">식단 달력</span>
+      <div class="vt" role="tablist" aria-label="달력 보기 전환">
+        <button type="button" role="tab" data-mode="week" aria-selected="true">주간</button>
+        <button type="button" role="tab" data-mode="month" aria-selected="false">월간</button>
+      </div>
+    </div>
     <div class="cal" id="cal" role="grid" aria-label="2주 식단 달력"></div>
 
     <div class="cal-legend"><span><i class="dt l"></i> 내 점심</span><span><i class="dt u"></i> 우기 점심</span><span class="lg-t">칸은 <b>저녁 메뉴</b>만 · 점심 상세는 아래 날짜 카드</span></div>
@@ -311,42 +389,55 @@
   <section id="panel-shop" role="tabpanel" aria-labelledby="tab-shop" class="hidden">
     <div class="remain">
       <div class="rm-top">
-        <span class="rm-badge">남은 일 1건</span>
+        <span class="rm-badge">추가 구매 필요</span>
         <span class="rm-due">11/25(수) 15:00 전</span>
       </div>
-      <div class="rm-t">바지락 별도 주문</div>
+      <div class="rm-t">바지락 1건 — 따로 주문</div>
       <div class="rm-d">목요일 바지락술찜용. 냉장 2~3일이 한계라 <b>11/25 주문 → 11/26 사용</b>. 로켓프레시 생물은 15:00 결제 마감을 넘기면 다음 날 새벽 도착으로 밀림. <b>화이트와인은 집에 있어 술은 사지 않는다</b>(바지락만).</div>
     </div>
 
-    <div class="paid">
-      <div class="pi">✓</div>
-      <div>
-        <div class="pt">이번 주 식단 재료 결제 완료</div>
-        <div class="pd">쿠팡 10종 · 11/22 주문 → 11/23 도착 · 바지락 제외 · 남은 결제 0원</div>
+    <details class="donebox">
+      <summary>
+        <span class="db-i">✓</span>
+        <span class="db-t">결제·보유 완료</span>
+        <span class="db-s">10종 · 쿠팡 11/23 도착</span>
+        <span class="db-v">73,300원</span>
+        <span class="db-x">▾</span>
+      </summary>
+      <div class="db-body">
+
+        <div class="paid">
+          <div class="pi">✓</div>
+          <div>
+            <div class="pt">이번 주 식단 재료 결제 완료</div>
+            <div class="pd">쿠팡 10종 · 11/22 주문 → 11/23 도착 · 바지락 제외 · 남은 결제 0원</div>
+          </div>
+          <div class="pv">73,300<small style="font-size:10.5px;font-weight:700">원</small></div>
+        </div>
+
+        <div class="sec-label">
+          받은 품목 체크
+          <span class="sub">· 결제 완료 10종</span>
+          <span class="cnt" id="recvCnt">0/10</span>
+          <button class="reset" id="resetBtn" type="button" style="margin-left:8px">전체 해제</button>
+        </div>
+        <div class="bar"><i id="recvBar"></i></div>
+        <div id="shop"></div>
+
+        <div class="shop-total">
+          <div>
+            <div class="st-l">결제 완료 (10종)</div>
+            <small>총 상품가 76,690원 · 할인 −3,390 · 배송비 0원</small>
+            <small>바지락은 별도 주문(11/25) · 금액 미확정</small>
+          </div>
+          <div class="st-v">73,300<small>원</small></div>
+        </div>
+
+        <div class="sec-label">실제 주문 대조 <span class="sub">· 6건</span></div>
+        <div class="adjust" id="adjust"></div>
+
       </div>
-      <div class="pv">73,300<small style="font-size:10.5px;font-weight:700">원</small></div>
-    </div>
-
-    <div class="sec-label">
-      받은 품목 체크
-      <span class="sub">· 결제 완료 10종</span>
-      <span class="cnt" id="recvCnt">0/10</span>
-      <button class="reset" id="resetBtn" type="button" style="margin-left:8px">전체 해제</button>
-    </div>
-    <div class="bar"><i id="recvBar"></i></div>
-    <div id="shop"></div>
-
-    <div class="shop-total">
-      <div>
-        <div class="st-l">결제 완료 (10종)</div>
-        <small>총 상품가 76,690원 · 할인 −3,390 · 배송비 0원</small>
-        <small>바지락은 별도 주문(11/25) · 금액 미확정</small>
-      </div>
-      <div class="st-v">73,300<small>원</small></div>
-    </div>
-
-    <div class="sec-label">실제 주문 대조 <span class="sub">· 6건</span></div>
-    <div class="adjust" id="adjust"></div>
+    </details>
 
     <div class="info">
       <b>메모</b>
@@ -519,6 +610,30 @@ const calEl = document.getElementById("cal");
 const detailEl = document.getElementById("detail");
 let selKey = TODAY;
 const DOW = ["월","화","수","목","금","토","일"];
+let calMode = "week";
+try{ calMode = localStorage.getItem("meal-board-calmode") === "month" ? "month" : "week"; }catch(e){ calMode = "week"; }
+
+/* ── 오늘·내일 끼니 요약 ───────────────────────────────── */
+function heroHTML(){
+  const idx = ALL.findIndex(d => d.key === TODAY);
+  const pick = [];
+  if(idx >= 0){ pick.push({d: ALL[idx], label: "오늘"}); if(ALL[idx + 1]) pick.push({d: ALL[idx + 1], label: "내일"}); }
+  else if(ALL.length) pick.push({d: ALL[0], label: ALL[0].key === TODAY ? "오늘" : "최근"});
+  return `<div class="hero-h"><b>오늘·내일 끼니</b><span>${TODAY.slice(5).replace("-", "/")} 기준 · 내 점심 · 우기 점심 · 집 저녁</span></div>`
+    + pick.map(({d, label}) => `
+    <div class="hero-day">
+      <div class="hero-dw">${label}<em>${d.dn} ${d.dw}</em></div>
+      <div class="hero-meals">
+        <div class="hrow"><span class="hlabel l">내 점심</span><span class="hval${d.mMain ? "" : " mut"}">${d.mMain || (d.off ? "회사 식단 없음" : "식단표 미확인")}${d.mMain ? `<em>${(d.my || "").split(" · ").length > 1 ? "외 " + ((d.my || "").split(" · ").length - 1) + "찬" : ""}</em>` : ""}</span></div>
+        <div class="hrow"><span class="hlabel u">우기 점심</span><span class="hval${d.woogi ? "" : " mut"}">${d.woogi || "회사 식단 없음"}</span></div>
+        <div class="hrow"><span class="hlabel d">집 저녁</span><span class="hval">${d.menu || "—"}${d.time && d.time !== "—" ? `<em>${d.time}</em>` : ""}</span></div>
+      </div>
+    </div>`).join("");
+}
+function paintHero(){
+  const el = document.getElementById("mealHero");
+  if(el) el.innerHTML = heroHTML();
+}
 
 function cellHTML(d){
   const eaten = !!(log[d.key] && log[d.key].eaten);
@@ -549,11 +664,55 @@ function weekRange(arr){
   return arr[0].dn + "~" + arr[arr.length - 1].dn;
 }
 function renderCal(){
+  if(calMode === "month"){ renderMonth(); return; }
+  calEl.className = "cal";
+  calEl.setAttribute("aria-label", "2주 식단 달력");
   const head = DOW.map(d => `<div class="wd${d === "토" || d === "일" ? " we" : ""}">${d}</div>`).join("");
   calEl.innerHTML = head
     + `<div class="wlab">${weekName(WEEK_PREV)} ${weekRange(WEEK_PREV)}</div>` + WEEK_PREV.map(cellHTML).join("")
     + `<div class="wlab cur">${weekName(WEEK_CUR)} ${weekRange(WEEK_CUR)}</div>` + WEEK_CUR.map(cellHTML).join("");
 }
+
+/* 월간 보기 — 기록이 있는 날만 누를 수 있다 */
+function renderMonth(){
+  const anchor = ALL.find(x => x.key === TODAY) || ALL[0];
+  const base = (anchor && anchor.key) || "2026-11-24";
+  const [y, m] = base.split("-").map(Number);
+  const lead = (new Date(Date.UTC(y, m - 1, 1)).getUTCDay() + 6) % 7;
+  const last = new Date(Date.UTC(y, m, 0)).getUTCDate();
+  const map = {};
+  ALL.forEach(d => { map[d.key] = d; });
+  let cells = "";
+  for(let i = 0; i < lead; i++) cells += `<span class="mcell nod" aria-hidden="true"></span>`;
+  for(let day = 1; day <= last; day++){
+    const key = `${y}-${String(m).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    const d = map[key];
+    if(!d){ cells += `<span class="mcell nod"><span class="md">${day}</span></span>`; continue; }
+    const eaten = !!(log[key] && log[key].eaten);
+    const dish = d.off ? "—" : (d.kw || d.menu || "—").split("·")[0].trim();
+    const dots = `${d.mMain ? `<i class="l" title="내 점심"></i>` : ""}${d.woogi ? `<i class="u" title="우기 점심"></i>` : ""}`;
+    const cls = ["mcell"];
+    if(d.off) cls.push("off");
+    if(key === TODAY) cls.push("today");
+    if(key === selKey) cls.push("sel");
+    cells += `<button type="button" class="${cls.join(" ")}" data-key="${key}" role="gridcell" aria-selected="${key === selKey}"
+      aria-label="${d.dn} ${d.dw} 저녁 ${d.menu}${eaten ? ", 먹음" : ""}">
+      <span class="md">${day}${eaten ? " ✓" : ""}</span><span class="mm">${dish}</span><span class="mdots">${dots}</span></button>`;
+  }
+  const head = DOW.map(d => `<div class="wd${d === "토" || d === "일" ? " we" : ""}">${d}</div>`).join("");
+  calEl.className = "mcal";
+  calEl.setAttribute("aria-label", `${y}년 ${m}월 식단 달력`);
+  calEl.innerHTML = `<div class="wlab">${y}년 ${m}월 <span style="font-weight:600">· 기록이 있는 날만 열립니다</span></div>` + head + cells;
+}
+
+document.querySelectorAll(".vt button").forEach(btn => {
+  btn.addEventListener("click", () => {
+    calMode = btn.dataset.mode === "month" ? "month" : "week";
+    document.querySelectorAll(".vt button").forEach(b => b.setAttribute("aria-selected", String(b === btn)));
+    try{ localStorage.setItem("meal-board-calmode", calMode); }catch(e){}
+    renderCal();
+  });
+});
 
 /* ── 상세 카드 ───────────────────────────────────────────── */
 function renderDetail(){
@@ -670,8 +829,9 @@ document.querySelectorAll(".mtabs button").forEach(btn => {
 
 /* ── 이벤트: 날짜 선택 ───────────────────────────────────── */
 calEl.addEventListener("click", e => {
-  const c = e.target.closest(".cell");
-  if(!c) return;
+  const c = e.target.closest(".cell, .mcell");
+  if(!c || !c.dataset.key) return;
+  if(!ALL.some(x => x.key === c.dataset.key)) return;
   selKey = c.dataset.key;
   renderCal();
   renderDetail();
@@ -689,7 +849,6 @@ detailEl.addEventListener("click", e => {
   renderDetail();
   paintStats();
 });
-
 detailEl.addEventListener("input", e => {
   if(!e.target.matches("#memoInput")) return;
   const k = selKey, v = e.target.value.trim();
@@ -733,6 +892,8 @@ themeBtn.addEventListener("click", () => setTheme(root.getAttribute("data-theme"
 renderCal();
 renderDetail();
 paintStats();
+paintHero();
+document.querySelectorAll(".vt button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.mode === calMode)));
 
 /* ── 날짜별 기록(아카이브) ───────────────────────────────── */
 const LIVE_STATE = { prev: WEEK_PREV, cur: WEEK_CUR, today: TODAY };
@@ -787,6 +948,7 @@ function archPaint(date, d){
   renderCal();
   renderDetail();
   paintStats();
+  paintHero();
   window.scrollTo({top: 0});
 }
 
@@ -821,9 +983,9 @@ function archShowLatest(){
   ARCH_BOX.innerHTML = ""; ARCH_FOOT.innerHTML = "";
   WEEK_PREV = LIVE_STATE.prev; WEEK_CUR = LIVE_STATE.cur; ALL = WEEK_PREV.concat(WEEK_CUR);
   TODAY = LIVE_STATE.today;
-  selKey = ALL.some(x => x.key === TODAY) ? TODAY : ALL[0].key;
   if(sumlineEl) sumlineEl.innerHTML = LIVE_SUMLINE;
-  renderCal(); renderDetail(); paintStats();
+  selKey = ALL.some(x => x.key === TODAY) ? TODAY : ALL[0].key;
+  renderCal(); renderDetail(); paintStats(); paintHero();
   if(ARCH_LATEST) archSel.value = ARCH_LATEST;
   if(location.search) history.replaceState(null, "", location.pathname);
 }

@@ -215,7 +215,7 @@
 
   <div class="grid">
     <div class="card"><div class="k">최저 2인 왕복</div><div class="v c-orange" id="vBest">373,000<small>원</small></div><div class="s">대구→제주 · 진에어 · 정상 주말가</div></div>
-    <div class="card"><div class="k">특가 컷 진입</div><div class="v c-orange" id="vMerit">0<small>/3</small></div><div class="s">특가 근접 1 · 대기 권장 2 · 3노선 모두 컷 위</div></div>
+    <div class="card"><div class="k">특가 컷 진입</div><div class="v c-orange" id="vMerit">0<small>/3</small></div><div class="s">특가 근접 0 · 대기 권장 3 · 목표가 15% 이내 없음</div></div>
     <div class="card"><div class="k">실측 노선</div><div class="v c-blue" id="vRoutes">3<small>/7</small></div><div class="s">청주 2 · 김해→제주 · 대마도(선박) 18시 예정</div></div>
     <div class="card"><div class="k">어제 대비</div><div class="v c-orange" id="vDiff">+16,000<small>원</small></div><div class="s">김해→후쿠오카 563,200(11/24) → 579,200(11/25)</div></div>
   </div>
@@ -235,7 +235,7 @@
       <li>모두 <b>Google Flights</b>에서 성인 2명·왕복·이코노미·KRW로 조회했고 표시가에 <b>세금·수수료가 포함</b>된 금액이다(수하물·좌석지정 별도). 2027-03-05(금)~03-07(일) 2박 3일 기준이고 예약·결제는 하지 않았다.</li>
       <li>노선마다 <b>최저가 1건만</b> 적는다 — 같은 노선의 다른 편·시간대·수하물 조건은 다음 실측에서 채운다.</li>
       <li><b>가격 위치 바</b>: 왼쪽 끝 = 특가 컷(목표가 — 후쿠오카 1인 22만·제주 1인 8만 ×2인), 오른쪽 끝 = 비쌈 기준(후쿠오카는 카약 대구→후쿠오카 금요일 왕복 평균 36.3만 ×2 ≈ 72.5만, 제주는 11월 주말 운임 상한 16.2만 ×2 ≈ 32.4만). 그 사이를 3등분해 낮음·보통·높음으로 본다.</li>
-      <li><b>배지</b>는 바의 구간 그대로다 — 낮음=지금 예매, 보통=특가 근접, 높음=대기 권장.</li>
+      <li><b>배지</b>는 목표가와의 거리로 정한다 — 목표가 이하=지금 예매, 15% 이내=특가 근접, 그 위=대기 권장. 바는 목표가~비쌈 사이에서 오늘 가격이 어디쯤인지 보여 준다.</li>
       <li><b>추이 그래프</b>는 <code>data/flights_history.json</code>에 08:00·18:00 브리핑마다 쌓이는 실측가다. 지금은 11/24~11/25 두 점뿐이라 선이 짧다.</li>
       <li>대구→후쿠오카 642,000원은 07:35 실측 목록에 없던 값이다 — 화면에서 확인된 값으로 넣었고 18시 실측에서 다시 확인한다.</li>
       <li>대마도는 항공 노선이 없어 <b>부산항 선박</b>(팬스타 쓰시마링크·대아 씨플라워) 기준이다. 정상운임은 이즈하라 편도 11만(주말 13만)·히타카츠 9만(주말 11만)이고, 실제 결제에는 유류할증료·터미널비·일본 출국세가 더 붙는다.</li>
@@ -294,8 +294,12 @@ function loadHist(){
 function fmt(n){ return typeof n === "number" ? n.toLocaleString("ko-KR") : n; }
 function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
 
-function level(p){ return p <= 0.34 ? "낮음" : p <= 0.67 ? "보통" : "높음"; }
-const BADGE = {"낮음":["지금 예매","hot"], "보통":["특가 근접","near"], "높음":["대기 권장","wait"]};
+function badgeOf(price, cut){
+  const gap = (price - cut) / (cut || 1);
+  if(gap <= 0) return ["지금 예매", "hot"];
+  if(gap <= 0.15) return ["특가 근접", "near"];
+  return ["대기 권장", "wait"];
+}
 
 function spark(points){
   if(!points || !points.length) return "";
@@ -337,7 +341,7 @@ function cardHTML(f){
   const cut = f.cut, hi = Math.max(f.hi || 0, f.price);
   const ratio = (f.price - cut) / ((hi - cut) || 1);
   const pct = Math.max(0, Math.min(1, ratio));
-  const lv = level(pct), bd = BADGE[lv];
+  const bd = badgeOf(f.price, cut);
   const pin = Math.min(97.5, Math.max(2.5, pct * 100)).toFixed(1);
   const gap = f.price - cut;
   const gapTxt = gap === 0 ? "특가 컷과 동일" : `${gap > 0 ? "+" : "-"}${fmt(Math.abs(gap))}원`;
