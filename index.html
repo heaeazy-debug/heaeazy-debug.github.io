@@ -1111,7 +1111,7 @@ themeBtn.addEventListener("click", () => {
 
 /* ── 당첨 후기 마감 D-day — 기준일 대비 남은 날로 계산해 D-3 이하면 긴급 색 ── */
 (function postDue(){
-  const base = new Date("2026-11-25T00:00:00+09:00");
+  const base = new Date("2026-11-26T00:00:00+09:00");
   document.querySelectorAll("[data-due]").forEach(el => {
     const due = new Date(el.dataset.due + "T00:00:00+09:00");
     if(isNaN(due.getTime())) return;
@@ -1326,7 +1326,7 @@ const pastText   = document.getElementById("pastText");
 const ARCH_CACHE = {};
 const pageFooter = document.querySelector("footer");
 const FOOT_LIVE = pageFooter ? pageFooter.innerHTML : "";
-let ARCH_LATEST = "2026-11-25";
+let ARCH_LATEST = "2026-11-26";
 let archCur = null, archStockSel = null;
 
 function archToggle(on){
