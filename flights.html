@@ -174,7 +174,7 @@
   <header class="top">
     <div>
       <h1>항공권 특가 추적</h1>
-      <div class="basis">2026-11-26 07:31~07:34 실측 · Google Flights · 성인 2인 왕복 · 세금·수수료 포함</div>
+      <div class="basis">2026-11-26 07:31~07:34 실측 + 17:55 대구→제주 재확인 · Google Flights · 성인 2인 왕복 · 세금·수수료 포함</div>
     </div>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="다크 모드 전환">◐</button>
   </header>
@@ -219,7 +219,7 @@
     <div class="card"><div class="k">최저 2인 왕복</div><div class="v c-orange" id="vBest">265,200<small>원</small></div><div class="s">김해→제주 · 에어부산 직항 · 주말 제주 기준 낮은 편</div></div>
     <div class="card"><div class="k">특가 컷 진입</div><div class="v c-orange" id="vMerit">0<small>/6</small></div><div class="s">특가 근접 0 · 대기 권장 6 · 목표가 15% 이내 없음</div></div>
     <div class="card"><div class="k">실측 노선</div><div class="v c-blue" id="vRoutes">6<small>/9</small></div><div class="s">항공 6노선 실측 · 대마도 항공 2노선 없음 · 부산항 선박은 추정</div></div>
-    <div class="card"><div class="k">어제 대비</div><div class="v c-green" id="vDiff">-8,000<small>원</small></div><div class="s">김해→후쿠오카 579,200(11/25) → 571,200(11/26) · 청주→후쿠오카는 -189,800원</div></div>
+    <div class="card"><div class="k">어제 대비</div><div class="v c-green" id="vDiff">-8,000<small>원</small></div><div class="s">김해→후쿠오카 579,200 → 571,200 · 청주→후쿠오카 -189,800 · 대구→제주는 저녁 재확인 368,400원</div></div>
   </div>
 
   <div class="filters" id="filters" role="tablist" aria-label="출발지 필터">
@@ -240,14 +240,14 @@
       <li><b>가격 위치 바</b>: 왼쪽 끝 = 특가 컷(목표가 — 후쿠오카 1인 22만·제주 1인 8만 ×2인), 오른쪽 끝 = 비쌈 기준(후쿠오카는 카약 대구→후쿠오카 금요일 왕복 평균 36.3만 ×2 ≈ 72.5만, 제주는 11월 주말 운임 상한 16.2만 ×2 ≈ 32.4만). 그 사이를 3등분해 낮음·보통·높음으로 본다.</li>
       <li><b>배지</b>는 목표가와의 거리로 정한다 — 목표가 이하=지금 예매, 15% 이내=특가 근접, 그 위=대기 권장. 바는 목표가~비쌈 사이에서 오늘 가격이 어디쯤인지 보여 준다.</li>
       <li><b>추이 그래프</b>는 <code>data/flights_history.json</code>에 08:00·18:00 브리핑마다 쌓이는 실측가다. 11/24~11/26 세 번의 실측이 쌓였으니 노선에 따라 점이 2~4개다.</li>
-      <li>대구→후쿠오카는 11/26 실측에서 <b>851,000원</b>으로 어제(800,682원)보다 50,318원 올랐다(인기 직항 최저 885,200원 — Trinity 17:50). 청주→후쿠오카는 <b>Aero K 06:25 직항 723,400원</b>이 새로 잡혀 어제 913,200원에서 189,800원(-20.8%) 내렸고, 김해→제주·청주→제주·김해→후쿠오카의 최저가 항공사는 화면에 표기가 없어 인기 최저 편(제주항공 13:10 등)을 함께 적었다.</li>
+      <li>대구→제주는 07:31 실측 373,000원에서 <b>17:55 재확인 368,400원</b>(1인 왕복 184,200원)으로 사실상 같고, 대구→후쿠오카는 11/26 실측에서 <b>851,000원</b>으로 어제(800,682원)보다 50,318원 올랐다(인기 직항 최저 885,200원 — Trinity 17:50). 청주→후쿠오카는 <b>Aero K 06:25 직항 723,400원</b>이 새로 잡혀 어제 913,200원에서 189,800원(-20.8%) 내렸고, 김해→제주·청주→제주·김해→후쿠오카의 최저가 항공사는 화면에 표기가 없어 인기 최저 편(제주항공 13:10 등)을 함께 적었다.</li>
       <li><b>대마도는 항공 노선이 없다</b> — 청주·대구 조회 결과 0건, 김해는 3회 경유 679만 원(10시간 50분)이라 실효성 없음. <b>부산항 배편</b>이 답이다: 팬스타 쓰시마링크(매일 08:40)·대아 씨플라워(월·수·금·일 09:40, 토 07:50·11:30)·스타라인 노바(매일 09:00 전후). 정상운임은 이즈하라 편도 11만(주말 13만)·히타카츠 9만(주말 11만)이고, 실제 결제에는 유류할증료·터미널비·일본 출국세가 더 붙어 <b>2인 금~일 왕복 추정 52~55만 원</b>이다. 2027년 3월 시간표·운임은 미공개다.</li>
       <li>요금은 실시간 변동·좌석 마감에 따라 달라진다 — 예매 직전에 한 번 더 확인한다. 개인정보(이름·연락처·이메일)는 페이지에 넣지 않는다.</li>
     </ul>
   </div>
   </div>
 
-  <footer>자동 · PC · 직접 합산 · 2026-11-26 07:31~07:34 실측<br>다음 실측 11/26 18:00 퇴근길 브리핑 · 예약·결제는 하지 않음 · 검색 비공개 페이지</footer>
+  <footer>자동 · PC · 직접 합산 · 2026-11-26 07:31~07:34 실측 + 17:55 대구→제주 재확인<br>다음 실측 11/27 08:00 아침 브리핑 · 예약·결제는 하지 않음 · 검색 비공개 페이지</footer>
 </div>
 
 <script>
@@ -267,9 +267,9 @@ const FLIGHTS = [
    out:"금 19:15 청주 → 20:25 제주 · 직항 (인기 최저 322,800원) · 3/4(목)~3/6(토)로 옮기면 206,800원 · 어제 +685원",
    cut:160000, hi:324000, link:"https://www.google.com/travel/flights?hl=ko&gl=KR&curr=KRW&q=Flights%20from%20CJJ%20to%20CJU%20on%202027-03-05%20through%202027-03-07%20for%202%20adults"},
 
-  {id:"TAE-CJU", label:"대구 → 제주", from:"대구", to:"제주", state:"ok", price:373000, carrier:"진에어",
+  {id:"TAE-CJU", label:"대구 → 제주", from:"대구", to:"제주", state:"ok", price:368400, carrier:"진에어",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"금 19:30 대구 → 20:35 제주 · 직항 1h05 · 3/4~3/6 여행 시 264,400원 힌트 · 어제와 동일",
+   out:"금 19:30 대구 → 20:35 제주 · 직항 1h05 · 17:55 재확인 1인 왕복 184,200원 → 2인 368,400원 · 3/4~3/6 여행 시 264,400원 힌트",
    cut:160000, hi:324000,
    link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDVEFFcgcIARIDQ0pVGh4SCjIwMjctMDMtMDdqBwgBEgNDSlVyBwgBEgNUQUVAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
 
