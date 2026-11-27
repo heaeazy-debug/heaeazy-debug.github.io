@@ -430,7 +430,7 @@ function timelineHTML(b){
   const hasBaji = /15:00/.test(ml.todo || ""), hasShin = /신영 계좌/.test(isaTxt) && /마감/.test(isaTxt);
   const dl = [], dlNote = [];
   if((b.deadlines || []).length){
-    (b.deadlines || []).forEach(x => { dl.push({t:x.t, v:x.v}); if(x.n) dlNote.push(x.n); });
+    (b.deadlines || []).filter(x => x.t !== (r0.t || "")).forEach(x => { dl.push({t:x.t, v:x.v}); if(x.n) dlNote.push(x.n); });
   } else {
     if(hasBaji){ dl.push({t:"15:00", v:"바지락 주문"}); dlNote.push("15:00을 넘기면 다음 날 새벽 도착"); }
     if(hasShin){ dl.push({t:"오늘", v:"신영 계좌 개설"}); dlNote.push("신영은 오늘까지 열어야 12/1 청약"); }
@@ -442,7 +442,7 @@ function timelineHTML(b){
       s:`미세먼지 <b>${esc(w.air || "–")}</b>${/빙판길/.test(w.note || "") ? " · 아침 <b>빙판길</b> 주의" : ""}` },
     { cls:"h", k:"다음 일정",
       t: r0.t ? `<em>${esc(r0.t)}</em>${esc(shortClause(r0.d, 26))}` : "오늘 알림 없음",
-      s: bold ? `핵심 <b>${esc(bold)}</b>` : `알림 ${rem.length}건 · 순서대로 처리` },
+      s: `알림 ${rem.length}건` },
     { cls:"c", k:"오늘 마감",
       t: dl.length ? dl.map(x => `<em>${esc(x.t)}</em>${esc(x.v)}`).join("<span style=\"color:var(--sub);font-weight:700\"> · </span>") : (waitN ? "마감 없음" : "오늘 마감 없음"),
       s: dlNote.length ? dlNote.join(" · ") : (waitN ? `남은 결정 ${waitN}건은 맨 위 박스에서` : "마감이 걸린 항목 없음") }
