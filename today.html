@@ -421,13 +421,33 @@ function decBadge(el, text, err){
   el.classList.toggle("err", !!err);
   el.textContent = text;
 }
+function decRefresh(name){
+  const root = document.querySelector('.dc[data-live="1"]');
+  if(!root) return;
+  const st = DEC_STATE[name] || {};
+  const i = DEC_ITEMS.findIndex(x => decName(x) === name);
+  const row = i >= 0 ? root.querySelectorAll(".dc-i")[i] : null;
+  if(row && st.sentAt){
+    row.classList.remove("wait");
+    row.classList.add("done");
+    const chip = row.querySelector(".dc-s");
+    if(chip) chip.textContent = "완료";
+  }
+  const cnt = root.querySelector(".dc-n");
+  if(cnt){
+    const left = DEC_ITEMS.filter(x => x.s !== "done" && !(DEC_STATE[decName(x)] || {}).sentAt).length;
+    cnt.textContent = left ? left + "건 대기" : "전부 처리";
+  }
+  const tl = document.getElementById("tl3");
+  if(tl) tl.innerHTML = timelineHTML(BRIEF);
+}
 function decSendNow(badge, name, decision, memo){
   const st = decState(name);
   st.sentOpt = decision; st.sentMemo = memo; st.sentAt = 0; st.pending = true; decKeep();
   decBadge(badge, "저장 중…", false);
   decPost(name, decision, memo).then(ok => {
     st.pending = false;
-    if(ok){ st.sentAt = Date.now(); decBadge(badge, `저장됨 ✓ (${decision})`, false); }
+    if(ok){ st.sentAt = Date.now(); decBadge(badge, `저장됨 ✓ (${decision})`, false); decRefresh(name); }
     else { st.sentOpt = ""; st.sentMemo = ""; decBadge(badge, "전송 실패 · [저장] 다시", true); }
     decKeep();
   });
@@ -581,7 +601,7 @@ function timelineHTML(b){
     if(hasBaji){ dl.push({t:"15:00", v:"바지락 주문"}); dlNote.push("15:00을 넘기면 다음 날 새벽 도착"); }
     if(hasShin){ dl.push({t:"오늘", v:"신영 계좌 개설"}); dlNote.push("신영은 오늘까지 열어야 12/1 청약"); }
   }
-  const waitN = ((b.decide || {}).items || []).filter(x => x.s !== "done").length;
+  const waitN = ((b.decide || {}).items || []).filter(x => x.s !== "done" && !(DEC_STATE[decName(x)] || {}).sentAt).length;
   const rows = [
     { cls:"w", k:"날씨",
       t:`<em>${esc(w.range || "–")}</em>${esc(w.cond || "")}`,
