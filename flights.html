@@ -174,7 +174,7 @@
   <header class="top">
     <div>
       <h1>항공권 특가 추적</h1>
-      <div class="basis">2026-11-27 17:44~17:50 실측 · Google Flights · 성인 2인 왕복 · 세금·수수료 포함</div>
+      <div class="basis">2026-11-27 17:44~17:50 실측 · 2027-03-05~07</div>
     </div>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="다크 모드 전환">◐</button>
   </header>
@@ -216,10 +216,10 @@
   </details>
 
   <div class="grid">
-    <div class="card"><div class="k">최저 2인 왕복</div><div class="v c-orange" id="vBest">265,200<small>원</small></div><div class="s">2027-03-05~07 · 김해(PUS)→제주(CJU) · 에어부산 06:50→07:55 직항 · 이번 실측 유일한 메리트</div></div>
-    <div class="card"><div class="k">특가 컷 진입</div><div class="v c-orange" id="vMerit">0<small>/6</small></div><div class="s">특가 근접 0 · 대기 권장 6 · 목표가 15% 이내 없음(제주 2인 16만·후쿠오카 44만 기준) · 이 중 <b>김해→제주만</b> 상대적 최저</div></div>
-    <div class="card"><div class="k">실측 노선</div><div class="v c-blue" id="vRoutes">6<small>/9</small></div><div class="s">항공 6노선 실측 · 대마도 항공 2노선 없음 · 부산항 선박은 추정</div></div>
-    <div class="card"><div class="k">오전 대비</div><div class="v c-orange" id="vDiff">+11,824<small>원</small></div><div class="s">김해→후쿠오카 570,776 → 582,600(+2.1%) · 김해→제주·청주→제주·대구→제주는 오전과 같음 · 대구→후쿠오카는 저녁 재조회 안 함</div></div>
+<div class="s">김해→제주 · 에어부산 06:50→07:55 직항 · 유일한 메리트</div>
+<div class="s">특가 근접 0 · 대기 6 · 김해→제주만 상대적 최저</div>
+<div class="s">항공 6노선 · 대마도 항공 없음 · 배편은 추정</div>
+<div class="s">김해→후쿠오카 570,776→582,600(+2.1%) · 나머지 오전과 같음</div>
   </div>
 
   <div class="filters" id="filters" role="tablist" aria-label="출발지 필터">
@@ -235,66 +235,61 @@
   <div class="info">
     <b>기준 · 유의</b>
     <ul>
-      <li>모두 <b>Google Flights</b>에서 성인 2명·왕복·이코노미·KRW로 조회했고 표시가에 <b>세금·수수료가 포함</b>된 금액이다(수하물·좌석지정 별도). 2027-03-05(금)~03-07(일) 2박 3일 기준이고 예약·결제는 하지 않았다.</li>
-      <li>노선마다 <b>최저가 1건만</b> 적는다 — 같은 노선의 다른 편·시간대·수하물 조건은 다음 실측에서 채운다.</li>
-      <li><b>가격 위치 바</b>: 왼쪽 끝 = 특가 컷(목표가 — 후쿠오카 1인 22만·제주 1인 8만 ×2인), 오른쪽 끝 = 비쌈 기준(후쿠오카는 카약 대구→후쿠오카 금요일 왕복 평균 36.3만 ×2 ≈ 72.5만, 제주는 11월 주말 운임 상한 16.2만 ×2 ≈ 32.4만). 그 사이를 3등분해 낮음·보통·높음으로 본다.</li>
-      <li><b>배지</b>는 목표가와의 거리로 정한다 — 목표가 이하=지금 예매, 15% 이내=특가 근접, 그 위=대기 권장. 바는 목표가~비쌈 사이에서 오늘 가격이 어디쯤인지 보여 준다.</li>
-      <li><b>추이 그래프</b>는 <code>data/flights_history.json</code>에 08:00·18:00 브리핑마다 쌓이는 실측가다. 11/24부터 오늘(11/27)까지 실측이 쌓였으니 노선에 따라 점이 3~5개다.</li>
-      <li><b>오늘(11/27) 저녁 실측(17:44~17:50)</b> — 김해→제주 265,200 · 청주→제주 322,800 · 대구→제주 373,000원으로 오전과 같고, <b>김해→후쿠오카만 570,776→582,600원(+2.1%)</b>으로 올랐다. 청주→후쿠오카 704,800원, 대구→후쿠오카는 오전 값 799,600원(저녁 재조회 없음)이다. 판정은 <b>김해→제주만 메리트</b>, 나머지는 대기 — 청주→후쿠오카 70만 원대는 3월 주말 기준 특가가 아니다.</li>
-      <li><b>대마도는 항공 노선이 없다</b> — 청주·대구 조회 결과 0건, 김해는 3회 경유 679만 원(10시간 50분)이라 실효성 없음. <b>부산항 배편</b>이 답이다: 팬스타 쓰시마링크 부산 08:40→히타카츠 10:00(토 12:20 추가편), 귀국 히타카츠 16:40·17:10 / 이즈하라 15:30. 정상운임은 이즈하라 편도 11만(주말 13만)·히타카츠 9만(주말 11만)이고, 실제 결제에는 유류할증료·터미널비·일본 출국세가 더 붙어 <b>2인 금~일 왕복 추정 52~55만 원</b>이다. <b>2027년 3월 시간표·운임은 아직 미공개</b>(예약 캘린더 14일치만 노출)라 지금은 확정 비교가 안 된다.</li>
-      <li><b>대신 12월 특가가 진행 중</b> — 팬스타 ‘2026 블랙판데이’(11/20 시작)가 대마도 승선권을 최대 99% 할인한다. 예시로 12/22 출발 2박3일 왕복이 <b>1인 102,350원</b>(승선권 30,900 + 유류할증료·터미널이용료·출국세 71,450), <b>2인 약 20.5만 원</b>이다. 이 특가가 3월까지 이어지면 3월 주말도 20만 원대로 내려온다 — 다음 확인은 2027년 1월 이후.</li>
-      <li><b>환율</b> — 원·엔이 100엔당 840원대(18년 최저)라 후쿠오카·대마도 현지 체류비 부담은 낮다. 항공값이 비싼 것과는 별개다.</li>
-      <li>요금은 실시간 변동·좌석 마감에 따라 달라진다 — 예매 직전에 한 번 더 확인한다. 개인정보(이름·연락처·이메일)는 페이지에 넣지 않는다.</li>
+      <li>Google Flights 조회 — 성인 2인 왕복·이코노미·KRW, 표시가에 <b>세금·수수료 포함</b>(수하물·좌석 별도). 2027-03-05(금)~07(일) 2박 3일. 예약·결제는 안 함.</li>
+      <li>노선별 <b>최저가 1건만</b> 적음. 배지 = 목표가 대비 거리(목표가 이하 지금 예매 / 15% 이내 특가 근접 / 그 위 대기 권장). 바 = 목표가~비쌈 사이 위치.</li>
+      <li><b>대마도는 항공 노선 없음</b>(청주·대구 0건, 김해 3회 경유 679만 원) — 부산항 배편 정상운임 2인 금~일 왕복 추정 <b>52~55만 원</b>. 2027년 3월 시간표·운임은 미공개.</li>
+      <li>12월 ‘블랙판데이’ 특가(12/22 2박3일 1인 102,350원 · 2인 약 20.5만 원)가 3월까지 이어지면 20만 원대 — 다음 확인은 2027년 1월 이후.</li>
+      <li>원·엔 100엔당 840원대(18년 최저) — 현지 체류비 부담 낮음. 요금은 실시간 변동이라 예매 직전 재확인.</li>
     </ul>
   </div>
   </div>
 
-  <footer>자동 · PC · 직접 합산 · 2026-11-27 17:44~17:50 실측(성인 2인 왕복·세금 포함)<br>다음 실측 11/28 08:00 아침 브리핑 · 예약·결제는 하지 않음 · 검색 비공개 페이지</footer>
+  <footer>2026-11-27 17:44~17:50 실측 · 성인 2인 왕복·세금 포함 · 다음 실측 11/28 08:00 · 검색 비공개 페이지</footer>
 </div>
 
 <script>
-/* FLIGHTS 갱신 규칙 — 브리핑은 각 노선의 price·carrier·out만 최신 실측으로 바꾸면 된다.
+/* FLIGHTS 갱신 규칙 — 브리핑은 각 노선의 price·carrier·out만 최신 실측으로 바꾸면 됨.
    id는 data/flights_history.json의 키다(바꾸면 추이가 끊긴다).
    cut=특가 컷(2인 목표가), hi=비쌈 기준, state:"ok"=실측됨 / "wait"=18시 실측 예정.
    실측이 끝난 대기 노선은 state를 "ok"로 바꾸고 price·cut·hi·link를 채운다. */
 const FLIGHTS = [
   {id:"PUS-CJU", label:"김해 → 제주", from:"김해", to:"제주", state:"ok", price:265200, carrier:"에어부산",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"2027-03-05(금)~07(일) · 김해(PUS) 출발 · 에어부산 직항 06:50→07:55(06:45·17:30 동일가) · 오전과 같음 · 이번 실측 전 노선 최저가 — 살 만한 유일한 노선",
+   out:"2027-03-05~07 · 김해(PUS) · 에어부산 직항 06:50→07:55(06:45·17:30 동일가) · 전 노선 최저가",
    cut:160000, hi:324000,
    link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDUFVTcgcIARIDQ0pVGh4SCjIwMjctMDMtMDdqBwgBEgNDSlVyBwgBEgNQVVNAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
 
   {id:"CJJ-CJU", label:"청주 → 제주", from:"청주", to:"제주", state:"ok", price:322800, carrier:"제주항공",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"2027-03-05(금)~07(일) · 청주(CJJ) 출발 · 제주항공 직항 19:15→20:25 · 오전과 같음(최저가 탭 303,150원) · 2인 32만 원대라 특가는 아님",
+   out:"2027-03-05~07 · 청주(CJJ) · 제주항공 직항 19:15→20:25 · 최저가 탭 303,150원",
    cut:160000, hi:324000, link:"https://www.google.com/travel/flights?hl=ko&gl=KR&curr=KRW&q=Flights%20from%20CJJ%20to%20CJU%20on%202027-03-05%20through%202027-03-07%20for%202%20adults"},
 
   {id:"TAE-CJU", label:"대구 → 제주", from:"대구", to:"제주", state:"ok", price:373000, carrier:"진에어",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"2027-03-05(금)~07(일) · 대구(TAE) 출발 · 진에어 직항 19:30→20:35 · 오전과 같음(최저가 탭 368,612원) · 3/4~3/6으로 옮기면 264,400원 힌트",
+   out:"2027-03-05~07 · 대구(TAE) · 진에어 직항 19:30→20:35 · 3/4~3/6으로 옮기면 264,400원",
    cut:160000, hi:324000,
    link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDVEFFcgcIARIDQ0pVGh4SCjIwMjctMDMtMDdqBwgBEgNDSlVyBwgBEgNUQUVAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
 
   {id:"PUS-FUK", label:"김해 → 후쿠오카", from:"김해", to:"후쿠오카", state:"ok", price:582600, carrier:"에어부산",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"2027-03-05(금)~07(일) · 김해(PUS) 출발 · 에어부산 직항 18:00→18:55 · 오전 최저가 탭 570,776원에서 +11,824원(+2.1%) — 특가 아님",
+   out:"2027-03-05~07 · 김해(PUS) · 에어부산 직항 18:00→18:55 · 오전 570,776원에서 +11,824(+2.1%)",
    cut:440000, hi:725000,
    link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDUFVTcgcIARIDRlVLGh4SCjIwMjctMDMtMDdqBwgBEgNGVUtyBwgBEgNQVVNAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
 
   {id:"TAE-FUK", label:"대구 → 후쿠오카", from:"대구", to:"후쿠오카", state:"ok", price:799600, carrier:"Trinity",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"2027-03-05(금)~07(일) · 대구(TAE) 출발 · Trinity 직항 17:50→19:00 · 오전 값 799,600원 그대로(저녁 재조회 안 함 · 노출 최저 885,200원) — 세 출발지 중 최고가",
+   out:"2027-03-05~07 · 대구(TAE) · Trinity 직항 17:50→19:00 · 오전 값 그대로, 세 출발지 중 최고가",
    cut:440000, hi:725000, link:"https://www.google.com/travel/flights?hl=ko&gl=KR&curr=KRW&q=Flights%20from%20TAE%20to%20FUK%20on%202027-03-05%20through%202027-03-07%20for%202%20adults"},
 
   {id:"CJJ-FUK", label:"청주 → 후쿠오카", from:"청주", to:"후쿠오카", state:"ok", price:704800, carrier:"Aero K",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"2027-03-05(금)~07(일) · 청주(CJJ) 출발 · Aero K 직항 06:25→07:35 · 최저가 탭 704,800원(노출 804,241원) · 오전과 같음 — 3월 주말 기준 특가 아님",
+   out:"2027-03-05~07 · 청주(CJJ) · Aero K 직항 06:25→07:35 · 최저가 탭 704,800원, 특가 아님",
    cut:440000, hi:725000, link:"https://www.google.com/travel/flights?hl=ko&gl=KR&curr=KRW&q=Flights%20from%20CJJ%20to%20FUK%20on%202027-03-05%20through%202027-03-07%20for%202%20adults"},
 
   {id:"TAE-TSJ", label:"대구 → 대마도", from:"대구", to:"대마도", state:"none",
-   note:"항공편 없음 — 2027-03-05~07 조회 결과 0건. 대마도는 부산항 배편만 있다."},
+   note:"항공편 없음 — 2027-03-05~07 조회 결과 0건. 대마도는 부산항 배편만 있음."},
   {id:"CJJ-TSJ", label:"청주 → 대마도", from:"청주", to:"대마도", state:"none",
-   note:"항공편 없음 — 조회 결과 0건. 청주발 대마도 노선 자체가 없다."},
+   note:"항공편 없음 — 조회 결과 0건. 청주발 대마도 노선 자체가 없음."},
   {id:"BUS-TSJ", label:"부산 → 대마도", from:"부산", to:"대마도", state:"est",
    note:"항공 불가(김해→대마도는 3회 경유 679만 원·10시간 50분으로 실효성 없음) → 부산항 여객터미널 배편. 2인 금~일 왕복 추정 52~55만 원 — 승선권 (금 90,000 + 일 110,000)×2 = 400,000원 + 유류할증료(히타카츠 부산발 16,000원/인) + 터미널 이용료 6,000원/인 + 출국납부금 1,000원/인 + 일본 출국세 3,000엔/인 + 대마도 부두세 500엔/인. 2027년 3월 시간표·운임은 미공개(현재 2026년 11~12월 기준)."}
 ];
@@ -423,7 +418,7 @@ function paint(){
   const box = document.getElementById("flList");
   box.innerHTML = list.length
     ? list.map(cardHTML).join("")
-    : `<div class="card"><div class="note" style="margin:0">이 출발지의 노선은 18시 실측 뒤 채워진다.</div></div>`;
+    : `<div class="card"><div class="note" style="margin:0">이 출발지 노선 없음.</div></div>`;
   document.querySelectorAll("#filters button").forEach(b => b.classList.toggle("on", b.dataset.f === FILTER));
 }
 document.getElementById("filters").addEventListener("click", e => {
@@ -501,7 +496,7 @@ function archPaint(date, d){
     <div class="arch-date">🕘 그날 기준 · ${esc(f.basis || date)}</div>
     ${archKpiHTML(f.kpi)}
     <div class="sec-label" style="margin-top:12px">노선별 실측 <span>· 그날 기록</span></div>
-    <div class="list">${(f.routesList || []).length ? f.routesList.map(flHTML).join("") : `<div class="card"><div class="note" style="margin:0">이 날은 항공권 실측 기록이 없습니다. 다음 기록부터 남습니다.</div></div>`}</div>
+    <div class="list">${(f.routesList || []).length ? f.routesList.map(flHTML).join("") : `<div class="card"><div class="note" style="margin:0">이 날은 항공권 실측 기록이 없음. 다음 기록부터 남음.</div></div>`}</div>
     ${(f.notes || []).length ? `<div class="info"><b>기준 · 유의</b><ul>${f.notes.map(n => `<li>${n}</li>`).join("")}</ul></div>` : ""}`;
   window.scrollTo({top: 0});
 }
