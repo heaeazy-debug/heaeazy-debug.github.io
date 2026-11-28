@@ -220,7 +220,7 @@
   </details>
 
   <div class="grid">
-    <div class="card"><div class="k">추천 노선</div><div class="v c-blue" id="vRec">265,200<small>원</small></div><div class="s" id="vRecSub">김해→제주 · 에어부산<br>17:30 출발 · 6노선 최저가</div></div>
+    <div class="card"><div class="k">추천 노선</div><div class="v" id="vRec">추천 없음</div><div class="s" id="vRecSub">6노선 모두 목표가 위 · 대기 권장</div></div>
     <div class="card"><div class="k">특가 근접</div><div class="v c-red" id="vMerit">0<small>개</small></div><div class="s">6노선 모두 목표가 위 · 제주 1인 13.3만~18.7만</div></div>
     <div class="card"><div class="k">실측 노선</div><div class="v" id="vRoutes">6<small>개</small></div><div class="s">대마도 항공 없음 · 배편만</div></div>
     <div class="card"><div class="k">어제 대비</div><div class="v c-orange" id="vDiff">+20,000</div><div class="s">김해 +20,000 · 청주 -80,841(노출가) · 제주 3노선 그대로</div></div>
@@ -233,7 +233,7 @@
     <button type="button" data-f="김해" role="tab">김해</button>
   </div>
 
-  <div class="sec-label" style="margin-top:4px">노선 <span>· 추천순 · 2027-03-05(금)~07(일) 주말</span></div>
+  <div class="sec-label" style="margin-top:4px" id="secLabel">노선 <span>· 가격순 · 2027-03-05(금)~07(일) 주말</span></div>
   <div class="list" id="flList"></div>
   </div>
 
@@ -247,7 +247,8 @@
    state:"ok"=실측됨 / "wait"=18시 실측 예정.
    실측이 끝난 대기 노선은 state를 "ok"로 바꾸고 price·cut·hi·link를 채운다.
    맨 위 카드는 최저가가 아니라 recPick()이 고른 '추천 노선'이다 — price·cut·dep를 바꾸면
-   카드(vRec·vRecSub)도 tools/rec.py가 찍은 HTML로 같이 맞춘다. */
+   카드(vRec·vRecSub)도 tools/rec.py가 찍은 HTML로 같이 맞춘다. 메리트 노선(목표가 이하/근접)이
+   없으면 카드는 '추천 없음'이고 노선 목록은 가격순이다. */
 const FLIGHTS = [
   {id:"PUS-CJU", label:"김해 → 제주", from:"김해", to:"제주", dep:"17:30", state:"ok", price:265200, carrier:"에어부산",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
@@ -329,11 +330,13 @@ function badgeOf(price, cut){
 }
 
 /* ── 추천 노선 ──────────────────────────────────────────
-   단순 최저가 대신 ① 목표가 근접도(40점) ② 가격(30점) ③ 출발 시간대(30점) 합산 1위.
+   후보는 '메리트 있는 노선'뿐이다 — 목표가 이하 또는 목표가 +15% 이내(badgeOf의 '특가 근접').
+   그 후보 안에서 ① 목표가 근접도(40점) ② 가격(30점) ③ 출발 시간대(30점) 합산 1위를 띄운다.
    목표가 근접도는 price/cut 배수(r)를 1.0=만점·2.5=0점으로 봐서 노선별 목표가가 달라도 비교된다.
-   목표가를 모두 넘었어도 그중 가장 현실적인 1개를 추천으로 띄운다(없애지 않는다).
+   메리트 노선이 하나도 없으면 억지로 고르지 않고 '추천 없음'으로 둔다(카드 배지도 붙이지 않는다).
    식을 고치면 tools/rec.py도 같이 고친다(맨 위 카드 정적값이 여기서 나온다). */
 const REC_W = {near:40, price:30, time:30};
+const MERIT_GAP = 0.15;   // 목표가 +15% 이내 = '특가 근접'(badgeOf와 같은 기준)
 function depBand(t){
   const m = String(t || "").match(/(\d{1,2}):(\d{2})/);
   if(!m) return .8;
@@ -355,15 +358,21 @@ function recPick(){
     const near = Math.max(0, Math.min(1, (2.5 - r) / 1.5));
     return {f, r, score: REC_W.near * near + REC_W.price * (minP / f.price) + REC_W.time * depBand(f.dep)};
   }).sort((a, b) => b.score - a.score || a.f.price - b.f.price);
-  const top = rows[0];
-  const cheapest = ms.slice().sort((a, b) => a.price - b.price)[0];
-  const nearest = rows.slice().sort((a, b) => a.r - b.r)[0];
-  const why = cheapest.id === top.f.id ? `${ms.length}노선 최저가`
+  const cand = rows.filter(r => r.f.price <= r.f.cut * (1 + MERIT_GAP));
+  if(!cand.length){
+    const cheapest = ms.slice().sort((a, b) => a.price - b.price)[0];
+    return {route:null, rows, why:"추천 없음", none:true, count:ms.length, cheapest};
+  }
+  const top = cand[0];
+  const cheapest = cand.slice().sort((a, b) => a.f.price - b.f.price)[0];
+  const nearest = cand.slice().sort((a, b) => a.r - b.r)[0];
+  const why = cand.length === 1 ? "메리트 유일"
+            : cheapest.f.id === top.f.id ? `메리트 ${cand.length}노선 중 최저가`
             : nearest.f.id === top.f.id ? "목표가 근접 1위" : "가성비 1위";
   return {route: top.f, rows, why};
 }
 function recKpi(){
-  if(!REC) return null;
+  if(!REC || !REC.route) return null;
   const f = REC.route;
   const label = (f.label || ((f.from || "") + " → " + (f.to || ""))).replace(/\s*→\s*/g, "→");
   return {
@@ -373,10 +382,18 @@ function recKpi(){
 }
 /* 정적 HTML을 화면에서만 실측값으로 다시 맞춘다(스냅샷은 정적 HTML을 읽으므로 tools/rec.py로 같이 맞춘다) */
 function syncKpi(){
+  const v = document.getElementById("vRec"), s = document.getElementById("vRecSub");
+  const lb = document.getElementById("secLabel");
+  if(REC && REC.none){
+    if(v){ v.classList.remove("c-blue"); v.textContent = "추천 없음"; }
+    if(s) s.textContent = `${REC.count}노선 모두 목표가 위 · 대기 권장`;
+    if(lb) lb.innerHTML = "노선 <span>· 가격순 · 2027-03-05(금)~07(일) 주말</span>";
+    return;
+  }
+  if(lb) lb.innerHTML = "노선 <span>· 추천순 · 2027-03-05(금)~07(일) 주말</span>";
   const k = recKpi();
   if(!k) return;
-  const v = document.getElementById("vRec"), s = document.getElementById("vRecSub");
-  if(v) v.innerHTML = k.v;
+  if(v){ v.classList.add("c-blue"); v.innerHTML = k.v; }
   if(s) s.innerHTML = k.s;
 }
 
@@ -458,7 +475,7 @@ function cardHTML(f){
 let FILTER = "전체";
 function ordered(){
   const has = f => typeof f.price === "number";
-  if(REC && REC.rows.length){
+  if(REC && REC.route && REC.rows.length){
     const out = REC.rows.map(r => r.f);
     const used = new Set(out.map(f => f.id));
     FLIGHTS.forEach(f => { if(!used.has(f.id)) out.push(f); });
@@ -519,7 +536,9 @@ function archToggle(on){
 }
 function archKpiHTML(k){
   if(!k) return "";
-  return `<div class="arch-sum"><b>${k.rec ? "추천 " + esc((k.recRoute ? k.recRoute + " " : "") + k.rec) : "최저 " + esc(k.best || "—")} · 특가 ${esc(k.merit || "—")} · 실측 ${esc(k.routes || "—")}</b></div>`;
+  const rec = k.rec ? (/없음/.test(k.rec) ? esc(k.rec) : "추천 " + esc((k.recRoute ? k.recRoute + " " : "") + k.rec))
+                   : "최저 " + esc(k.best || "—");
+  return `<div class="arch-sum"><b>${rec} · 특가 ${esc(k.merit || "—")} · 실측 ${esc(k.routes || "—")}</b></div>`;
 }
 function flHTML(f){
   const priceTxt = typeof f.price === "number" ? fmt(f.price) : esc(f.price || "—");
