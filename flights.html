@@ -82,6 +82,10 @@
   .badge.wait{background:#fdeeee;border-color:#f7d0d0;color:#a23b3b}
   [data-theme="dark"] .badge.wait{background:#3a1f22;border-color:#5a2a2e;color:#ffb3b3}
   .badge.pend{background:transparent;border-style:dashed;color:var(--sub)}
+  .badge.rec{background:var(--blue);border-color:var(--blue);color:#fff}
+  [data-theme="dark"] .badge.rec{color:#0b1220}
+  .rc-badges{display:flex;align-items:center;gap:4px;margin-left:auto;flex:0 0 auto}
+  .rc-badges .badge{margin-left:0}
   .rc-price{display:flex;align-items:baseline;gap:6px;margin-top:10px;flex-wrap:wrap}
   .rc-price b{font-size:23px;font-weight:800;letter-spacing:-1px;font-variant-numeric:tabular-nums}
   .rc-price b small{font-size:12px;font-weight:700;color:var(--sub);margin-left:1px}
@@ -216,7 +220,7 @@
   </details>
 
   <div class="grid">
-    <div class="card"><div class="k">최저 2인 왕복</div><div class="v" id="vBest">265,200<small>원</small></div><div class="s">김해→제주 · 에어부산 06:50→07:55 직항</div></div>
+    <div class="card"><div class="k">추천 노선</div><div class="v c-blue" id="vRec">265,200<small>원</small></div><div class="s" id="vRecSub">김해→제주 · 에어부산<br>17:30 출발 · 6노선 최저가</div></div>
     <div class="card"><div class="k">특가 근접</div><div class="v c-red" id="vMerit">0<small>개</small></div><div class="s">6노선 모두 목표가 위 · 제주 1인 13.3만~18.7만</div></div>
     <div class="card"><div class="k">실측 노선</div><div class="v" id="vRoutes">6<small>개</small></div><div class="s">대마도 항공 없음 · 배편만</div></div>
     <div class="card"><div class="k">어제 대비</div><div class="v c-orange" id="vDiff">+20,000</div><div class="s">김해 +20,000 · 청주 -80,841(노출가) · 제주 3노선 그대로</div></div>
@@ -229,7 +233,7 @@
     <button type="button" data-f="김해" role="tab">김해</button>
   </div>
 
-  <div class="sec-label" style="margin-top:4px">노선 <span>· 최저가순 · 2027-03-05(금)~07(일) 주말</span></div>
+  <div class="sec-label" style="margin-top:4px">노선 <span>· 추천순 · 2027-03-05(금)~07(일) 주말</span></div>
   <div class="list" id="flList"></div>
   </div>
 
@@ -239,38 +243,41 @@
 <script>
 /* FLIGHTS 갱신 규칙 — 브리핑은 각 노선의 price·carrier·out만 최신 실측으로 바꾸면 됨.
    id는 data/flights_history.json의 키다(바꾸면 추이가 끊긴다).
-   cut=특가 컷(2인 목표가), hi=비쌈 기준, state:"ok"=실측됨 / "wait"=18시 실측 예정.
-   실측이 끝난 대기 노선은 state를 "ok"로 바꾸고 price·cut·hi·link를 채운다. */
+   cut=특가 컷(2인 목표가), hi=비쌈 기준, dep=그 값으로 탈 수 있는 가장 나은 출발 시각,
+   state:"ok"=실측됨 / "wait"=18시 실측 예정.
+   실측이 끝난 대기 노선은 state를 "ok"로 바꾸고 price·cut·hi·link를 채운다.
+   맨 위 카드는 최저가가 아니라 recPick()이 고른 '추천 노선'이다 — price·cut·dep를 바꾸면
+   카드(vRec·vRecSub)도 tools/rec.py가 찍은 HTML로 같이 맞춘다. */
 const FLIGHTS = [
-  {id:"PUS-CJU", label:"김해 → 제주", from:"김해", to:"제주", state:"ok", price:265200, carrier:"에어부산",
+  {id:"PUS-CJU", label:"김해 → 제주", from:"김해", to:"제주", dep:"17:30", state:"ok", price:265200, carrier:"에어부산",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
    out:"2027-03-05~07 · 김해(PUS) · 에어부산 직항 06:50→07:55(06:45·17:30 동일가) · 전 노선 최저가",
    cut:160000, hi:324000,
    link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDUFVTcgcIARIDQ0pVGh4SCjIwMjctMDMtMDdqBwgBEgNDSlVyBwgBEgNQVVNAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
 
-  {id:"CJJ-CJU", label:"청주 → 제주", from:"청주", to:"제주", state:"ok", price:322800, carrier:"제주항공",
+  {id:"CJJ-CJU", label:"청주 → 제주", from:"청주", to:"제주", dep:"19:15", state:"ok", price:322800, carrier:"제주항공",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
    out:"2027-03-05~07 · 청주(CJJ) · 제주항공 직항 19:15→20:25 · 최저가 탭 302,451원",
    cut:160000, hi:324000, link:"https://www.google.com/travel/flights?hl=ko&gl=KR&curr=KRW&q=Flights%20from%20CJJ%20to%20CJU%20on%202027-03-05%20through%202027-03-07%20for%202%20adults"},
 
-  {id:"TAE-CJU", label:"대구 → 제주", from:"대구", to:"제주", state:"ok", price:373000, carrier:"진에어",
+  {id:"TAE-CJU", label:"대구 → 제주", from:"대구", to:"제주", dep:"19:30", state:"ok", price:373000, carrier:"진에어",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
    out:"2027-03-05~07 · 대구(TAE) · 진에어 직항 19:30→20:35 · 3/4~3/6으로 옮기면 264,400원",
    cut:160000, hi:324000,
    link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDVEFFcgcIARIDQ0pVGh4SCjIwMjctMDMtMDdqBwgBEgNDSlVyBwgBEgNUQUVAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
 
-  {id:"PUS-FUK", label:"김해 → 후쿠오카", from:"김해", to:"후쿠오카", state:"ok", price:602600, carrier:"에어부산",
+  {id:"PUS-FUK", label:"김해 → 후쿠오카", from:"김해", to:"후쿠오카", dep:"18:00", state:"ok", price:602600, carrier:"에어부산",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
    out:"2027-03-05~07 · 김해(PUS) · 에어부산 직항 18:00→18:55 · 어제보다 +20,000 (탭 582,600원)",
    cut:440000, hi:725000,
    link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDUFVTcgcIARIDRlVLGh4SCjIwMjctMDMtMDdqBwgBEgNGVUtyBwgBEgNQVVNAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
 
-  {id:"TAE-FUK", label:"대구 → 후쿠오카", from:"대구", to:"후쿠오카", state:"ok", price:885200, carrier:"Trinity",
+  {id:"TAE-FUK", label:"대구 → 후쿠오카", from:"대구", to:"후쿠오카", dep:"17:50", state:"ok", price:885200, carrier:"Trinity",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
    out:"2027-03-05~07 · 대구(TAE) · Trinity 직항 17:50→19:00 · 직항 2편뿐, 나머지는 인천경유 121만~135만",
    cut:440000, hi:725000, link:"https://www.google.com/travel/flights?hl=ko&gl=KR&curr=KRW&q=Flights%20from%20TAE%20to%20FUK%20on%202027-03-05%20through%202027-03-07%20for%202%20adults"},
 
-  {id:"CJJ-FUK", label:"청주 → 후쿠오카", from:"청주", to:"후쿠오카", state:"ok", price:723400, carrier:"Aero K",
+  {id:"CJJ-FUK", label:"청주 → 후쿠오카", from:"청주", to:"후쿠오카", dep:"06:25", state:"ok", price:723400, carrier:"Aero K",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
    out:"2027-03-05~07 · 청주(CJJ) · Aero K 직항 06:25→07:35 · 노출가만 -80,841, 탭은 704,560원",
    cut:440000, hi:725000, link:"https://www.google.com/travel/flights?hl=ko&gl=KR&curr=KRW&q=Flights%20from%20CJJ%20to%20FUK%20on%202027-03-05%20through%202027-03-07%20for%202%20adults"},
@@ -321,6 +328,58 @@ function badgeOf(price, cut){
   return ["대기 권장", "wait"];
 }
 
+/* ── 추천 노선 ──────────────────────────────────────────
+   단순 최저가 대신 ① 목표가 근접도(40점) ② 가격(30점) ③ 출발 시간대(30점) 합산 1위.
+   목표가 근접도는 price/cut 배수(r)를 1.0=만점·2.5=0점으로 봐서 노선별 목표가가 달라도 비교된다.
+   목표가를 모두 넘었어도 그중 가장 현실적인 1개를 추천으로 띄운다(없애지 않는다).
+   식을 고치면 tools/rec.py도 같이 고친다(맨 위 카드 정적값이 여기서 나온다). */
+const REC_W = {near:40, price:30, time:30};
+function depBand(t){
+  const m = String(t || "").match(/(\d{1,2}):(\d{2})/);
+  if(!m) return .8;
+  const h = (+m[1]) + (+m[2]) / 60;
+  if(h < 6.5) return .35;   // 심야·새벽
+  if(h < 8)   return .6;    // 이른 아침
+  if(h < 11)  return .95;
+  if(h < 20)  return 1;     // 낮~저녁(금요일 퇴근 후 출발 포함)
+  if(h < 22)  return .85;
+  return .5;
+}
+let REC = null;
+function recPick(){
+  const ms = FLIGHTS.filter(f => typeof f.price === "number" && typeof f.cut === "number" && f.cut > 0);
+  if(!ms.length) return null;
+  const minP = Math.min(...ms.map(f => f.price));
+  const rows = ms.map(f => {
+    const r = f.price / f.cut;
+    const near = Math.max(0, Math.min(1, (2.5 - r) / 1.5));
+    return {f, r, score: REC_W.near * near + REC_W.price * (minP / f.price) + REC_W.time * depBand(f.dep)};
+  }).sort((a, b) => b.score - a.score || a.f.price - b.f.price);
+  const top = rows[0];
+  const cheapest = ms.slice().sort((a, b) => a.price - b.price)[0];
+  const nearest = rows.slice().sort((a, b) => a.r - b.r)[0];
+  const why = cheapest.id === top.f.id ? `${ms.length}노선 최저가`
+            : nearest.f.id === top.f.id ? "목표가 근접 1위" : "가성비 1위";
+  return {route: top.f, rows, why};
+}
+function recKpi(){
+  if(!REC) return null;
+  const f = REC.route;
+  const label = (f.label || ((f.from || "") + " → " + (f.to || ""))).replace(/\s*→\s*/g, "→");
+  return {
+    v: `${fmt(f.price)}<small>원</small>`,
+    s: `${esc(label)}${f.carrier ? " · " + esc(f.carrier) : ""}<br>${esc(f.dep || "")} 출발 · ${esc(REC.why)}`
+  };
+}
+/* 정적 HTML을 화면에서만 실측값으로 다시 맞춘다(스냅샷은 정적 HTML을 읽으므로 tools/rec.py로 같이 맞춘다) */
+function syncKpi(){
+  const k = recKpi();
+  if(!k) return;
+  const v = document.getElementById("vRec"), s = document.getElementById("vRecSub");
+  if(v) v.innerHTML = k.v;
+  if(s) s.innerHTML = k.s;
+}
+
 function spark(points){
   if(!points || !points.length) return "";
   const ps = points.slice(-8), w = 54, h = 20, pad = 3;
@@ -368,13 +427,14 @@ function cardHTML(f){
   const gap = f.price - cut;
   const gapTxt = gap === 0 ? "특가 컷과 동일" : `${gap > 0 ? "+" : "-"}${fmt(Math.abs(gap))}원`;
   const pts = HIST[f.id] || [];
+  const isRec = !!(REC && REC.route && f.id === REC.route.id);
   return `<article class="card rc" data-from="${f.from}">
     <div class="rc-top">
       <div>
         <div class="rc-route">${label}</div>
         <div class="rc-sub">${esc(f.dates)}</div>
       </div>
-      ${bd ? `<span class="badge ${bd[1]}">${bd[0]}</span>` : ""}
+      <div class="rc-badges">${isRec ? `<span class="badge rec">추천</span>` : ""}${bd ? `<span class="badge ${bd[1]}">${bd[0]}</span>` : ""}</div>
     </div>
     <div class="rc-price">
       <b>${fmt(f.price)}<small>원</small></b>
@@ -394,10 +454,16 @@ function cardHTML(f){
   </article>`;
 }
 
-/* ── 필터 · 정렬(최저가순) ─────────────────────────────── */
+/* ── 필터 · 정렬(추천순 — recPick 점수 높은 순) ─────────── */
 let FILTER = "전체";
 function ordered(){
   const has = f => typeof f.price === "number";
+  if(REC && REC.rows.length){
+    const out = REC.rows.map(r => r.f);
+    const used = new Set(out.map(f => f.id));
+    FLIGHTS.forEach(f => { if(!used.has(f.id)) out.push(f); });
+    return out;
+  }
   const measured = FLIGHTS.filter(has).slice().sort((a,b) => a.price - b.price);
   const pend = FLIGHTS.filter(f => !has(f));
   return measured.concat(pend);
@@ -410,6 +476,8 @@ function paint(){
     : `<div class="card"><div class="note" style="margin:0">이 출발지 노선 없음.</div></div>`;
   document.querySelectorAll("#filters button").forEach(b => b.classList.toggle("on", b.dataset.f === FILTER));
 }
+REC = recPick();
+syncKpi();
 document.getElementById("filters").addEventListener("click", e => {
   const b = e.target.closest("button[data-f]");
   if(!b) return;
@@ -451,7 +519,7 @@ function archToggle(on){
 }
 function archKpiHTML(k){
   if(!k) return "";
-  return `<div class="arch-sum"><b>최저 2인 왕복 ${esc(k.best || "—")} · 특가 ${esc(k.merit || "—")} · 실측 ${esc(k.routes || "—")}</b></div>`;
+  return `<div class="arch-sum"><b>${k.rec ? "추천 " + esc((k.recRoute ? k.recRoute + " " : "") + k.rec) : "최저 " + esc(k.best || "—")} · 특가 ${esc(k.merit || "—")} · 실측 ${esc(k.routes || "—")}</b></div>`;
 }
 function flHTML(f){
   const priceTxt = typeof f.price === "number" ? fmt(f.price) : esc(f.price || "—");

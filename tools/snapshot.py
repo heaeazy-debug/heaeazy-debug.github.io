@@ -230,10 +230,14 @@ def parse_flights(html):
     flights = js_var(html, "FLIGHTS") or []
     basis = re.search(r'class="basis">(.*?)</div>', clean, re.S)
     kpi = {}
-    for key, id_ in [("best", "vBest"), ("merit", "vMerit"), ("routes", "vRoutes"), ("diff", "vDiff")]:
+    for key, id_ in [("rec", "vRec"), ("best", "vBest"), ("merit", "vMerit"), ("routes", "vRoutes"), ("diff", "vDiff")]:
         h = inner(clean, id_)
         if h:
             kpi[key] = text(h)
+    # 추천 노선 이름만 따로 — vRecSub "김해→제주 · 에어부산 17:30 출발 · 6노선 최저가"의 첫 조걱
+    sub = inner(clean, "vRecSub")
+    if sub:
+        kpi["recRoute"] = text(sub).split("·")[0].strip()
     cond = [text(c) for c in re.findall(r'<span class="chip[^"]*">(.*?)</span>', clean, re.S)]
     infos = info_blocks(clean)
     return {
