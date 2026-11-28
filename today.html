@@ -378,7 +378,7 @@ const BRIEF = {
       {k:"코스닥", v:"708.99", ch:"+8.13%"}
     ],
     outlook:[
-      "미장 11/28 휴장 — 나스닥100 26,726.39 · SOX 9,186.71",
+      "11/27 종가 · 미장 11/28 휴장 — 나스닥100 26,726.39 · SOX 9,186.71",
       "VIX 23.81 · 환율 1,337.9원 · 다음 변동은 11/30 국내장"
     ],
     signal:{head:"물타기 3대 신호 2.5/3", items:["①저점 지지 ○","②환율·VIX ○","③악재 △"], note:"실행은 본인 결정 · 시초 추격 금지"},
@@ -446,7 +446,7 @@ function isaHTML(isa){
     }).join("")}</div>` : "";
   const outlooks = Array.isArray(isa.outlook) ? isa.outlook : splitPhrase(isa.outlook);
   const outlookHTML = (mkHTML || outlooks.length)
-    ? `<div class="sxl">오늘 전망</div>${mkHTML}${outlooks.map(x => `<div class="sxt">${esc(x)}</div>`).join("")}` : "";
+    ? `<div class="sxl">직전 거래일 지수</div>${mkHTML}${outlooks.map(x => `<div class="sxt">${esc(x)}</div>`).join("")}` : "";
   const sg = isa.signal || null;
   const sigHTML = (sg && sg.head)
     ? `<div class="sxl">판단</div>
