@@ -397,6 +397,8 @@ const BRIEF = {
 function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 /* 문자열·배열 둘 다 허용(과거 기록은 문자열) */
 function txt(v){ return Array.isArray(v) ? v.join(" · ") : (v == null ? "" : String(v)); }
+/* 과거 기록의 한 줄 문자열을 짧은 줄로 나눔 */
+function splitPhrase(v){ return String(v == null ? "" : v).split(" · ").map(x => x.trim()).filter(Boolean); }
 
 /* ── 6. 공모주 · ISA — 모바일 요약 ──────────────────────── */
 function isaHTML(isa){
@@ -423,7 +425,7 @@ function isaHTML(isa){
       const ch = String(m.ch || "");
       return `<div><div class="k">${esc(m.k)}</div><div class="v">${esc(m.v)}<em class="${ch.indexOf("-") === 0 ? "dn" : "up"}">${esc(ch)}</em></div></div>`;
     }).join("")}</div>` : "";
-  const outlooks = Array.isArray(isa.outlook) ? isa.outlook : (isa.outlook ? [isa.outlook] : []);
+  const outlooks = Array.isArray(isa.outlook) ? isa.outlook : splitPhrase(isa.outlook);
   const outlookHTML = (mkHTML || outlooks.length)
     ? `<div class="sxl">오늘 전망</div>${mkHTML}${outlooks.map(x => `<div class="sxt">${esc(x)}</div>`).join("")}` : "";
   const sg = isa.signal || null;
@@ -432,8 +434,8 @@ function isaHTML(isa){
        <div class="sxt"><b>${esc(sg.head)}</b></div>
        ${(sg.items || []).length ? `<div class="sxm">${(sg.items || []).map(x => `<span>${esc(x)}</span>`).join("")}</div>` : ""}
        ${sg.note ? `<div class="sxt sub" style="margin-top:5px">${esc(sg.note)}</div>` : ""}`
-    : (isa.signal ? `<div class="sxl">판단</div><div class="sxt">${esc(txt(isa.signal))}</div>` : "");
-  const st = Array.isArray(isa.stocks) ? isa.stocks : (isa.stocks ? [isa.stocks] : []);
+    : (isa.signal ? `<div class="sxl">판단</div>${splitPhrase(isa.signal).map(x => `<div class="sxt">${esc(x)}</div>`).join("")}` : "");
+  const st = Array.isArray(isa.stocks) ? isa.stocks : splitPhrase(isa.stocks);
   const stockHTML = st.length ? `<div class="sxl">공모주</div>${st.map(x => `<div class="sxt">${esc(x)}</div>`).join("")}` : "";
   return rowsHTML + sumHTML + outlookHTML + sigHTML + stockHTML;
 }
