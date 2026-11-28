@@ -178,7 +178,7 @@
   <header class="top">
     <div>
       <h1>항공권 특가 추적</h1>
-      <div class="basis">2026-11-28 08:00~08:15 실측 · 2027-03-05~07</div>
+      <div class="basis">2026-11-28 17:52~18:00 실측 · 2027-03-05~07</div>
     </div>
     <button class="theme-btn" id="themeBtn" type="button" aria-label="다크 모드 전환">◐</button>
   </header>
@@ -223,7 +223,7 @@
     <div class="card"><div class="k">추천 노선</div><div class="v" id="vRec">추천 없음</div><div class="s" id="vRecSub">6노선 모두 목표가 위 · 대기 권장</div></div>
     <div class="card"><div class="k">특가 근접</div><div class="v c-red" id="vMerit">0<small>개</small></div><div class="s">6노선 모두 목표가 위 · 제주 1인 13.3만~18.7만</div></div>
     <div class="card"><div class="k">실측 노선</div><div class="v" id="vRoutes">6<small>개</small></div><div class="s">대마도 항공 없음 · 배편만</div></div>
-    <div class="card"><div class="k">어제 대비</div><div class="v c-orange" id="vDiff">+20,000</div><div class="s">김해 +20,000 · 청주 -80,841(노출가) · 제주 3노선 그대로</div></div>
+    <div class="card"><div class="k">어제 대비</div><div class="v c-orange" id="vDiff">+91,490</div><div class="s">청주→후쿠오카 +91,490 · 제주 3노선 그대로 · 김해→후쿠오카 탭 -16,200</div></div>
   </div>
 
   <div class="filters" id="filters" role="tablist" aria-label="출발지 필터">
@@ -237,7 +237,7 @@
   <div class="list" id="flList"></div>
   </div>
 
-  <footer>2026-11-28 08:00~08:15 실측 · 성인 2인 왕복·세금 포함 · 다음 실측 11/29 08:00 · 검색 비공개 페이지</footer>
+  <footer>2026-11-28 18:00 실측 · 성인 2인 왕복·세금 포함 · 다음 실측 11/29 08:00 · 검색 비공개 페이지</footer>
 </div>
 
 <script>
@@ -252,35 +252,41 @@
 const FLIGHTS = [
   {id:"PUS-CJU", label:"김해 → 제주", from:"김해", to:"제주", dep:"17:30", state:"ok", price:265200, carrier:"에어부산",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"2027-03-05~07 · 김해(PUS) · 에어부산 직항 06:50→07:55(06:45·17:30 동일가) · 전 노선 최저가",
+   out:"2027-03-05~07 · 김해(PUS) · 에어부산 직항 06:50→07:55(06:45·17:30 동일가) · 전 노선 최저가 · 탭 259,171원",
+   note:"18시 그대로 · 탭 259,171",
    cut:160000, hi:324000,
    link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDUFVTcgcIARIDQ0pVGh4SCjIwMjctMDMtMDdqBwgBEgNDSlVyBwgBEgNQVVNAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
 
   {id:"CJJ-CJU", label:"청주 → 제주", from:"청주", to:"제주", dep:"19:15", state:"ok", price:322800, carrier:"제주항공",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"2027-03-05~07 · 청주(CJJ) · 제주항공 직항 19:15→20:25 · 최저가 탭 302,451원",
+   out:"2027-03-05~07 · 청주(CJJ) · 제주항공 직항 19:15→20:25 · 최저가 탭 302,293원",
+   note:"18시 그대로 · 탭 302,293",
    cut:160000, hi:324000, link:"https://www.google.com/travel/flights?hl=ko&gl=KR&curr=KRW&q=Flights%20from%20CJJ%20to%20CJU%20on%202027-03-05%20through%202027-03-07%20for%202%20adults"},
 
   {id:"TAE-CJU", label:"대구 → 제주", from:"대구", to:"제주", dep:"19:30", state:"ok", price:373000, carrier:"진에어",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"2027-03-05~07 · 대구(TAE) · 진에어 직항 19:30→20:35 · 3/4~3/6으로 옮기면 264,400원",
+   out:"2027-03-05~07 · 대구(TAE) · 진에어 직항 19:30→20:35 · 최저가 탭 373,000원",
+   note:"18시 그대로",
    cut:160000, hi:324000,
    link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDVEFFcgcIARIDQ0pVGh4SCjIwMjctMDMtMDdqBwgBEgNDSlVyBwgBEgNUQUVAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
 
   {id:"PUS-FUK", label:"김해 → 후쿠오카", from:"김해", to:"후쿠오카", dep:"18:00", state:"ok", price:602600, carrier:"에어부산",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"2027-03-05~07 · 김해(PUS) · 에어부산 직항 18:00→18:55 · 어제보다 +20,000 (탭 582,600원)",
+   out:"2027-03-05~07 · 김해(PUS) · 에어부산 직항 18:00→18:55 · 노출가 그대로, 탭 566,400원(-16,200)",
+   note:"탭 566,400(-16,200)",
    cut:440000, hi:725000,
    link:"https://www.google.com/travel/flights/search?tfs=CBwQAhoeEgoyMDI3LTAzLTA1agcIARIDUFVTcgcIARIDRlVLGh4SCjIwMjctMDMtMDdqBwgBEgNGVUtyBwgBEgNQVVNAAUABSAFwAYIBCwj___________8BmAEB&tfu=EgYIABAAGAA&hl=ko&gl=KR&curr=KRW"},
 
   {id:"TAE-FUK", label:"대구 → 후쿠오카", from:"대구", to:"후쿠오카", dep:"17:50", state:"ok", price:885200, carrier:"Trinity",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"2027-03-05~07 · 대구(TAE) · Trinity 직항 17:50→19:00 · 직항 2편뿐, 나머지는 인천경유 121만~135만",
+   out:"2027-03-05~07 · 대구(TAE) · Trinity 직항 17:50→19:00 · 노출가 그대로, 탭 853,840원",
+   note:"18시 그대로 · 탭 853,840",
    cut:440000, hi:725000, link:"https://www.google.com/travel/flights?hl=ko&gl=KR&curr=KRW&q=Flights%20from%20TAE%20to%20FUK%20on%202027-03-05%20through%202027-03-07%20for%202%20adults"},
 
   {id:"CJJ-FUK", label:"청주 → 후쿠오카", from:"청주", to:"후쿠오카", dep:"06:25", state:"ok", price:723400, carrier:"Aero K",
    dates:"2027-03-05(금)~03-07(일) · 2박 3일",
-   out:"2027-03-05~07 · 청주(CJJ) · Aero K 직항 06:25→07:35 · 노출가만 -80,841, 탭은 704,560원",
+   out:"2027-03-05~07 · 청주(CJJ) · Aero K 직항 06:25→07:35 · 노출가 +91,490, 탭 709,883원",
+   note:"노출가 +91,490",
    cut:440000, hi:725000, link:"https://www.google.com/travel/flights?hl=ko&gl=KR&curr=KRW&q=Flights%20from%20CJJ%20to%20FUK%20on%202027-03-05%20through%202027-03-07%20for%202%20adults"},
 
   {id:"TAE-TSJ", label:"대구 → 대마도", from:"대구", to:"대마도", state:"none",
