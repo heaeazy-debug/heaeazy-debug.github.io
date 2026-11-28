@@ -144,22 +144,6 @@
   .notice{margin:12px 0 0;padding:10px 13px;border-radius:12px;border:1px solid #e6c98b;background:#fdf6e7;
     font-size:11.5px;line-height:1.55;color:#7d5a12;letter-spacing:-.15px}
   .notice b{font-weight:700;color:#5e430c}
-  .now{margin:10px 0 0;padding:11px 13px 12px;border-radius:14px;border:1px solid #e6c98b;background:#fdf6e7;
-    box-shadow:var(--shadow)}
-  [data-theme="dark"] .now{background:#2a2317;border-color:#5c4a24}
-  .now-h{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:#5e430c;letter-spacing:-.2px}
-  [data-theme="dark"] .now-h{color:#f1d59a}
-  .now-h span{margin-left:auto;font-size:10.5px;font-weight:700;color:#a07a22}
-  [data-theme="dark"] .now-h span{color:#d8b878}
-  .now-l{list-style:none;margin:7px 0 0;padding:0}
-  .now-l li{position:relative;padding:3px 0 3px 10px;font-size:12.5px;font-weight:600;color:#6b4c0f;
-    letter-spacing:-.2px;line-height:1.4}
-  [data-theme="dark"] .now-l li{color:#e8c882}
-  .now-l li::before{content:"";position:absolute;left:0;top:10px;width:3px;height:3px;border-radius:50%;background:#c79a3c}
-  .now-l .due{display:inline-block;margin-left:4px;padding:1px 5px;border-radius:5px;font-style:normal;
-    font-size:10px;font-weight:800;color:#8a5a00;background:#fff2d6;border:1px solid #f0d79a;
-    vertical-align:1px;white-space:nowrap}
-  .now-l .due.hot{color:#fff;background:var(--red);border-color:var(--red)}
   [data-theme="dark"] .notice{background:#2a2317;border-color:#5c4a24;color:#e8c882}
   [data-theme="dark"] .notice b{color:#f1d59a}
 
@@ -496,17 +480,6 @@
     <button type="button" data-v="money" aria-selected="false">짠테크·리뷰</button>
     <button type="button" data-v="stock" aria-selected="false">공모주·부업</button>
   </div>
-
-  <section class="now" aria-label="지금 결정할 것">
-    <div class="now-h">지금 결정할 것 <span>5건</span></div>
-    <ul class="now-l">
-      <li><b>무신사 후기 초안</b> — 디에스앤더가 [샘플] 디베이저 2ml · <b>12/07 마감</b> · 초안·첨부 확인 후 등록</li>
-      <li><b>삼성증권 VOC 접수 이력</b> — 유출 <b>1만2,168명</b> 확대 · ISA 보유 증권사 · 확대 여부 확인</li>
-      <li><b>hee_journal 19:39 중복 초안</b> — 실수로 만든 임시저장 1건 <b>삭제 여부</b></li>
-      <li><b>구글폼 · 포포몬</b> — 구글 계정·인스타 연결 여부(연결하면 구글폼 20건+ 대행)</li>
-      <li><b>쿠어스텍코리아</b> — 구미 4공단 생산관리 · ~12/11 · 이직 후보 <b>유지 / 제외</b></li>
-    </ul>
-  </section>
 
   <div id="viewContest">
 
@@ -1201,7 +1174,7 @@ let ARCH_LATEST = "2026-11-26";
 let archCur = null, archStockSel = null;
 
 function archToggle(on){
-  [".mtabs", ".now", ".hero1", ".wtrack", "#viewContest", "#viewMoney", "#viewStock"].forEach(s => {
+  [".mtabs", ".hero1", ".wtrack", "#viewContest", "#viewMoney", "#viewStock"].forEach(s => {
     const el = document.querySelector(s);
     if(el) el.classList.toggle("hidden", on);
   });
