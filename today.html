@@ -221,6 +221,7 @@
   .sg + .sg{margin-top:3px}
   .sg .k{flex:0 0 auto;color:var(--sub);font-weight:700;font-size:11.5px}
   .sg .v{font-size:11.5px;font-weight:800;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+  .sg .v em{font-style:normal;font-weight:700;color:var(--sub);font-size:10.5px;margin-left:3px}
   .sxl{font-size:10.5px;font-weight:900;color:var(--sub);letter-spacing:-.1px;margin:12px 0 5px}
   .sxt{font-size:11.5px;color:var(--sub2);letter-spacing:-.15px;line-height:1.5}
   .sxt + .sxt{margin-top:2px}
@@ -389,7 +390,14 @@ const BRIEF = {
   flights: {
     basis:"2026-11-28 08:00~08:15 실측 · 성인 2인 왕복 · 2027-03-05~07",
     best:"최저 2인 왕복 김해→제주 265,200원 — 에어부산 06:50→07:55 직항",
-    detail:"김해→제주 265,200 · 청주→제주 322,800 · 대구→제주 373,000 · 김해→후쿠오카 602,600(+20,000) · 청주→후쿠오카 723,400 · 대구→후쿠오카 885,200",
+    routes:[
+      {k:"김해→제주", v:"265,200원", note:"최저"},
+      {k:"청주→제주", v:"322,800원"},
+      {k:"대구→제주", v:"373,000원"},
+      {k:"김해→후쿠오카", v:"602,600원", note:"+20,000"},
+      {k:"청주→후쿠오카", v:"723,400원"},
+      {k:"대구→후쿠오카", v:"885,200원"}
+    ],
     others:"6노선 모두 목표가 위 — 특가 아님. 대마도는 부산항 배편뿐, 대아고속해운 27년 3월 예약 열림(정규 추정 49~50만 원, 실견적 미조회)."
   }
 };
@@ -642,6 +650,15 @@ document.addEventListener("keydown", e => {
   else decCommit(root, Number(inp.dataset.k));
 });
 
+/* ── 8. 항공권 — 모바일 요약 ───────────────────────────── */
+function flightsHTML(fl){
+  const rs = Array.isArray(fl.routes) ? fl.routes : [];
+  const list = rs.length
+    ? `<div class="sgx">${rs.map(r => `<div class="sg"><span class="k">${esc(r.k)}</span><span class="v">${esc(r.v)}${r.note ? `<em>${esc(r.note)}</em>` : ""}</span></div>`).join("")}</div>`
+    : splitPhrase(fl.detail).map(x => `<div class="sxt">${esc(x)}</div>`).join("");
+  return `${fl.best ? `<div class="sxt"><b>${esc(fl.best)}</b></div>` : ""}${list}${fl.others ? `<div class="sxn" style="margin-top:9px">${esc(fl.others)}</div>` : ""}`;
+}
+
 function briefHTML(b){
   const w = b.weather || {}, sc = b.schedule || {}, nw = b.news || {}, ml = b.meals || {}, ct = b.contests || {},
         rv = b.reviews || {}, isa = b.isa || {}, jb = b.jobs || {}, fl = b.flights || {};
@@ -701,9 +718,7 @@ function briefHTML(b){
       {href:"jobs.html", text:"공고 보드"}, false, jobBadge),
     blkHTML("8. 항공권",
       `${esc((fl.best || "").split("—")[0].trim())}`,
-      `<div class="line"><b>${esc(fl.best)}</b></div>
-       <div class="line">${esc(fl.detail)}</div>
-       <div class="line muted">${esc(fl.others)}</div>`,
+      flightsHTML(fl),
       {href:"flights.html", text:"항공권 보드"}, false)
   ].join("");
 }
